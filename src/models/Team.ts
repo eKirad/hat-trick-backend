@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, mongo, Model } from 'mongoose';
 import { ITeam } from '../interfaces/ITeam';
 
 const teamSchema: Schema = new Schema({
@@ -7,4 +7,6 @@ const teamSchema: Schema = new Schema({
 });
 
 // module.exports = mongoose.model(`Team`, teamSchema);
-module.exports =  mongoose.model<ITeam>(`Team`, teamSchema);
+
+export const Team: Model<ITeam> = mongoose.model<ITeam>(`Team`, teamSchema);
+// module.exports = mongoose.model<ITeam>(`Team`, teamSchema);
