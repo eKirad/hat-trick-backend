@@ -6,19 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 // import bodyParser from 'body-parser';
 // import helmet from 'helmet';
-// const env = 
+const env = process.env.NODE_ENV || `dev`;
 // api
 const apiVersion = `v1`;
 const api = `/api/${apiVersion}`;
+const config = require(`./src/config/config`)[env];
+require(`./src/config/database`)(config);
 const app = express_1.default();
-const port = 3000;
-app.get(`/`, (req, res) => {
-    res.send(`Hi there`);
-});
-app.listen(port, err => {
-    if (err) {
-        return console.error(err);
-    }
-    return console.log(`server is listening on ${port}`);
-});
+app.listen(config.port, () => console.log(`Listening on port ${config.port}...`));
 //# sourceMappingURL=index.js.map
