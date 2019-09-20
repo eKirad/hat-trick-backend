@@ -17,7 +17,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config/config");
 const User_1 = require("../models/User");
 // FIXME: There is mayber a better way to handle this.
-const isValid = (body) => {
+const isValid = (body, type) => {
     const returnObj = {
         isValid: true,
         missingProperty: ``
@@ -30,20 +30,52 @@ const isValid = (body) => {
         returnObj.isValid = false;
         returnObj.missingProperty = `username`;
     }
-    if (!Object.prototype.hasOwnProperty.call(body, `email`)) {
-        returnObj.isValid = false;
-        returnObj.missingProperty = `email`;
+    if (type === `signupValidator`) {
+        if (!Object.prototype.hasOwnProperty.call(body, `email`)) {
+            returnObj.isValid = false;
+            returnObj.missingProperty = `email`;
+        }
     }
     return returnObj;
 };
-const login = (req, res) => {
-    //TODO:
-};
+const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const validator = isValid(req.body, `loginValidator`);
+    if (!validator.isValid) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: `The request body must contain a ${validator.missingProperty} property`
+        });
+    }
+    try {
+        const foundUser = yield User_1.User.findOne({ username: req.body.username });
+        const isValidPassword = bcrypt_1.default.compareSync(req.body.password, foundUser.password);
+        if (!isValidPassword) {
+            return res.status(401).send({ token: null });
+        }
+        const token = jsonwebtoken_1.default.sign({
+            id: foundUser._id,
+            firstName: foundUser.firstName,
+            familyName: foundUser.familyName,
+            email: foundUser.email,
+            username: foundUser.username,
+            role: foundUser.role
+        }, config_1.config.dev.jwtSecret, {
+            expiresIn: 86400
+        });
+        res.status(200).json({ token });
+    }
+    catch (error) {
+        return res.status(404).json({
+            error: `User not found`,
+            message: error.message
+        });
+    }
+});
 const logout = (req, res) => {
     //TODO:
 };
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const validator = isValid(req.body);
+    const validator = isValid(req.body, `signupValidator`);
     if (!validator.isValid) {
         return res.status(400).json({
             error: 'Bad Request',
@@ -86,33 +118,6 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
         }
     }
-    // User.create(user)
-    //     .then((user) => {
-    //         const token = jwt.sign({
-    //             id: user._id,
-    //             firstName: user.firstName,
-    //             familyName: user.familyName,
-    //             email: user.email,
-    //             username: user.username,
-    //             role: user.role
-    //         }, config.dev.jwtSecret, {
-    //             expiresIn: 86400
-    //         });
-    //     res.status(200).json({ token })
-    //     })
-    //     .catch((error) => {
-    //         if (error.code === 11000) {
-    //             res.status(400).json({
-    //                 error: 'User exists',
-    //                 message: error.message
-    //             })
-    //         } else {
-    //             res.status(500).json({
-    //                 error: 'Internal server error',
-    //                 message: error.message
-    //             });
-    //         }
-    //     });
 });
 const me = (req, res) => {
     //TODO:
