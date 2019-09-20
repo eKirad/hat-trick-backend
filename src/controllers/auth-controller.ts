@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { config } from '../config/config';
 import { User } from '../models/User';
 
-const isValid = (body: object, type: string) => {
+const isValid = (body: object, type: string): any => {
     const returnObj = { 
         isValid: true,
         missingProperty: ``
