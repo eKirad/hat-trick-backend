@@ -8,7 +8,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const api_1 = require("./src/api");
 const config_1 = require("./src/config/config");
 const database_1 = require("./src/config/database");
-// import bodyParser from 'body-parser';
 // import helmet from 'helmet';
 // DRY!
 dotenv_1.default.config();

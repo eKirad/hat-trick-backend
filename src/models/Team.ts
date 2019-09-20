@@ -6,7 +6,4 @@ const teamSchema: Schema = new Schema({
     country: { type: String, required: true }
 });
 
-// module.exports = mongoose.model(`Team`, teamSchema);
-
 export const Team: Model<ITeam> = mongoose.model<ITeam>(`Team`, teamSchema);
-// module.exports = mongoose.model<ITeam>(`Team`, teamSchema);
