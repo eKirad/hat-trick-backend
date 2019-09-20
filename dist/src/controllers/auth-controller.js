@@ -16,7 +16,6 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = require("../config/config");
 const User_1 = require("../models/User");
-// FIXME: There is mayber a better way to handle this.
 const isValid = (body, type) => {
     const returnObj = {
         isValid: true,
@@ -72,7 +71,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 const logout = (req, res) => {
-    //TODO:
+    res.status(200).send({ token: null });
 };
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const validator = isValid(req.body, `signupValidator`);
