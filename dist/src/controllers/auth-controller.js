@@ -118,13 +118,9 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
 });
-const me = (req, res) => {
-    //TODO:
-};
 exports.authController = {
     login,
     logout,
     signup,
-    me
 };
 //# sourceMappingURL=auth-controller.js.map

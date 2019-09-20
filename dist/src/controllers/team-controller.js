@@ -25,7 +25,11 @@ const addTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newTeam = yield Team_1.Team.create({
             name: req.body.name,
-            country: req.body.country
+            country: req.body.country,
+            stadium: req.body.stadium,
+            headCoach: req.body.headCoach,
+            league: req.body.league,
+            captain: req.body.captain
         });
         yield res.status(200).json(newTeam);
     }
@@ -35,7 +39,7 @@ const addTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const deleteTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const deletedTeam = yield Team_1.Team.findByIdAndRemove(req.params.id);
+        yield Team_1.Team.findByIdAndRemove(req.params.id);
         yield res.status(200).json({
             message: `Team with id=${req.params.id} was successfully deleted.`
         });

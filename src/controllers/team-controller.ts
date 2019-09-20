@@ -17,7 +17,11 @@ const addTeam = async (req: any, res: any) => {
     try {
         const newTeam = await Team.create({
             name: req.body.name,
-            country: req.body.country
+            country: req.body.country,
+            stadium: req.body.stadium,
+            headCoach: req.body.headCoach,
+            league: req.body.league,
+            captain: req.body.captain
         });
         await res.status(200).json(newTeam);
     } catch(e) {
@@ -36,9 +40,18 @@ const deleteTeam = async (req: any, res: any) => {
     }
 };
 
+const updateTeam = async (req: any, res: any) => {
+    try {
+        // TODO:
+    } catch(e) {
+        console.error(e);
+    }
+};
+
 export const teamController = {
     getAllTeams,
     getTeam,
     addTeam,
-    deleteTeam
+    deleteTeam,
+    updateTeam
 };

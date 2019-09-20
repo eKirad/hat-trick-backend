@@ -10,7 +10,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const teamSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    country: { type: String, required: true }
+    country: { type: String, required: true },
+    stadium: { type: String, required: true },
+    headCoach: { type: String, required: true },
+    league: { type: String, required: true },
+    captain: { type: String, required: true },
 });
 exports.Team = mongoose_1.default.model(`Team`, teamSchema);
 //# sourceMappingURL=Team.js.map
