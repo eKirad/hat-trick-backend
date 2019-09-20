@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("../config/config");
+const user_service_1 = require("../services/user-service");
 const isAuthenticated = (req, res, next) => {
     let token = ``;
     if (req.headers.authorization) {
@@ -30,7 +31,14 @@ const isAuthenticated = (req, res, next) => {
     });
 };
 const isAdmin = (req, res, next) => {
-    // TODO:
+    const currentUser = user_service_1.userService.getCurrentUser(req.headers.authorization);
+    if (currentUser.role !== `admin`) {
+        return res.status(401).send({
+            error: `Unauthorized`,
+            message: `Permission denied. No admin rights`
+        });
+    }
+    next();
 };
 exports.middleware = {
     isAuthenticated,

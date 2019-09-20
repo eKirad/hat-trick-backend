@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../config/config';
+import { userService } from '../services/user-service';
 
 const isAuthenticated = (req: any, res: any, next: any) => {
     let token =  ``;
@@ -30,7 +31,16 @@ const isAuthenticated = (req: any, res: any, next: any) => {
 };
 
 const isAdmin = (req: any, res: any, next: any) => {
-    // TODO:
+    const currentUser = userService.getCurrentUser(req.headers.authorization);
+
+    if (currentUser.role !== `admin`) {
+        return res.status(401).send({
+            error: `Unauthorized`,
+            message: `Permission denied. No admin rights`
+        });
+    }
+
+    next();
 };
 
 
