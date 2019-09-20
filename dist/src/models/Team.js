@@ -12,7 +12,5 @@ const teamSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     country: { type: String, required: true }
 });
-// module.exports = mongoose.model(`Team`, teamSchema);
 exports.Team = mongoose_1.default.model(`Team`, teamSchema);
-// module.exports = mongoose.model<ITeam>(`Team`, teamSchema);
 //# sourceMappingURL=Team.js.map

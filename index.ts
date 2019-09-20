@@ -12,6 +12,10 @@ dotenv.config();
 const env = process.env.NODE_ENV
 
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 // Connect to the database
 database(config[env]);
