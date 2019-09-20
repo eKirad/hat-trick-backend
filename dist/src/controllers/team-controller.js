@@ -11,21 +11,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Team_1 = require("../models/Team");
 const getAllTeams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const teams = yield Team_1.Team.find({});
-    yield res.status(200).json(teams);
+    try {
+        const teams = yield Team_1.Team.find({});
+        yield res.status(200).json(teams);
+    }
+    catch (e) {
+        console.error(e);
+    }
 });
 const getTeam = (req, res) => {
 };
 const addTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    const newTeam = yield Team_1.Team.create({
-        name: req.body.name,
-        country: req.body.country
-    });
-    yield res.status(200).json(newTeam);
+    try {
+        const newTeam = yield Team_1.Team.create({
+            name: req.body.name,
+            country: req.body.country
+        });
+        yield res.status(200).json(newTeam);
+    }
+    catch (e) {
+        console.error(e);
+    }
 });
-const deleteTeam = (req, res) => {
-};
+const deleteTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const deletedTeam = yield Team_1.Team.findByIdAndRemove(req.params.id);
+        yield res.status(200).json({
+            message: `Team with id=${req.params.id} was successfully deleted.`
+        });
+    }
+    catch (e) {
+        console.error(e);
+    }
+});
 exports.teamController = {
     getAllTeams,
     getTeam,

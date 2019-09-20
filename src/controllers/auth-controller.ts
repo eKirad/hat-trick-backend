@@ -119,13 +119,9 @@ const signup = async (req: any, res: any) => {
     }
 };
 
-const me = (req: any, res: any) => {
-    //TODO:
-};
 
 export const authController = {
     login,
     logout,
     signup,
-    me
 };
