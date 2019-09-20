@@ -1,23 +1,18 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import { api } from './src/api';
+import { config } from './src/config/config';
+import { database } from './src/config/database';
 // import bodyParser from 'body-parser';
 // import helmet from 'helmet';
 
-// Replace this later
+// DRY!
 dotenv.config();
 const env = process.env.NODE_ENV
 
-// api
-const apiVersion = `v1`;
-const api = `/api/${apiVersion}`;
-const config = require(`./src/config/config`)[env];
-require(`./src/config/database`) (config);
-
 const app = express();
 
-// Call team routes
-require(`./src/routes/team-routes`) (app);
+database(config[env])
+api(app);
 
-
-app.listen(config.port, () => console.log(`Listening on port ${config.port}...`));
-
+app.listen(config[env].port, () => console.log(`Listening on port ${config[env].port}...`));

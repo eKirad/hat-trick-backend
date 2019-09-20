@@ -5,18 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const api_1 = require("./src/api");
+const config_1 = require("./src/config/config");
+const database_1 = require("./src/config/database");
 // import bodyParser from 'body-parser';
 // import helmet from 'helmet';
-// Replace this later
+// DRY!
 dotenv_1.default.config();
 const env = process.env.NODE_ENV;
-// api
-const apiVersion = `v1`;
-const api = `/api/${apiVersion}`;
-const config = require(`./src/config/config`)[env];
-require(`./src/config/database`)(config);
 const app = express_1.default();
-// Call team routes
-require(`./src/routes/team-routes`)(app);
-app.listen(config.port, () => console.log(`Listening on port ${config.port}...`));
+database_1.database(config_1.config[env]);
+api_1.api(app);
+app.listen(config_1.config[env].port, () => console.log(`Listening on port ${config_1.config[env].port}...`));
 //# sourceMappingURL=index.js.map
