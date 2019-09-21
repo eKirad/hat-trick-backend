@@ -1,15 +1,11 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import { api } from './src/api';
-import { config } from './src/config/config';
+import { config, environment } from './src/config/config';
 import { database } from './src/config/database';
-
 // import helmet from 'helmet';
 
-// DRY!
-dotenv.config();
-const env = process.env.NODE_ENV
+const env = environment;
 
 const app = express();
 app.use(bodyParser.json());
