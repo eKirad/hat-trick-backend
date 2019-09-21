@@ -9,8 +9,13 @@ const getAllTeams = async (req: any, res: any) => {
     }
 };
 
-const getTeam = (req: any, res: any) => {
-
+const getTeam = async (req: any, res: any) => {
+    try {
+        const foundTeam = await Team.findById(req.params.id);
+        await res.status(200).send(foundTeam);
+    } catch(e) {
+        console.error(e);
+    }
 };
 
 const addTeam = async (req: any, res: any) => {

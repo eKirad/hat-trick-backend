@@ -19,8 +19,15 @@ const getAllTeams = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         console.error(e);
     }
 });
-const getTeam = (req, res) => {
-};
+const getTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const foundTeam = yield Team_1.Team.findById(req.params.id);
+        yield res.status(200).send(foundTeam);
+    }
+    catch (e) {
+        console.error(e);
+    }
+});
 const addTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newTeam = yield Team_1.Team.create({
@@ -48,10 +55,19 @@ const deleteTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.error(e);
     }
 });
+const updateTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // TODO:
+    }
+    catch (e) {
+        console.error(e);
+    }
+});
 exports.teamController = {
     getAllTeams,
     getTeam,
     addTeam,
-    deleteTeam
+    deleteTeam,
+    updateTeam
 };
 //# sourceMappingURL=team-controller.js.map
