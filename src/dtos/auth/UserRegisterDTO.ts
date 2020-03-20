@@ -1,4 +1,4 @@
-import IUserRegister from '../../interfaces/IUserRegister';
+import IUserRegister from '../../interfaces/IUserRegisterDTO';
 import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 
 export default class UserRegisterDTO implements IUserRegister {

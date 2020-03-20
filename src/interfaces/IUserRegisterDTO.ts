@@ -1,7 +1,8 @@
-type UserRole = `admin` | `default`;
+import { UserRole } from './TypeUserRole';
 
-export default interface IUserRegister {
+export default interface IUserRegisterDTO {
     eMail: string;
+    username: string;
     password: string;
     firstName?: string;
     lastName?: string;

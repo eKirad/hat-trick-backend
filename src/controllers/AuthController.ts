@@ -140,7 +140,7 @@ export default class AuthController {
 
     protected signup = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const dto: UserRegisterDTO = plainToClass(UserRegisterDTO, request.body);
+            const userRegisterDTO: UserRegisterDTO = plainToClass(UserRegisterDTO, request.body);
             response.status(201).send({msg: "ok"});
         } catch (e) {
             next(e);
