@@ -1,13 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { api } from './src/api';
+import { api } from './src/api/api';
 import { config, environment } from './src/config/config';
 import { database } from './src/config/database';
-// import helmet from 'helmet';
 
 const env = environment;
 
-const app = express();
+const app: express.Application = express();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false

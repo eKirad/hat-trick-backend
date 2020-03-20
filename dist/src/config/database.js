@@ -5,7 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 exports.database = (config) => {
-    mongoose_1.default.connect(config.dbURI);
+    mongoose_1.default.connect(config.dbURI, {
+        useCreateIndex: true,
+        useNewUrlParser: true
+    });
     const db = mongoose_1.default.connection;
     db.once(`open`, err => {
         if (err) {
