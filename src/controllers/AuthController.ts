@@ -6,6 +6,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import UserSignupDTO from '../dtos/auth/UserSignupDTO';
 import { plainToClass } from "class-transformer";
 import AuthService from '../services/AuthService';
+import UserLoginDTO from '../dtos/auth/UserLoginDTO';
 
 const isValid = (body: object, type: string): any => {
     const returnObj = { 
@@ -136,7 +137,7 @@ export default class AuthController {
 
     public intializeRoutes() {
         this.router.post("/signup", this.signup);
-        this.router.post("/login", this.signup);
+        this.router.post("/login", this.login);
     }
 
     protected signup = async (request: Request, response: Response, next: NextFunction) => {
@@ -150,10 +151,11 @@ export default class AuthController {
     }
 
     protected login = async (request: Request, response: Response, next: NextFunction) => {
+        console.log('loginssss')
         try {
-            console.log(request.body);
-            const dto: UserSignupDTO = plainToClass(UserSignupDTO, request.body);
-            response.status(201).send({msg: "ok"});
+            const userLoginDTO: UserLoginDTO = plainToClass(UserLoginDTO, request.body);
+            const loginResponse = await AuthService.login(userLoginDTO);
+            response.status(200).send(loginResponse);
         } catch (e) {
             next(e);
         }

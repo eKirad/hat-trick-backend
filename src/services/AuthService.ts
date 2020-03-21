@@ -3,7 +3,11 @@ import UserSignupDTO from "../dtos/auth/UserSignupDTO";
 
 // Enitity imports
 import { UserEntity, UserModel } from "../models/User";
-
+import UserLoginDTO from "../dtos/auth/UserLoginDTO";
+import IUserLoginResponse from "../api/types/IUserLoginResponse";
+import IUserAPI from "../api/types/IUserAPI";
+import * as jwt from 'jsonwebtoken';
+import { config } from "../config";
 
 export default class AuthService {
     
@@ -21,4 +25,39 @@ export default class AuthService {
         const user = await UserModel.create(userEntity);
         return user;
     }
+
+
+    public static async login(userLoginDTO: UserLoginDTO): Promise<IUserLoginResponse> {
+        const userEntity = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
+        
+        if (!userEntity) {
+            console.log(`No user user with this email or username`);
+        }
+
+        if (!userEntity.isPasswodValid(userLoginDTO.password)) {
+            console.log(`Wrong password`);
+        }
+
+        const userAPI = userEntity.classToAPI();
+        const accessToken = AuthService.assignJWT(userAPI);
+
+        return {
+            accessToken,
+            userAPI
+        }
+    }
+
+    public static assignJWT(userAPI: IUserAPI): string {
+        return jwt.sign({
+            id: userAPI.id,
+            email: userAPI.email,
+            username: userAPI.username,
+            role: userAPI.role
+        },
+        config.DEV.AUTHENTICATION.JWT_SECRET, {
+            expiresIn: `24h`
+        });
+    }
+
+    
 }
