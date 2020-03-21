@@ -1,10 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { api } from './src/api/api';
-import { config, environment } from './src/config/config';
-import { database } from './src/config/database';
+import { config, environment } from './src/config';
+import { connectToDB } from './src/config/database';
 
-const env = environment;
+const ENV = environment;
 
 const app: express.Application = express();
 
@@ -14,9 +14,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Connect to the database
-database(config[env]);
+connectToDB(config[ENV]);
 
 // Set all API Endpoints
 api(app);
 
-app.listen(config[env].port, () => console.log(`Listening on port ${config[env].port}...`));
+app.listen(config[ENV].APP.PORT, () => console.log(`Listening on port ${config[ENV].APP.PORT}...`));

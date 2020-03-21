@@ -7,14 +7,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const port = process.env.SERVER_PORT;
-const dbURI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds058369.mlab.com:58369/hat-trick`;
+// const dbURI = `mongodb://${process.env.DB_USER}:${process.env.DB_PASSWORD}@ds058369.mlab.com:58369/hat-trick`;
+const dbURI = `mongodb://localhost:27017/`;
 const jwtSecret = process.env.JWT_SECRET || `very secret secret`;
+const dbName = process.env.MONGODB_DATABASE_NAME || `hattrickDB`;
 exports.environment = process.env.NODE_ENV;
 exports.config = {
     dev: {
         port,
         dbURI,
-        jwtSecret
+        jwtSecret,
+        dbName
     },
     prod: {}
 };

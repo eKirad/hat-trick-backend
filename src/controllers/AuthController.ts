@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { config } from '../config/config';
+import { config } from '../config';
 import express from 'express';
 import { Router, Request, Response, NextFunction } from 'express';
-import UserRegisterDTO from '../dtos/auth/UserRegisterDTO';
+import UserSignupDTO from '../dtos/auth/UserSignupDTO';
 import { plainToClass } from "class-transformer";
+import AuthService from '../services/AuthService';
 
 const isValid = (body: object, type: string): any => {
     const returnObj = { 
@@ -140,8 +141,9 @@ export default class AuthController {
 
     protected signup = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const userRegisterDTO: UserRegisterDTO = plainToClass(UserRegisterDTO, request.body);
-            response.status(201).send({msg: "ok"});
+            const userSignupDTO: UserSignupDTO = plainToClass(UserSignupDTO, request.body);
+            await AuthService.signup(userSignupDTO)
+            response.status(201).send({ msg: "Signup successfull" });
         } catch (e) {
             next(e);
         }
@@ -150,7 +152,7 @@ export default class AuthController {
     protected login = async (request: Request, response: Response, next: NextFunction) => {
         try {
             console.log(request.body);
-            const dto: UserRegisterDTO = plainToClass(UserRegisterDTO, request.body);
+            const dto: UserSignupDTO = plainToClass(UserSignupDTO, request.body);
             response.status(201).send({msg: "ok"});
         } catch (e) {
             next(e);

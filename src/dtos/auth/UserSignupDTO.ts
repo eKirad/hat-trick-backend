@@ -1,10 +1,16 @@
-import IUserRegister from '../../interfaces/IUserRegisterDTO';
 import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { UserRole } from '../../interfaces/TypeUserRole';
+import IUserSignupDTO from "../../interfaces/IUserSignupDTO";
 
-export default class UserRegisterDTO implements IUserRegister {
+export default class UserSignupDTO implements IUserSignupDTO {
+    
     @IsEmail()
     @IsNotEmpty()
     public eMail: string;
+
+    @IsString()
+    @IsNotEmpty()
+    username: string;
 
     @IsString()
     @IsNotEmpty()
@@ -21,5 +27,5 @@ export default class UserRegisterDTO implements IUserRegister {
 
     @IsOptional()
     @IsString()
-    public role?: "admin" | "default";
+    public role?: UserRole;
 }

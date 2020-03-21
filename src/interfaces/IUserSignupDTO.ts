@@ -1,6 +1,6 @@
 import { UserRole } from './TypeUserRole';
 
-export default interface IUserRegisterDTO {
+export default interface IUserSignupDTO {
     eMail: string;
     username: string;
     password: string;

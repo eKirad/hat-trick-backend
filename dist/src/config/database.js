@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-exports.database = (config) => {
-    mongoose_1.default.connect(config.dbURI, {
+exports.connectToDB = (config) => {
+    mongoose_1.default.connect(config.DATABASE.URI + config.DATABASE.NAME, {
         useCreateIndex: true,
         useNewUrlParser: true
     });
@@ -16,8 +16,6 @@ exports.database = (config) => {
         }
         console.log(`Database ready!`);
     });
-    db.on(`error`, reason => {
-        console.log(reason);
-    });
+    db.on(`error`, reason => console.log(reason));
 };
 //# sourceMappingURL=database.js.map

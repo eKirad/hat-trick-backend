@@ -1,18 +1,22 @@
-import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+
 import {prop, getModelForClass, mongoose, Typegoose} from '@typegoose/typegoose';
 import { UserRole } from '../interfaces/TypeUserRole';
-import uuid from "uuid";
+import { v4 as uuidv4 } from 'uuid';
+import * as bcrypt from "bcryptjs";
 
-import IUserRegister from '../interfaces/IUserRegisterDTO';
-import IUserAPI from '../api/IUserAPI';
+import IUserAPI from '../api/types/IUserAPI';
+import IUserSignupDTO from '../interfaces/IUserSignupDTO';
 
-export class UserEntity extends Typegoose {
+export class UserEntity {
     
-    @prop()
+    @prop({ required: true })
     public id: string;
 
-    @prop()
+    @prop({ required: true, unique: true })
     public username: string;
+
+    @prop({ required: true, unique: true })
+    public eMail: string;
 
     @prop()
     public firstName: string;
@@ -20,9 +24,6 @@ export class UserEntity extends Typegoose {
     @prop()
     public lastName: string;
 
-    @prop()
-    public eMail: string;
-    
     @prop()
     public role: UserRole;
 
@@ -34,27 +35,26 @@ export class UserEntity extends Typegoose {
     public updatedAt: Date;
 
     @prop()
-    private passwordHash: string;
+    private hashedPassword: string;
 
-    constructor(userRegister: IUserRegister, id?: string) {
-        super();
-        this.id = id ? id : uuid.v4();
-        this.username = userRegister.username;
-        this.eMail = userRegister.eMail;
-        this.firstName = userRegister.firstName;
-        this.lastName = userRegister.lastName;
-        this.role = userRegister.role;
+    constructor(userSignupDTO: IUserSignupDTO, id?: string) {
+        this.id = id ? id : uuidv4();
+        this.username = userSignupDTO.username;
+        this.eMail = userSignupDTO.eMail;
+        this.firstName = userSignupDTO.firstName;
+        this.lastName = userSignupDTO.lastName;
+        this.role = userSignupDTO.role;
+        this.hashPassword(userSignupDTO.password);
 
     }
 
-    public hasshPassword(password: string): void {
-
+    public hashPassword(password: string): void {
+        this.hashedPassword = bcrypt.hashSync(password);
     }
 
     public isPasswodValid(password: string): boolean {
-        return true;
+        return bcrypt.compareSync(password, this.hashedPassword);
     }
-
 
     public classToAPI(): IUserAPI {
         return {
@@ -66,5 +66,6 @@ export class UserEntity extends Typegoose {
             lastName: this.lastName
         }
     }
-
 }
+
+export const UserModel = getModelForClass(UserEntity);

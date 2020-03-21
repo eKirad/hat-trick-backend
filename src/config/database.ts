@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
-export const database = (config: any) => {
-    mongoose.connect(config.dbURI, {
+export const connectToDB = (config: any) => {
+    mongoose.connect(config.DATABASE.URI + config.DATABASE.NAME, {
         useCreateIndex: true,
         useNewUrlParser: true
     });
@@ -13,7 +13,5 @@ export const database = (config: any) => {
         console.log(`Database ready!`);
     });
 
-    db.on(`error`, reason => {
-        console.log(reason);
-    })
+    db.on(`error`, reason => console.log(reason));
 }
