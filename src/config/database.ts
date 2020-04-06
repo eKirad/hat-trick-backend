@@ -1,17 +1,26 @@
 import mongoose from 'mongoose';
 
-export const connectToDB = (config: any) => {
-    mongoose.connect(config.DATABASE.URI + config.DATABASE.NAME, {
-        useCreateIndex: true,
-        useNewUrlParser: true
-    });
-    const db = mongoose.connection;
-    db.once(`open`, err => {
-        if (err) {
-            throw err;
-        }
-        console.log(`Database ready!`);
-    });
+export class Database {
+    
+    private dbURI: string;
+    
+    private dbName: string;
 
-    db.on(`error`, reason => console.log(reason));
+    constructor(dbUri: string, dbName: string) {
+        this.dbURI = dbUri;
+        this.dbName = dbName;
+    }
+
+    async connect() {
+        try {
+            await mongoose.connect(this.dbURI + this.dbName, {
+                useCreateIndex: true,
+                useNewUrlParser: true
+                }
+            );
+            console.log(`Database up and running!`);
+        } catch(err) {
+            console.error(err);
+        }
+    }
 }
