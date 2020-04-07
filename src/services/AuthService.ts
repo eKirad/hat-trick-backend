@@ -13,38 +13,47 @@ import { Config } from "../config/Config";
 export default class AuthService {
     
     public static async signup(userRegisterDTO: UserSignupDTO): Promise<UserEntity> {
-        const userEntity = new UserEntity(userRegisterDTO);
-        
-        const emailCunter = await UserModel.countDocuments({ eMail: userEntity.eMail});
-        const usernameCunter = await UserModel.countDocuments({ username: userEntity.username});
-        
-        if (emailCunter > 0 || usernameCunter > 0) {
-            // throw new HttpException(409, "User with email already exists", "ENTITY_ALREADY_EXISTS");
-            console.log(`Entity already exits`);
-        }
+        try {
+            const userEntity = new UserEntity(userRegisterDTO);
+            const emailCounter = await UserModel.countDocuments({ eMail: userEntity.eMail});
+            const usernameCounter = await UserModel.countDocuments({ username: userEntity.username});
+            
+            if (emailCounter > 0 || usernameCounter > 0) {
+                // throw new HttpException(409, "User with email already exists", "ENTITY_ALREADY_EXISTS");
+                console.log(`Entity already exits`);
+            }
+    
+            const user = await UserModel.create(userEntity);
 
-        const user = await UserModel.create(userEntity);
-        return user;
+            return user;
+        } catch(e) {
+            console.error(e);
+        }
     }
 
-
     public static async login(userLoginDTO: UserLoginDTO): Promise<IUserLoginResponse> {
-        const userEntity = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
+        try {
+
+            const userEntity = await UserModel
+                .findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
         
-        if (!userEntity) {
-            console.log(`No user user with this email or username`);
-        }
+            if (!userEntity) {
+                console.log(`No user user with this email or username`);
+            }
+    
+            if (!userEntity.isPasswodValid(userLoginDTO.password)) {
+                console.log(`Wrong password`);
+            }
+    
+            const userAPI = userEntity.classToAPI();
+            const accessToken = AuthService.assignJWT(userAPI);
 
-        if (!userEntity.isPasswodValid(userLoginDTO.password)) {
-            console.log(`Wrong password`);
-        }
-
-        const userAPI = userEntity.classToAPI();
-        const accessToken = AuthService.assignJWT(userAPI);
-
-        return {
-            accessToken,
-            userAPI
+            return {
+                accessToken,
+                userAPI
+            }
+        } catch(e) {
+            console.error(e);
         }
     }
 

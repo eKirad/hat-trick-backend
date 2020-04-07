@@ -8,7 +8,7 @@ import AuthService from '../services/AuthService';
 import UserLoginDTO from '../dtos/auth/UserLoginDTO';
 
 export default class AuthController {
-    public path = "/auth";
+    public path = `/auth`;
     public router = express.Router();
     
     constructor () { 
@@ -16,8 +16,8 @@ export default class AuthController {
     }
 
     public intializeRoutes() {
-        this.router.post("/signup", this.signup);
-        this.router.post("/login", this.login);
+        this.router.post(`/signup`, this.signup);
+        this.router.post(`/login`, this.login);
     }
 
     protected signup = async (request: Request, response: Response, next: NextFunction) => {
