@@ -13,16 +13,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-exports.connectToDB = (config) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield mongoose_1.default.connect(config.DATABASE.URI + config.DATABASE.NAME, {
-            useCreateIndex: true,
-            useNewUrlParser: true
+class Database {
+    constructor(dbUri, dbName) {
+        this.dbURI = dbUri;
+        this.dbName = dbName;
+    }
+    connect() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield mongoose_1.default.connect(this.dbURI + this.dbName, {
+                    useCreateIndex: true,
+                    useNewUrlParser: true
+                });
+                console.log(`Database up and running!`);
+            }
+            catch (err) {
+                console.error(err);
+            }
         });
-        console.log(`Database up and running!`);
     }
-    catch (err) {
-        console.error(err);
-    }
-});
-//# sourceMappingURL=database.js.map
+}
+exports.Database = Database;
+//# sourceMappingURL=Database.js.map

@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+dotenv.config();
 
 export class Config {
     private _environment: string;
@@ -23,15 +24,17 @@ export class Config {
     get dbName(): string {
         return this._dbName;
     }
+
     get port(): string {
         return this._port;
     }
+
     get authSecret(): string {
         return this._authSecret;
     }
 
     private setConfigForEnv(environment: string) {
-        switch(this._environment) {
+        switch(environment) {
             case `DEV`:
                 this._dbURI = process.env.DB_URI || `mongodb://localhost:27017/`;
                 this._dbName = process.env.DB_NAME || `hattrickDB`;

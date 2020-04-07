@@ -1,13 +1,14 @@
 // DTO imports
 import UserSignupDTO from "../dtos/auth/UserSignupDTO";
+import UserLoginDTO from "../dtos/auth/UserLoginDTO";
 
 // Enitity imports
 import { UserEntity, UserModel } from "../models/User";
-import UserLoginDTO from "../dtos/auth/UserLoginDTO";
+
 import IUserLoginResponse from "../api/types/IUserLoginResponse";
 import IUserAPI from "../api/types/IUserAPI";
 import * as jwt from 'jsonwebtoken';
-import { config } from "../config";
+import { Config } from "../config/Config";
 
 export default class AuthService {
     
@@ -54,7 +55,7 @@ export default class AuthService {
             username: userAPI.username,
             role: userAPI.role
         },
-        config.DEV.AUTHENTICATION.JWT_SECRET, {
+        new Config().authSecret, {
             expiresIn: `24h`
         });
     }

@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { config } from '../config';
 import express from 'express';
 import { Router, Request, Response, NextFunction } from 'express';
 import UserSignupDTO from '../dtos/auth/UserSignupDTO';

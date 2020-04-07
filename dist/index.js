@@ -15,18 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const api_1 = require("./src/api/api");
 const middlewares_1 = require("./src/middlewares");
-const Database2_1 = require("./src/config/Database2");
-const Config2_1 = require("./src/config/Config2");
-// // Set environment
-// const ENV = environment;
+const Database_1 = require("./src/config/Database");
+const Config_1 = require("./src/config/Config");
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    // Connect to the database
     try {
-        const config = new Config2_1.Config();
-        const database = new Database2_1.Database(config.dbURI, config.dbName);
+        // App config
+        const config = new Config_1.Config();
+        // Connect to the database
+        const database = new Database_1.Database(config.dbURI, config.dbName);
         yield database.connect();
         const app = express_1.default();
-        // await connectToDB(config[ENV]);
         // Apply middlewares
         middlewares_1.middlewares(app);
         // Set up API
@@ -37,15 +35,4 @@ const Config2_1 = require("./src/config/Config2");
         console.log(e);
     }
 }))();
-// // app.use(bodyParser.json());
-// // app.use(bodyParser.urlencoded({
-// //     extended: false
-// // }));
-// // Apply middlewares
-// middlewares(app);
-// // Connect to the database
-// connectToDB(config[ENV]);
-// // Set all API Endpoints
-// api(app);
-// app.listen(config[ENV].APP.PORT, () => console.log(`Listening on port ${config[ENV].APP.PORT}...`));
 //# sourceMappingURL=index.js.map
