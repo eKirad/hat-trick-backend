@@ -18,7 +18,6 @@ import { Config } from './src/config/Config';
         middlewares(app);
         // Set up API
         api(app);
-        config.logger.info(`Testing the emojis`);
         app.listen(config.port, () => config.logger.info(`Listening on port ${config.port}...`));
     } catch(e) {
         config.logger.error(e);
