@@ -1,4 +1,6 @@
 import dotenv from 'dotenv';
+import winston, { format } from 'winston';
+
 dotenv.config();
 
 export class Config {
@@ -7,10 +9,13 @@ export class Config {
     private _dbName: string;
     private _port: string;
     private _authSecret: string;
+    private _logger: winston.Logger;
 
     constructor() {
         this._environment = process.env.NODE_ENV;
-        this.setConfigForEnv(this._environment);
+        this._logger = winston.createLogger();
+        this.setConfigForGivenEnv(this._environment);
+        this.setLoggerForGivenEnv(this._environment);
     }
 
     get environment(): string {
@@ -33,7 +38,34 @@ export class Config {
         return this._authSecret;
     }
 
-    private setConfigForEnv(environment: string) {
+    get logger(): winston.Logger {
+        return this._logger;
+    }
+
+    private setLoggerForGivenEnv(environment: string) {
+        this._logger.add(
+            new winston.transports.File({
+                level: `info`,
+                filename: `backend.log`,
+                format: format.combine(
+                    format.timestamp({
+                        format: `YYYY-MM-DD HH:mm:ss`
+                    }),
+                    format.json() 
+                )
+            }),
+        );
+
+        if (environment != `PROD`) {
+            this._logger.add(
+                new winston.transports.Console({
+                    format: format.simple()
+                })
+            );
+        }
+    }
+
+    private setConfigForGivenEnv(environment: string): void {
         switch(environment) {
             case `DEV`:
                 this._dbURI = process.env.DB_URI || `mongodb://localhost:27017/`;

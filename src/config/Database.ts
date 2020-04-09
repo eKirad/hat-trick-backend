@@ -1,26 +1,32 @@
 import mongoose from 'mongoose';
+import winston from 'winston';
 
 export class Database {
     
-    private dbURI: string;
+    private _dbURI: string;
     
-    private dbName: string;
+    private _dbName: string;
 
-    constructor(dbUri: string, dbName: string) {
-        this.dbURI = dbUri;
-        this.dbName = dbName;
+    private _logger: winston.Logger;
+    
+    constructor(dbUri: string, dbName: string, logger: winston.Logger) {
+        this._dbURI = dbUri;
+        this._dbName = dbName;
+        this._logger = logger;
     }
 
     async connect() {
         try {
-            await mongoose.connect(this.dbURI + this.dbName, {
+            const dbOptions: object = {
                 useCreateIndex: true,
-                useNewUrlParser: true
-                }
-            );
-            console.log(`Database up and running!`);
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            }
+
+            await mongoose.connect(this._dbURI + this._dbName, dbOptions);
+            this._logger.info(`Database up and running!`);
         } catch(err) {
-            console.error(err);
+            this._logger.error(err);
         }
     }
 }
