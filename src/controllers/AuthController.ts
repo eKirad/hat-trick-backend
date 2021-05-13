@@ -21,7 +21,7 @@ export default class AuthController {
 
     public intializeRoutes() {
         this.router.post(`/signup`, this.signup);
-        // this.router.post(`/login`, this.login);
+        this.router.post(`/login`, this.login);
     }
 
     protected signup = async (request: Request, response: Response, next: NextFunction) => {
@@ -34,13 +34,13 @@ export default class AuthController {
         }
     }
 
-    // protected login = async (request: Request, response: Response, next: NextFunction) => {
-    //     try {
-    //         const userLoginDTO: UserLoginDTO = plainToClass(UserLoginDTO, request.body);
-    //         const loginResponse = await AuthService.login(userLoginDTO);
-    //         response.status(200).send(loginResponse);
-    //     } catch (e) {
-    //         next(e);
-    //     }
-    // }
+    protected login = async (request: Request, response: Response, next: NextFunction) => {
+        try {
+            const user = this.extractLoginData(request.body)
+            const loginResponse = await AuthService.login(user);
+            response.status(200).send(loginResponse);
+        } catch (e) {
+            next(e);
+        }
+    }
 }

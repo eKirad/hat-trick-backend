@@ -35,38 +35,38 @@ export default class AuthService {
         }
     }
 
-    // public static async login(userLoginDTO: UserLoginDTO): Promise<IUserLoginResponse> {
-    //     try {
+    public static async login(loginUser: Pick<User, "email" | "password">): Promise<any> {
+        try {
 
-    //         const userEntity = await UserModel
-    //             .findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
+            // const userModel = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
+            const userModel = await UserModel.findOne();
         
-    //         if (!userEntity) {
-    //             console.log(`No user user with this email or username`);
-    //         }
+            // if (!userEntity) {
+            //     console.log(`No user user with this email or username`);
+            // }
     
-    //         if (!userEntity.isPasswodValid(userLoginDTO.password)) {
-    //             console.log(`Wrong password`);
-    //         }
+            // if (!userEntity.isPasswodValid(userLoginDTO.password)) {
+            //     console.log(`Wrong password`);
+            // }
     
-    //         const userAPI = userEntity.classToAPI();
-    //         const accessToken = AuthService.assignJWT(userAPI);
+            // const userAPI = userEntity.classToAPI();
+            const accessToken = AuthService.assignJWT(userModel);
 
-    //         return {
-    //             accessToken,
-    //             userAPI
-    //         }
-    //     } catch(e) {
-    //         console.error(e);
-    //     }
-    // }
+            return {
+                accessToken,
+                userModel
+            }
 
-    public static assignJWT(userAPI: IUserAPI): string {
+        } catch(e) {
+            console.error(e);
+        }
+    }
+
+    public static assignJWT(user: User): string {
         return jwt.sign({
-            id: userAPI.id,
-            email: userAPI.email,
-            username: userAPI.username,
-            role: userAPI.role
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
         },
         new Config().authSecret, {
             expiresIn: `24h`
