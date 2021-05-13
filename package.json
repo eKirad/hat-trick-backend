@@ -29,10 +29,8 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^6.4.0",
     "@types/body-parser": "^1.17.1",
     "@types/jsonwebtoken": "^8.3.4",
-    "@types/mongoose": "^5.5.17",
     "@types/winston": "^2.4.4",
     "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
@@ -43,8 +41,7 @@
     "express": "^4.17.1",
     "helmet": "^3.21.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.7.1",
-    "typegoose": "^5.9.1",
+    "mongoose": "^5.10.1",
     "uuid": "^7.0.2",
     "winston": "^3.2.1"
   }
