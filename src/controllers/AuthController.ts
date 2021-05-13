@@ -12,7 +12,8 @@ export default class AuthController {
     public path = `/auth`;
     public router = express.Router();
     
-    private extractData = (requestBody: any): User => ({email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName })
+    private extractLoginData = (requestBody: any): Pick<User, "email" | "password"> => ({ email: requestBody.email, password: requestBody.password })
+    private extractData = (requestBody: any): User => ({ email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName, password: requestBody.password })
 
     constructor () { 
         this.intializeRoutes();
