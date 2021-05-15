@@ -1,15 +1,11 @@
-// DTO imports
-import UserSignupDTO from "../dtos/auth/UserSignupDTO";
-import UserLoginDTO from "../dtos/auth/UserLoginDTO";
-
 // Enitity imports
-import UserModel from "../models/user.model";
+import UserModel from "../models/userModel";
 
 import IUserLoginResponse from "../api/types/IUserLoginResponse";
 import IUserAPI from "../api/types/IUserAPI";
 import * as jwt from 'jsonwebtoken';
-import { Config } from "../config/Config";
-import { User } from "../types/user.type";
+import { Config } from "../config/config";
+import { User } from "../types/userType";
 
 export default class AuthService {
 
