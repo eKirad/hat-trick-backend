@@ -1,4 +1,4 @@
-import AuthController from '../controllers/AuthController';
+import AuthController from '../controllers/authController';
 import express from 'express';
 
 const apiVersion = `/api/v1`;
