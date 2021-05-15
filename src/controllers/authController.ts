@@ -4,7 +4,7 @@ import express from 'express';
 import { Router, Request, Response, NextFunction } from 'express';
 import UserSignupDTO from '../dtos/auth/UserSignupDTO';
 import { plainToClass } from "class-transformer";
-import AuthService from '../services/AuthService';
+import AuthService from '../services/authService';
 import UserLoginDTO from '../dtos/auth/UserLoginDTO';
 import { User } from '../types/user.type';
 
