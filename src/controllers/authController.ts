@@ -6,7 +6,7 @@ import UserSignupDTO from '../dtos/auth/UserSignupDTO';
 import { plainToClass } from "class-transformer";
 import AuthService from '../services/authService';
 import UserLoginDTO from '../dtos/auth/UserLoginDTO';
-import { User } from '../types/user.type';
+import { User } from '../types/userType';
 
 export default class AuthController {
     public path = `/auth`;
