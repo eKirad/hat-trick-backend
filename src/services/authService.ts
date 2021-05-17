@@ -1,8 +1,5 @@
 // Enitity imports
 import UserModel from "../models/userModel";
-
-import IUserLoginResponse from "../api/types/IUserLoginResponse";
-import IUserAPI from "../api/types/IUserAPI";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";
 import { User } from "../types/userType";
@@ -24,7 +21,7 @@ export default class AuthService {
             //     // throw new HttpException(409, "User with email already exists", "ENTITY_ALREADY_EXISTS");
             //     console.log(`Entity already exits`);
             // }
-    
+
             return user;
         } catch(e) {
             console.error(e);
