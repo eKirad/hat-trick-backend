@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "generate-api": "openapi-generator generate -i docs/openapi.yaml -g typescript-angular -o generated-sources/openapi --additional-properties=\"ngVersion=6.1.7\"",
+    "generate-api": "openapi-generator generate -i ./api-spec/hat-trick-api-spec.yaml -g typescript-inversify -o ./api-spec/types --global-property models",
     "start_dev": "tsc && node -r dotenv/dist/src/config dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
