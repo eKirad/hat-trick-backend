@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: Hat-trick API
+  version: 9.3.7
+servers:
+  - url: http://localhost:3000
+    description: Local server
+paths:
+  /auth/login:
+    post:
+      summary: returns a accessToken when successfull loggedin
+      operationId: loginUser
+      tags:
+        - auth
+      responses:
+        '200':
+          description: Successfull registered
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    Color:
+      type: integer
+      description: ""
+      "enum": [
+        1,2,3
+      ]
+      
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - BearerToken: []
+
+
