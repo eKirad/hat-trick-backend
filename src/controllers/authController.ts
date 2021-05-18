@@ -24,7 +24,7 @@ export default class AuthController {
         this.router.post(`/login`, this.login);
     }
 
-    protected signup = async (request: Request, response: Response, next: NextFunction) => {
+    public signup = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const user = this.extractData(request.body);
             await AuthService.signup(user)
