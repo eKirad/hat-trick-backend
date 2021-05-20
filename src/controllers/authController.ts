@@ -1,28 +1,10 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import express from 'express';
-import { Router, Request, Response, NextFunction } from 'express';
-
-import { plainToClass } from "class-transformer";
+import { Request, Response, NextFunction } from 'express';
 import AuthService from '../services/authService';
-
 import { User } from '../types/userType';
 
 export default class AuthController {
-    public path = `/auth`;
-    public router = express.Router();
-    
     private extractLoginData = (requestBody: any): Pick<User, "email" | "password"> => ({ email: requestBody.email, password: requestBody.password })
     private extractData = (requestBody: any): User => ({ email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName, password: requestBody.password })
-
-    constructor () { 
-        this.intializeRoutes();
-    }
-
-    public intializeRoutes() {
-        this.router.post(`/signup`, this.signup);
-        this.router.post(`/login`, this.login);
-    }
 
     public signup = async (request: Request, response: Response, next: NextFunction) => {
         try {
@@ -34,7 +16,12 @@ export default class AuthController {
         }
     }
 
-    protected login = async (request: Request, response: Response, next: NextFunction) => {
+    // TODO: Remove after base controller integration
+    public test = (req, res, next) => {
+        res.end(JSON.stringify({ test: "Test" }));
+    }
+
+    public login = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const user = this.extractLoginData(request.body)
             const loginResponse = await AuthService.login(user);
