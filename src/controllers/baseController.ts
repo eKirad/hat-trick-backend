@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
-import mongoose, { Schema, Document, Model, EnforceDocument } from 'mongoose';
+import mongoose, { Schema, Document, Model as MongooseModel, EnforceDocument } from 'mongoose';
 
 interface IBaseController {
     getAllResources(request: Request, response: Response, next: NextFunction): any
@@ -11,8 +11,8 @@ interface IBaseController {
 }
 
 
-export abstract class BaseController<T> implements IBaseController {
-    private Model: Model<T>
+export abstract class BaseController implements IBaseController {
+    private Model: MongooseModel<any>
 
     private extractRequestData = (requestBody: any) => {
 
@@ -29,7 +29,7 @@ export abstract class BaseController<T> implements IBaseController {
         }
     }
 
-    constructor(Model: any) {
+    constructor(Model: MongooseModel<any>) {
         this.Model = Model;
     }
 
