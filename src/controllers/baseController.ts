@@ -1,24 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
+import { HttpResponse } from '../types/httpResponseType';
+import { httpResponse } from '../utils/httpHandlers';
 
-interface IGet {
-    getOne(request: Request, response: Response, next: NextFunction): any
-    getAll(request: Request, response: Response, next: NextFunction): any
+interface IGet<M> {
+    getOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+    getAll(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
 }
 
-interface IModify {
-    createOne(request: Request, response: Response, next: NextFunction): any
-    updateOne(request: Request, response: Response, next: NextFunction): any
+interface IModify<M> {
+    createOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+    updateOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     deleteOne(request: Request, response: Response, next: NextFunction): any
 }
 
-export class BaseController <M, S extends BaseService<M>> implements IGet, IModify {
+export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IModify<M> {
     constructor(private service: S) { }
 
-    getAll = async (request: Request, response: Response, next: NextFunction) => {
+    getAll = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
             const modelDoc = await this.service.findAll()
-            response.status(201).send(modelDoc);
+            return httpResponse(response, 201, modelDoc)
         } catch(e) {
             next(e);
         }
