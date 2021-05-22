@@ -1,38 +1,44 @@
-import mongoose, { Schema, Document, Model, EnforceDocument } from 'mongoose';
+import { Model as MongooseModel, EnforceDocument } from 'mongoose';
 
-interface IBaseService<T> {
-    getAllResources(): Promise<EnforceDocument<T, {}>[]>
-    getOneResource(): Promise<T>
-    createOneResource(): Promise<T>
-    updateOneResource(): Promise<T>
-    deleteOneResource(): Promise<T>
+interface IRead<M> {
+    findAll(): Promise<EnforceDocument<M, {}>[]>
+    findOne(): Promise<EnforceDocument<M, {}>>
 }
 
-export class BaseService<T> implements IBaseService<T> {
-    private Model: Model<T>
+interface IWrite<M> {
+    create(): Promise<EnforceDocument<M, {}>>
+    update(): Promise<EnforceDocument<M, {}>>
+    delete(): Promise<EnforceDocument<M, {}>>
+}
 
-    getAllResources = async (): Promise<EnforceDocument<T, {}>[]> => {
+export class BaseService<M> implements IRead<M>, IWrite<M> {
+
+    constructor(private Model: MongooseModel<M>) { }
+
+    findAll = async(): Promise<EnforceDocument<M, {}>[]> => {
         try {
+            // const baseDoc = await new BaseService().getAllResources()
             const model = await this.Model.find().exec()
-            return model
+            console.log(model)
+            return model;
         } catch(e) {
             // TODO:
         }
     }
 
-    getOneResource = async () => {
-        throw new Error("Method not implemented.");
+    findOne = async(): Promise<EnforceDocument<M, {}>> => {
+        throw new Error('Method not implemented.');
+    }
+    
+    create = async(): Promise<EnforceDocument<M, {}>> => {
+        throw new Error('Method not implemented.');
     }
 
-    createOneResource = async () => {
-        throw new Error("Method not implemented.");
+    update = async(): Promise<EnforceDocument<M, {}>> => {
+        throw new Error('Method not implemented.');
     }
-
-    updateOneResource = async () => {
-        throw new Error("Method not implemented.");
-    }
-
-    deleteOneResource = async () => {
-        throw new Error("Method not implemented.");
+    
+    delete = async(): Promise<EnforceDocument<M, {}>> => {
+        throw new Error('Method not implemented.');
     }
 }
