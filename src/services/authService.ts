@@ -1,7 +1,7 @@
 // Enitity imports
 import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
-import { Config } from "../config/config";
+import { Config } from "../config/tst";
 import { User } from "../types/userType";
 
 export default class AuthService {
