@@ -42,7 +42,7 @@ export class Config {
         return this._logger;
     }
 
-    private setLoggerForGivenEnv(environment: string) {
+    private setLoggerForGivenEnv = (environment: string) => {
         this._logger.add(
             new winston.transports.File({
                 level: `info`,
@@ -56,7 +56,7 @@ export class Config {
             }),
         );
 
-        if (environment != `PROD`) {
+        if (environment !== `PROD`) {
             this._logger.add(
                 new winston.transports.Console({
                     format: format.simple()
@@ -65,7 +65,7 @@ export class Config {
         }
     }
 
-    private setConfigForGivenEnv(environment: string): void {
+    private setConfigForGivenEnv = (environment: string) => {
         switch(environment) {
             case `DEV`:
                 this._dbURI = process.env.DB_URI || `mongodb://localhost:27017/`;
@@ -74,6 +74,8 @@ export class Config {
                 this._authSecret = process.env.JWT_SECRET || `very secret secret`;
                 break;
             case `PROD`:
+                break;
+            default:
                 break;
         }
     }
