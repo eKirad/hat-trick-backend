@@ -1,11 +1,12 @@
 import * as express from 'express'
-import AuthController from '../controllers/authController';
 import { UserController } from '../controllers/userController';
+import { generateCRUDRoutes } from './crudRouter';
 
-const router = express.Router();
 const path = `user`
+const router = generateCRUDRoutes(path, new UserController());
 
-router
-    .get(`/${path}`, new UserController().getAll)
+// TODO: Other additional routes
+// router
+//     .get(`/${path}`, new UserController().getAll)
 
 export default router;
