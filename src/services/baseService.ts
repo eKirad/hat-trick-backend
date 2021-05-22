@@ -17,9 +17,7 @@ export class BaseService<M> implements IRead<M>, IWrite<M> {
 
     findAll = async(): Promise<EnforceDocument<M, {}>[]> => {
         try {
-            // const baseDoc = await new BaseService().getAllResources()
             const model = await this.Model.find().exec()
-            console.log(model)
             return model;
         } catch(e) {
             // TODO:
