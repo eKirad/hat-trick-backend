@@ -13,7 +13,7 @@ import { Config } from './src/config/config';
         // Connect to the database
         const database = new Database(config.dbURI, config.dbName, config.logger);
         await database.connect();
-        const app: express.Application = express();
+        const app = express();
         // Apply middlewares
         middlewares(app);
         // Set up API
