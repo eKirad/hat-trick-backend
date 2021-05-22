@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
 
-interface IGetController {
+interface IGet {
     getOne(request: Request, response: Response, next: NextFunction): any
     getAll(request: Request, response: Response, next: NextFunction): any
 }
 
-interface IModifyController {
+interface IModify {
     createOne(request: Request, response: Response, next: NextFunction): any
     updateOne(request: Request, response: Response, next: NextFunction): any
     deleteOne(request: Request, response: Response, next: NextFunction): any
 }
 
-export class BaseController <M, S extends BaseService<M>> implements IGetController, IModifyController {
+export class BaseController <M, S extends BaseService<M>> implements IGet, IModify {
     constructor(private service: S) { }
 
     getAll = async (request: Request, response: Response, next: NextFunction) => {
