@@ -1,9 +1,10 @@
 import AuthController from '../controllers/authController';
-import express from 'express';
+import express, { Application } from 'express';
+import router from '../routes';
 
-const apiVersion = `/api/v1`;
+const contextPath = process.env.CONTEXT_PATH;
+const apiVersion = process.env.API_VERSION;
 
-export const api = (app: express.Application) => {
-    const authController = new AuthController();
-    app.use(`${apiVersion}${authController.path}`, authController.router);
+export const api = (app: Application) => {
+    app.use(`/${contextPath}/${apiVersion}`, router)
 };
