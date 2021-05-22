@@ -6,6 +6,6 @@ const router = express.Router();
 const path = `user`
 
 router
-    .get(`/${path}`, new UserController().getAllResources)
+    .get(`/${path}`, new UserController().getAll)
 
 export default router;
