@@ -1,5 +1,4 @@
-import AuthController from '../controllers/authController';
-import express, { Application } from 'express';
+import { Application } from 'express';
 import router from '../routes';
 
 const contextPath = process.env.CONTEXT_PATH;
