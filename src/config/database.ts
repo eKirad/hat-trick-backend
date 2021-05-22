@@ -2,7 +2,6 @@ import mongoose, { ConnectOptions } from 'mongoose';
 import { Logger } from 'winston';
 
 export default class Database {
-
     private _dbURI: string;    
     private _dbName: string;
     private _logger: Logger;
