@@ -1,67 +1,42 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
-import mongoose, { Schema, Document, Model as MongooseModel, EnforceDocument } from 'mongoose';
 
-interface IBaseController {
-    getAllResources(request: Request, response: Response, next: NextFunction): any
-    getOneResource(request: Request, response: Response, next: NextFunction): any
-    createOneResource(request: Request, response: Response, next: NextFunction): any
-    updateOneResource(request: Request, response: Response, next: NextFunction): any
-    deleteOneResource(request: Request, response: Response, next: NextFunction): any
+interface IGetController {
+    getOne(request: Request, response: Response, next: NextFunction): any
+    getAll(request: Request, response: Response, next: NextFunction): any
 }
 
+interface IModifyController {
+    createOne(request: Request, response: Response, next: NextFunction): any
+    updateOne(request: Request, response: Response, next: NextFunction): any
+    deleteOne(request: Request, response: Response, next: NextFunction): any
+}
 
-export abstract class BaseController implements IBaseController {
-    private Model: MongooseModel<any>
+export class BaseController <M, S extends BaseService<M>> implements IGetController, IModifyController {
+    constructor(private service: S) { }
 
-    private extractRequestData = (requestBody: any) => {
-
-    }
-
-// TODO:
-    getAllResources = async (request: Request, response: Response, next: NextFunction) => { 
+    getAll = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            // const baseDoc = await new BaseService().getAllResources()
-            const model = await this.Model.find().exec()
-            response.status(201).send(model);
+            const modelDoc = await this.service.findAll()
+            response.status(201).send(modelDoc);
         } catch(e) {
             next(e);
         }
     }
 
-    constructor(Model: MongooseModel<any>) {
-        this.Model = Model;
+    getOne = async (request: Request, response: Response, next: NextFunction) => {
+        throw new Error('Method not implemented.');
     }
 
-    getOneResource = async (request: Request, response: Response, next: NextFunction) => { 
-        try {
-
-        } catch(e) {
-            next(e);
-        }
+    createOne = async (request: Request, response: Response, next: NextFunction) => {
+        throw new Error('Method not implemented.');
     }
 
-    createOneResource = async (request: Request, response: Response, next: NextFunction) => { 
-        try {
-
-        } catch(e) {
-            next(e);
-        }
+    updateOne = async (request: Request, response: Response, next: NextFunction) => {
+        throw new Error('Method not implemented.');
     }
 
-    updateOneResource = async (request: Request, response: Response, next: NextFunction) => { 
-        try {
-
-        } catch(e) {
-            next(e);
-        }
-    }
-
-    deleteOneResource = async (request: Request, response: Response, next: NextFunction) => { 
-        try {
-
-        } catch(e) {
-            next(e);
-        }
+    deleteOne = async (request: Request, response: Response, next: NextFunction) => {
+        throw new Error('Method not implemented.');
     }
 }
