@@ -2,7 +2,7 @@ import express from 'express';
 
 import { api } from './src/api/api';
 import { middlewares } from './src/middlewares';
-import { Database } from './src/config/database';
+import Database from './src/config/database';
 import { Config } from './src/config/config';
 
 (async () => {
