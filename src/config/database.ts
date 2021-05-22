@@ -1,15 +1,15 @@
 import mongoose, { ConnectOptions } from 'mongoose';
-import winston from 'winston';
+import { Logger } from 'winston';
 
 export default class Database {
 
     private _dbURI: string;    
     private _dbName: string;
-    private _logger: winston.Logger;
+    private _logger: Logger;
 
     private getConnectOptions = (): ConnectOptions => ({ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
     
-    constructor(dbUri: string, dbName: string, logger: winston.Logger) {
+    constructor(dbUri: string, dbName: string, logger: Logger) {
         this._dbURI = dbUri;
         this._dbName = dbName;
         this._logger = logger;
