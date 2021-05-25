@@ -3,6 +3,7 @@ import { BaseService } from '../services/baseService';
 import { HttpResponse } from '../types/httpResponseType';
 import { httpResponse } from '../utils/httpHandlers';
 import { StatusCodes } from 'http-status-codes';
+import { http } from 'winston';
 
 interface IGet<M> {
     getOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
@@ -10,18 +11,20 @@ interface IGet<M> {
 }
 
 interface IModify<M> {
-    createOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+    createOne(request: Request, response: Response, next: NextFunction): void
     updateOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     deleteOne(request: Request, response: Response, next: NextFunction): any
 }
 
 export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IModify<M> {
     constructor(private service: S) { }
+    
+    extractRequestBody = (requestBody: any) => requestBody;
 
     getAll = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
             const model = await this.service.findAll()
-            return httpResponse(response, StatusCodes.OK, model)
+            return httpResponse<M>(response, StatusCodes.OK, model)
         } catch(e) {
             next(e);
         }
@@ -38,7 +41,15 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
     }
 
     createOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const dto = this.extractRequestBody(request.body);
+            console.log(`DTO`)
+            console.log(dto)
+            const model = this.service.create(dto);
+            // return httpResponse(response, StatusCodes.OK, model);
+        } catch(e) {
+            next(e);
+        }
     }
 
     updateOne = async (request: Request, response: Response, next: NextFunction) => {
