@@ -3,9 +3,9 @@ import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";
 import { User } from "../types/userType";
+import { BaseService } from "./baseService";
 
-export default class AuthService {
-
+export default class AuthService extends BaseService<any> {
     
     public static async signup(user: User): Promise<User> {
         try {
