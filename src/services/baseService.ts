@@ -1,4 +1,5 @@
 import { Model as MongooseModel, EnforceDocument } from 'mongoose';
+import { User } from '../types/userType';
 
 interface IRead<M> {
     findAll(): Promise<EnforceDocument<M, {}>[]>
@@ -6,7 +7,7 @@ interface IRead<M> {
 }
 
 interface IWrite<M> {
-    create(): Promise<EnforceDocument<M, {}>>
+    create(dto: M): Promise<EnforceDocument<M, {}>>
     update(): Promise<EnforceDocument<M, {}>>
     delete(): Promise<EnforceDocument<M, {}>>
 }
@@ -33,8 +34,15 @@ export class BaseService<M> implements IRead<M>, IWrite<M> {
         }
     }
     
-    create = async(): Promise<EnforceDocument<M, {}>> => {
-        throw new Error('Method not implemented.');
+    create = async(dto: M): Promise<EnforceDocument<M, {}>> => {
+        try {
+            const model = this.Model.create(dto);
+            console.log(`typeof M`)
+            console.log(typeof(dto))
+            return model;
+        } catch(e) {
+            // TODO:
+        }
     }
 
     update = async(): Promise<EnforceDocument<M, {}>> => {
