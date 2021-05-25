@@ -28,7 +28,13 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
     }
 
     getOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const id = request.params.id;
+            const model = await this.service.findOne(id);
+            return httpResponse(response, StatusCodes.OK, model);
+        } catch(e) {
+            next(e);
+        }
     }
 
     createOne = async (request: Request, response: Response, next: NextFunction) => {
