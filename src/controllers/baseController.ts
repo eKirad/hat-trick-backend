@@ -20,8 +20,8 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
 
     getAll = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
-            const modelDoc = await this.service.findAll()
-            return httpResponse(response, StatusCodes.OK, modelDoc)
+            const model = await this.service.findAll()
+            return httpResponse(response, StatusCodes.OK, model)
         } catch(e) {
             next(e);
         }
