@@ -5,4 +5,7 @@ import { BaseController } from "./baseController";
 
 export class UserController extends BaseController<User, UserService> {
     constructor() { super(new UserService()) }
+
+    extractRequestBody = (requestBody: any): User => requestBody;
+
 }
