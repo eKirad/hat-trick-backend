@@ -29,7 +29,7 @@ export class BaseService<M> implements IRead<M>, IWrite<M> {
             const model = await this.Model.findById(id).exec()
             return model;
         } catch(e) {
-
+            // TODO:
         }
     }
     
