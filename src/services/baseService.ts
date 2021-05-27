@@ -8,7 +8,7 @@ interface IRead<M> {
 interface IWrite<M> {
     create(dto: M): Promise<EnforceDocument<M, {}>>
     update(id: string, dto: M): Promise<EnforceDocument<M, {}>>
-    delete(): Promise<EnforceDocument<M, {}>>
+    delete(id: string): void
 }
 
 export class BaseService<M> implements IRead<M>, IWrite<M> {
@@ -51,7 +51,11 @@ export class BaseService<M> implements IRead<M>, IWrite<M> {
         }
     }
     
-    delete = async(): Promise<EnforceDocument<M, {}>> => {
-        throw new Error('Method not implemented.');
+    delete = async(id: string): Promise<void> => {
+        try {
+            await this.Model.findByIdAndDelete(id).exec();
+        } catch(e) {
+            // TODO:
+        }
     }
 }
