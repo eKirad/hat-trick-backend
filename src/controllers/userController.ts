@@ -6,6 +6,13 @@ import { BaseController } from "./baseController";
 export class UserController extends BaseController<User, UserService> {
     constructor() { super(new UserService()) }
 
-    extractRequestBody = (requestBody: any): User => requestBody;
+    extractRequestBody = (requestBody: any): Omit<User, "_id"> => (
+        { 
+            email: requestBody.email, 
+            password: requestBody.pasword, 
+            firstName: requestBody.firstName, 
+            lastName: requestBody.lastName 
+        }
+    );
 
 }
