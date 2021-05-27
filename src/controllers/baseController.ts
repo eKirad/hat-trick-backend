@@ -61,6 +61,12 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
     }
 
     deleteOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const id = request.params.id;
+            await this.service.delete(id);
+            return httpResponse(response, StatusCodes.OK);
+        } catch(e) {
+            next(e);
+        }
     }
 }
