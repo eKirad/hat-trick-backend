@@ -1,5 +1,4 @@
 import { Model as MongooseModel, EnforceDocument } from 'mongoose';
-import { User } from '../types/userType';
 
 interface IRead<M> {
     findAll(): Promise<EnforceDocument<M, {}>[]>

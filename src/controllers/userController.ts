@@ -1,6 +1,6 @@
 
 import UserService from "../services/userService";
-import { User } from "../types/userType";
+import { User } from "../types";
 import { BaseController } from "./baseController";
 
 export class UserController extends BaseController<User, UserService> {

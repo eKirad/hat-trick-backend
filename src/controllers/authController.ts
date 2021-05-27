@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '../services/authService';
-import { User } from '../types/userType';
+import { User } from '../types';
 
 export default class AuthController {
     private extractLoginData = (requestBody: any): Pick<User, "email" | "password"> => ({ email: requestBody.email, password: requestBody.password })
-    private extractData = (requestBody: any): User => ({ email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName, password: requestBody.password })
+    // TODO: Clean
+    private extractData = (requestBody: any): User => ({ _id: "test", email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName, password: requestBody.password })
 
     public signup = async (request: Request, response: Response, next: NextFunction) => {
         try {
