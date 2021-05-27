@@ -50,7 +50,14 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
     }
 
     updateOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const id = request.params.id;
+            const dto = this.extractRequestBody(request.body);
+            const model = await this.service.update(id, dto);
+            return httpResponse(response, StatusCodes.OK, model);
+        } catch(e) {
+            next(e);
+        }
     }
 
     deleteOne = async (request: Request, response: Response, next: NextFunction) => {
