@@ -7,7 +7,7 @@ export const generateCRUDRoutes = (endpoint: string, controller: any) => {
         .get(`/${endpoint}`, controller.getAll)
         .get(`/${endpoint}/:id`, controller.getOne)
         .post(`/${endpoint}`, controller.createOne)
-        .put(`/${endpoint}`, controller.updateOne)
+        .put(`/${endpoint}/:id`, controller.updateOne)
         .delete(`/${endpoint}/:id`, controller.deleteOne)
     
     return router;
