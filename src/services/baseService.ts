@@ -36,9 +36,7 @@ export class BaseService<M> implements IRead<M>, IWrite<M> {
     
     create = async(dto: M): Promise<EnforceDocument<M, {}>> => {
         try {
-            const model = this.Model.create(dto);
-            console.log(`typeof M`)
-            console.log(typeof(dto))
+            const model = await this.Model.create(dto);
             return model;
         } catch(e) {
             // TODO:
