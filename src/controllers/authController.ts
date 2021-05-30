@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '../services/authService';
-import { OmitUserProps, User } from '../types';
+import { OmitUserProps, PickUserLoginProps, User } from '../types';
 import { httpResponse } from '../utils/httpHandlers';
 import { StatusCodes } from 'http-status-codes';
 
 
 export default class AuthController {
-    private extractLoginData = (requestBody: any): Pick<User, "email" | "password"> => ({ email: requestBody.email, password: requestBody.password })
 
-    extractRequestBody = (requestBody: any): Omit<User, OmitUserProps> => (
+    private extractLoginData = (requestBody: any): Pick<User, PickUserLoginProps> => ({ email: requestBody.email, password: requestBody.password });
+    private extractRequestBody = (requestBody: any): Omit<User, OmitUserProps> => (
         { 
             email: requestBody.email, 
             password: requestBody.password, 
