@@ -13,7 +13,6 @@ export default class AuthService extends BaseService<any> {
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
     
     public static async signup(userDTO: Omit<User, OmitUserProps>): Promise<EnforceDocument<User, {}>> {
-        
         try {
             const createUser = {
                 ...userDTO,
