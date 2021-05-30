@@ -17,11 +17,6 @@ export default class AuthController {
         }
     }
 
-    // TODO: Remove after base controller integration
-    public test = (req, res, next) => {
-        res.end(JSON.stringify({ test: "Test" }));
-    }
-
     public login = async (request: Request, response: Response, next: NextFunction) => {
         try {
             const user = this.extractLoginData(request.body)
