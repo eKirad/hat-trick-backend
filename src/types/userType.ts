@@ -4,4 +4,8 @@ export type User = {
     password: string
     firstName: string,
     lastName: string,
+    dateCreateAt: Date,
+    lastUpdatedAt: Date
 }
+
+export type OmitUserProps = "_id" | "dateCreateAt" | "lastUpdatedAt";
