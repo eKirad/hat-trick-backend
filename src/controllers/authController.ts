@@ -1,17 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '../services/authService';
-import { User } from '../types';
+import { OmitUserProps, User } from '../types';
+import { httpResponse } from '../utils/httpHandlers';
+import { StatusCodes } from 'http-status-codes';
+
 
 export default class AuthController {
     private extractLoginData = (requestBody: any): Pick<User, "email" | "password"> => ({ email: requestBody.email, password: requestBody.password })
     // TODO: Clean
-    private extractData = (requestBody: any): User => ({ _id: "test", email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName, password: requestBody.password })
+    // private extractData = (requestBody: any): User => ({ _id: "test", email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName, password: requestBody.password })
+
+    extractRequestBody = (requestBody: any): Omit<User, OmitUserProps> => (
+        { 
+            email: requestBody.email, 
+            password: requestBody.password, 
+            firstName: requestBody.firstName, 
+            lastName: requestBody.lastName, 
+        }
+    );
 
     public signup = async (request: Request, response: Response, next: NextFunction) => {
         try {
-            const user = this.extractData(request.body);
-            await AuthService.signup(user)
-            response.status(201).send({ msg: "Signup successfull" });
+            const userDto = this.extractRequestBody(request.body);
+            const userModel = await AuthService.signup(userDto)
+            return httpResponse(response, StatusCodes.OK, userModel);
         } catch (e) {
             next(e);
         }
