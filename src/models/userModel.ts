@@ -5,10 +5,9 @@ const UserSchema: Schema = new Schema({
     email: { type: String, required: true, unique: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    // TODO:
-    // createdAt: { type: Date },
-    // updatedAt: { type: Date },
-    // password: { type: String }
+    password: { type: String, required: true },
+    createdAt: { type: Date },
+    lastUpdatedAt: { type: Date },
 });
   
 const UserModel = mongoose.model<User & Document>('User', UserSchema);
