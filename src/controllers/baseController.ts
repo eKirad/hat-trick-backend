@@ -10,36 +10,63 @@ interface IGet<M> {
 }
 
 interface IModify<M> {
-    createOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+    createOne(request: Request, response: Response, next: NextFunction): void
     updateOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     deleteOne(request: Request, response: Response, next: NextFunction): any
 }
 
 export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IModify<M> {
     constructor(private service: S) { }
+    
+    extractRequestBody = (requestBody: any) => requestBody;
 
     getAll = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
-            const modelDoc = await this.service.findAll()
-            return httpResponse(response, StatusCodes.OK, modelDoc)
+            const model = await this.service.findAll()
+            return httpResponse<M>(response, StatusCodes.OK, model)
         } catch(e) {
             next(e);
         }
     }
 
     getOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const id = request.params.id;
+            const model = await this.service.findOne(id);
+            return httpResponse(response, StatusCodes.OK, model);
+        } catch(e) {
+            next(e);
+        }
     }
 
     createOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const dto = this.extractRequestBody(request.body);
+            const model = await this.service.create(dto);
+            return httpResponse(response, StatusCodes.OK, model);
+        } catch(e) {
+            next(e);
+        }
     }
 
     updateOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const id = request.params.id;
+            const dto = this.extractRequestBody(request.body);
+            const model = await this.service.update(id, dto);
+            return httpResponse(response, StatusCodes.OK, model);
+        } catch(e) {
+            next(e);
+        }
     }
 
     deleteOne = async (request: Request, response: Response, next: NextFunction) => {
-        throw new Error('Method not implemented.');
+        try {
+            const id = request.params.id;
+            await this.service.delete(id);
+            return httpResponse(response, StatusCodes.OK);
+        } catch(e) {
+            next(e);
+        }
     }
 }
