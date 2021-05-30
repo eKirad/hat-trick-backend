@@ -2,15 +2,17 @@
 import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";
-import { OmitUserProps, User } from "../types/userType";
+import { OmitUserProps, PickUserLoginProps, User } from "../types";
 import { BaseService } from "./baseService";
 import * as bcrypt from 'bcryptjs';
 import { EnforceDocument } from "mongoose";
 
 export default class AuthService extends BaseService<any> {
 
+    private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword);
+    private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
+    
     public static async signup(userDTO: Omit<User, OmitUserProps>): Promise<EnforceDocument<User, {}>> {
-        console.log(userDTO)
         
         try {
             const createUser = {
@@ -26,46 +28,35 @@ export default class AuthService extends BaseService<any> {
         }
     }
 
-    public static async login(loginUser: Pick<User, "email" | "password">): Promise<any> {
+    public static async login(userDTO: Pick<User, PickUserLoginProps>): Promise<string> {
         try {
 
             // const userModel = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
             
-            const userModel = await UserModel.findOne();
-        
-            // if (!userEntity) {
-            //     console.log(`No user user with this email or username`);
-            // }
-    
-            // if (!userEntity.isPasswodValid(userLoginDTO.password)) {
-            //     console.log(`Wrong password`);
-            // }
-    
-            // const userAPI = userEntity.classToAPI();
-            const accessToken = AuthService.assignJWT(userModel);
-
-            return {
-                accessToken,
-                userModel
+            const userModel = await UserModel.findOne({ email: userDTO.email }).exec();
+            
+            if (!userModel) {
+                // TODO: Throw an error
             }
 
+            if (!this.isPasswordValid(userDTO.password, userModel.password)) {
+                // TODO: Throw an error
+            }
+
+            return AuthService.assignJWT(userModel);
         } catch(e) {
             console.error(e);
         }
     }
 
-    private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword);
-
-    public static assignJWT(user: User): string {
-        return jwt.sign({
+    public static assignJWT = (user:  EnforceDocument<User, {}>): string => jwt.sign(
+        {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName
         },
         new Config().authSecret, {
-            expiresIn: `24h`
-        });
-    }
-
-    
+            expiresIn: process.env.TOKEN_VALIDITY
+        }
+    );
 }

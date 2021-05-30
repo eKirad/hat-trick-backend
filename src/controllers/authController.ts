@@ -28,11 +28,11 @@ export default class AuthController {
         }
     }
 
-    public login = async (request: Request, response: Response, next: NextFunction) => {
+    public login = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<string>> => {
         try {
             const user = this.extractLoginData(request.body)
             const loginResponse = await AuthService.login(user);
-            response.status(200).send(loginResponse);
+            return httpResponse(response, StatusCodes.OK, loginResponse);
         } catch (e) {
             next(e);
         }
