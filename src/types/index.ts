@@ -1,6 +1,7 @@
-import { User, OmitUserProps } from './userType';
+import { User, OmitUserProps, PickUserLoginProps } from './userType';
 
 export {
     User,
-    OmitUserProps
+    OmitUserProps,
+    PickUserLoginProps
 }
