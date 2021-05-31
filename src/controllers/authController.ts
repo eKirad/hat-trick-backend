@@ -4,7 +4,7 @@ import { OmitUserProps, PickUserLoginProps, User } from '../types';
 import { httpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 import { HttpResponse } from '../types/httpResponseType';
-import { UserResponse } from '../types/userType';
+import { UserResponse } from '../types';
 
 
 export default class AuthController {

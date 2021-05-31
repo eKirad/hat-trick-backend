@@ -7,7 +7,7 @@ import { BaseService } from "./baseService";
 import * as bcrypt from 'bcryptjs';
 import { EnforceDocument } from "mongoose";
 import { omitMongooseObjectProp } from "../utils";
-import { UserResponse } from "../types/userType";
+import { UserResponse } from "../types";
 
 export default class AuthService extends BaseService<any> {
 
