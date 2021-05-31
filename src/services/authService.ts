@@ -6,7 +6,7 @@ import { OmitUserProps, PickUserLoginProps, User } from "../types";
 import { BaseService } from "./baseService";
 import * as bcrypt from 'bcryptjs';
 import { EnforceDocument } from "mongoose";
-import { omitObjectProp } from "../utils";
+import { omitMongooseObjectProp } from "../utils";
 import { UserResponse } from "../types/userType";
 
 export default class AuthService extends BaseService<any> {
@@ -24,7 +24,7 @@ export default class AuthService extends BaseService<any> {
             }
 
             const userModel = await UserModel.create(createUser);
-            const returnModel = omitObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`);
+            const returnModel = omitMongooseObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`);
             return returnModel;
         } catch(e) {
             console.error(e);
