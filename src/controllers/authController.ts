@@ -20,7 +20,7 @@ export default class AuthController {
         try {
             const userDto = this.extractRequestBody(request.body);
             const userModel = await AuthService.signup(userDto)
-            return httpResponse(response, StatusCodes.OK, userModel);
+            return httpResponse(response, StatusCodes.CREATED, userModel);
         } catch (e) {
             next(e);
         }

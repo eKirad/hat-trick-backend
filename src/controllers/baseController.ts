@@ -43,7 +43,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
         try {
             const dto = this.extractRequestBody(request.body);
             const model = await this.service.create(dto);
-            return httpResponse(response, StatusCodes.OK, model);
+            return httpResponse(response, StatusCodes.CREATED, model);
         } catch(e) {
             next(e);
         }
