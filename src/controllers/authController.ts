@@ -3,7 +3,7 @@ import AuthService from '../services/authService';
 import { OmitUserProps, PickUserLoginProps, User } from '../types';
 import { httpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
-import { HttpResponse } from '../types/httpResponseType';
+import { HttpResponse } from '../types';
 import { UserResponse } from '../types';
 
 
