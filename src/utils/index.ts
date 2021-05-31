@@ -1,7 +1,7 @@
 import { httpResponse } from './httpHandlers';
-import { omitObjectProps } from './objectHandlers';
+import { omitObjectProp } from './objectHandlers';
 
 export {
     httpResponse,
-    omitObjectProps
+    omitObjectProp
 }
