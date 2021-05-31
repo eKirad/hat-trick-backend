@@ -2,19 +2,19 @@
 import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";
-import { OmitUserProps, PickUserLoginProps, User } from "../types";
+import { UserRegisterDTO, UserLoginDTO, User } from "../types";
 import { BaseService } from "./baseService";
 import * as bcrypt from 'bcryptjs';
 import { EnforceDocument } from "mongoose";
 import { omitMongooseObjectProp } from "../utils";
-import { UserResponse } from "../types/userType";
+import { UserResponse } from "../types";
 
 export default class AuthService extends BaseService<any> {
 
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword);
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
     
-    public static async signup(userDTO: Omit<User, OmitUserProps>): Promise<EnforceDocument<UserResponse, {}>> {
+    public static async signup(userDTO: UserRegisterDTO): Promise<EnforceDocument<UserResponse, {}>> {
         try {
             const createUser = {
                 ...userDTO,
@@ -31,7 +31,7 @@ export default class AuthService extends BaseService<any> {
         }
     }
 
-    public static async login(userDTO: Pick<User, PickUserLoginProps>): Promise<string> {
+    public static async login(userDTO: UserLoginDTO): Promise<string> {
         try {
 
             // const userModel = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});

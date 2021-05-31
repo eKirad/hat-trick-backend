@@ -1,5 +1,5 @@
 import { EnforceDocument } from "mongoose";
-import { HttpResponse } from "../types/httpResponseType";
+import { HttpResponse } from "../types";
 import { Response as ExpressResponse } from 'express';
 import { StatusCodes } from 'http-status-codes';
 

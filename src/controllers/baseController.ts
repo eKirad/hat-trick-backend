@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
-import { HttpResponse } from '../types/httpResponseType';
+import { HttpResponse } from '../types';
 import { httpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 
