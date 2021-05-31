@@ -1,7 +1,7 @@
 import { httpResponse } from './httpHandlers';
-import { omitObjectProp } from './objectHandlers';
+import { omitMongooseObjectProp } from './objectHandlers';
 
 export {
     httpResponse,
-    omitObjectProp
+    omitMongooseObjectProp
 }
