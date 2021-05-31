@@ -4,6 +4,7 @@ import { OmitUserProps, PickUserLoginProps, User } from '../types';
 import { httpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 import { HttpResponse } from '../types/httpResponseType';
+import { UserResponse } from '../types/userType';
 
 
 export default class AuthController {
@@ -18,7 +19,7 @@ export default class AuthController {
         }
     );
 
-    public signup = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<User>> => {
+    public signup = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<UserResponse>> => {
         try {
             const userDto = this.extractRequestBody(request.body);
             const userModel = await AuthService.signup(userDto)

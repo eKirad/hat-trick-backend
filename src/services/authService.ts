@@ -6,13 +6,15 @@ import { OmitUserProps, PickUserLoginProps, User } from "../types";
 import { BaseService } from "./baseService";
 import * as bcrypt from 'bcryptjs';
 import { EnforceDocument } from "mongoose";
+import { omitObjectProp } from "../utils";
+import { UserResponse } from "../types/userType";
 
 export default class AuthService extends BaseService<any> {
 
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword);
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
     
-    public static async signup(userDTO: Omit<User, OmitUserProps>): Promise<EnforceDocument<User, {}>> {
+    public static async signup(userDTO: Omit<User, OmitUserProps>): Promise<EnforceDocument<UserResponse, {}>> {
         try {
             const createUser = {
                 ...userDTO,
@@ -20,8 +22,10 @@ export default class AuthService extends BaseService<any> {
                 dateCreateAt: new Date(),
                 lastUpdatedAt: new Date()
             }
+
             const userModel = await UserModel.create(createUser);
-            return userModel;
+            const returnModel = omitObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`);
+            return returnModel;
         } catch(e) {
             console.error(e);
         }
