@@ -33,9 +33,6 @@ export default class AuthService extends BaseService<any> {
 
     public static async login(userDTO: UserLoginDTO): Promise<string> {
         try {
-
-            // const userModel = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
-            
             const userModel = await UserModel.findOne({ email: userDTO.email }).exec();
             
             if (!userModel) {
