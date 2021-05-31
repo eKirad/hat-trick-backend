@@ -10,3 +10,4 @@ export type User = {
 
 export type OmitUserProps = "_id" | "dateCreateAt" | "lastUpdatedAt";
 export type PickUserLoginProps = "email" | "password";
+export type UserResponse = Omit<User, "password">
