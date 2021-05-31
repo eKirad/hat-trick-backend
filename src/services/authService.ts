@@ -2,7 +2,7 @@
 import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";
-import { OmitUserProps, PickUserLoginProps, User } from "../types";
+import { UserRegisterDTO, PickUserLoginProps, User } from "../types";
 import { BaseService } from "./baseService";
 import * as bcrypt from 'bcryptjs';
 import { EnforceDocument } from "mongoose";
@@ -14,7 +14,7 @@ export default class AuthService extends BaseService<any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword);
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
     
-    public static async signup(userDTO: Omit<User, OmitUserProps>): Promise<EnforceDocument<UserResponse, {}>> {
+    public static async signup(userDTO: UserRegisterDTO): Promise<EnforceDocument<UserResponse, {}>> {
         try {
             const createUser = {
                 ...userDTO,
