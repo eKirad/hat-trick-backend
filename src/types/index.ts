@@ -1,11 +1,11 @@
 import { User } from './user/userType';
-import { UserRegisterDTO, PickUserLoginProps, UserResponse } from './user/userUtilityTypes';
+import { UserRegisterDTO, UserLoginDTO, UserResponse } from './user/userUtilityTypes';
 import { HttpResponse } from './common/httpResponseType';
 
 export {
     User,
     UserResponse,
     UserRegisterDTO,
-    PickUserLoginProps,
+    UserLoginDTO,
     HttpResponse
 }
