@@ -2,7 +2,7 @@
 import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";
-import { UserRegisterDTO, PickUserLoginProps, User } from "../types";
+import { UserRegisterDTO, UserLoginDTO, User } from "../types";
 import { BaseService } from "./baseService";
 import * as bcrypt from 'bcryptjs';
 import { EnforceDocument } from "mongoose";
@@ -31,7 +31,7 @@ export default class AuthService extends BaseService<any> {
         }
     }
 
-    public static async login(userDTO: Pick<User, PickUserLoginProps>): Promise<string> {
+    public static async login(userDTO: UserLoginDTO): Promise<string> {
         try {
 
             // const userModel = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
