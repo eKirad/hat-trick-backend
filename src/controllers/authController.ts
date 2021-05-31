@@ -1,32 +1,39 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '../services/authService';
-import { User } from '../types';
+import { OmitUserProps, PickUserLoginProps, User } from '../types';
+import { httpResponse } from '../utils';
+import { StatusCodes } from 'http-status-codes';
+import { HttpResponse } from '../types/httpResponseType';
+import { UserResponse } from '../types/userType';
+
 
 export default class AuthController {
-    private extractLoginData = (requestBody: any): Pick<User, "email" | "password"> => ({ email: requestBody.email, password: requestBody.password })
-    // TODO: Clean
-    private extractData = (requestBody: any): User => ({ _id: "test", email: requestBody.email, firstName: requestBody.firstName, lastName: requestBody.lastName, password: requestBody.password })
 
-    public signup = async (request: Request, response: Response, next: NextFunction) => {
+    private extractLoginData = (requestBody: any): Pick<User, PickUserLoginProps> => ({ email: requestBody.email, password: requestBody.password });
+    private extractRequestBody = (requestBody: any): Omit<User, OmitUserProps> => (
+        { 
+            email: requestBody.email, 
+            password: requestBody.password, 
+            firstName: requestBody.firstName, 
+            lastName: requestBody.lastName, 
+        }
+    );
+
+    public signup = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<UserResponse>> => {
         try {
-            const user = this.extractData(request.body);
-            await AuthService.signup(user)
-            response.status(201).send({ msg: "Signup successfull" });
+            const userDto = this.extractRequestBody(request.body);
+            const userModel = await AuthService.signup(userDto)
+            return httpResponse(response, StatusCodes.OK, userModel);
         } catch (e) {
             next(e);
         }
     }
 
-    // TODO: Remove after base controller integration
-    public test = (req, res, next) => {
-        res.end(JSON.stringify({ test: "Test" }));
-    }
-
-    public login = async (request: Request, response: Response, next: NextFunction) => {
+    public login = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<string>> => {
         try {
             const user = this.extractLoginData(request.body)
             const loginResponse = await AuthService.login(user);
-            response.status(200).send(loginResponse);
+            return httpResponse(response, StatusCodes.OK, loginResponse);
         } catch (e) {
             next(e);
         }

@@ -2,69 +2,64 @@
 import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";
-import { User } from "../types/userType";
+import { OmitUserProps, PickUserLoginProps, User } from "../types";
+import { BaseService } from "./baseService";
+import * as bcrypt from 'bcryptjs';
+import { EnforceDocument } from "mongoose";
+import { omitMongooseObjectProp } from "../utils";
+import { UserResponse } from "../types/userType";
 
-export default class AuthService {
+export default class AuthService extends BaseService<any> {
 
+    private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword);
+    private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
     
-    public static async signup(user: User): Promise<User> {
+    public static async signup(userDTO: Omit<User, OmitUserProps>): Promise<EnforceDocument<UserResponse, {}>> {
         try {
-            
-            // const emailCounter = await UserModel.countDocuments({ eMail: userEntity.eMail});
-            const userModel = await UserModel.create(user);
+            const createUser = {
+                ...userDTO,
+                password: this.hashPassword(userDTO.password),
+                dateCreateAt: new Date(),
+                lastUpdatedAt: new Date()
+            }
 
-            // const userEntity = new UserEntity(userRegisterDTO);
-
-            // const usernameCounter = await UserModel.countDocuments({ username: userEntity.username});
-            
-            // if (emailCounter > 0 || usernameCounter > 0) {
-            //     // throw new HttpException(409, "User with email already exists", "ENTITY_ALREADY_EXISTS");
-            //     console.log(`Entity already exits`);
-            // }
-
-            return user;
+            const userModel = await UserModel.create(createUser);
+            const returnModel = omitMongooseObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`);
+            return returnModel;
         } catch(e) {
             console.error(e);
         }
     }
 
-    public static async login(loginUser: Pick<User, "email" | "password">): Promise<any> {
+    public static async login(userDTO: Pick<User, PickUserLoginProps>): Promise<string> {
         try {
 
             // const userModel = await UserModel.findOne({$or: [{ eMail: userLoginDTO.userIdentifier }, { username: userLoginDTO.userIdentifier }]});
-            const userModel = await UserModel.findOne();
-        
-            // if (!userEntity) {
-            //     console.log(`No user user with this email or username`);
-            // }
-    
-            // if (!userEntity.isPasswodValid(userLoginDTO.password)) {
-            //     console.log(`Wrong password`);
-            // }
-    
-            // const userAPI = userEntity.classToAPI();
-            const accessToken = AuthService.assignJWT(userModel);
-
-            return {
-                accessToken,
-                userModel
+            
+            const userModel = await UserModel.findOne({ email: userDTO.email }).exec();
+            
+            if (!userModel) {
+                // TODO: Throw an error
             }
 
+            if (!this.isPasswordValid(userDTO.password, userModel.password)) {
+                // TODO: Throw an error
+            }
+
+            return AuthService.assignJWT(userModel);
         } catch(e) {
             console.error(e);
         }
     }
 
-    public static assignJWT(user: User): string {
-        return jwt.sign({
+    public static assignJWT = (user:  EnforceDocument<User, {}>): string => jwt.sign(
+        {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName
         },
         new Config().authSecret, {
-            expiresIn: `24h`
-        });
-    }
-
-    
+            expiresIn: process.env.TOKEN_VALIDITY
+        }
+    );
 }

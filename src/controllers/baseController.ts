@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
 import { HttpResponse } from '../types/httpResponseType';
-import { httpResponse } from '../utils/httpHandlers';
+import { httpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 
 interface IGet<M> {
