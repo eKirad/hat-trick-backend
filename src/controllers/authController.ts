@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '../services/authService';
 import { UserRegisterDTO, UserLoginDTO, User, HttpResponse, UserResponse } from '../types';
-import { httpResponse } from '../utils';
+import { createHttpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 
 export default class AuthController {
@@ -20,7 +20,7 @@ export default class AuthController {
         try {
             const userDto = this.extractRequestBody(request.body);
             const userModel = await AuthService.signup(userDto)
-            return httpResponse(response, StatusCodes.CREATED, userModel);
+            return createHttpResponse(response, StatusCodes.CREATED, userModel);
         } catch (e) {
             next(e);
         }
@@ -30,7 +30,7 @@ export default class AuthController {
         try {
             const user = this.extractLoginData(request.body)
             const loginResponse = await AuthService.login(user);
-            return httpResponse(response, StatusCodes.OK, loginResponse);
+            return createHttpResponse(response, StatusCodes.OK, loginResponse);
         } catch (e) {
             next(e);
         }

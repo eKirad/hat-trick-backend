@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpResponse } from "../types";
 import { Response as ExpressResponse } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-export const httpResponse = <T> (
+export const createHttpResponse = <T> (
     response: ExpressResponse, 
     statusCode: StatusCodes, 
     data?: EnforceDocument<T, {}> | EnforceDocument<T, {}>[] | string
