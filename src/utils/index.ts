@@ -1,7 +1,8 @@
-import { httpResponse } from './httpHandlers';
+import { createHttpResponse, createHttpErrorResponse } from './httpHandlers';
 import { omitMongooseObjectProp } from './objectHandlers';
 
 export {
-    httpResponse,
+    createHttpResponse,
+    createHttpErrorResponse,
     omitMongooseObjectProp
 }
