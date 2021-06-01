@@ -12,6 +12,6 @@ export const httpResponse = <T> (
 export const createHttpErrorResponse = (
     response: ExpressResponse, 
     statusCode: StatusCodes, 
-    errorMessage: string
+    errorMessage?: string
 ): HttpErrorResponse => response.status(statusCode).send({ statusCode, errorMessage })
 
