@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { api } from './src/api/api';
-import { middlewares } from './src/middlewares';
+import { commonMiddlewares } from './src/middlewares';
 import Database from './src/config/database';
 import { Config } from './src/config/config';
 
@@ -15,7 +15,7 @@ import { Config } from './src/config/config';
         await database.connect();
         const app = express();
         // Apply middlewares
-        middlewares(app);
+        commonMiddlewares(app);
         // Set up API
         api(app);
         app.listen(config.port, () => config.logger.info(`Listening on port ${config.port}...`));
