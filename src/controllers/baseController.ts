@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
 import { HttpResponse } from '../types';
-import { httpResponse } from '../utils';
+import { createHttpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 
 interface IGet<M> {
@@ -23,7 +23,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
     getAll = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
             const model = await this.service.findAll()
-            return httpResponse<M>(response, StatusCodes.OK, model)
+            return createHttpResponse<M>(response, StatusCodes.OK, model)
         } catch(e) {
             next(e);
         }
@@ -33,7 +33,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
         try {
             const id = request.params.id;
             const model = await this.service.findOne(id);
-            return httpResponse(response, StatusCodes.OK, model);
+            return createHttpResponse(response, StatusCodes.OK, model);
         } catch(e) {
             next(e);
         }
@@ -43,7 +43,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
         try {
             const dto = this.extractRequestBody(request.body);
             const model = await this.service.create(dto);
-            return httpResponse(response, StatusCodes.OK, model);
+            return createHttpResponse(response, StatusCodes.CREATED, model);
         } catch(e) {
             next(e);
         }
@@ -54,7 +54,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             const id = request.params.id;
             const dto = this.extractRequestBody(request.body);
             const model = await this.service.update(id, dto);
-            return httpResponse(response, StatusCodes.OK, model);
+            return createHttpResponse(response, StatusCodes.OK, model);
         } catch(e) {
             next(e);
         }
@@ -64,7 +64,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
         try {
             const id = request.params.id;
             await this.service.delete(id);
-            return httpResponse(response, StatusCodes.OK);
+            return createHttpResponse(response, StatusCodes.OK);
         } catch(e) {
             next(e);
         }
