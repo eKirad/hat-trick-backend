@@ -2,7 +2,7 @@ import { UserController } from '../controllers/userController';
 import { generateBaseRoutes } from './baseRouter';
 
 const path = `user`
-const router = generateCRUDRoutes(path, new UserController());
+const router = generateBaseRoutes(path, new UserController());
 
 // TODO: Other additional routes
 // router
