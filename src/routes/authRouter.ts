@@ -5,7 +5,7 @@ const router = express.Router();
 const path = `auth`
 
 router
-    .post(`/${path}/signup`, new AuthController().signup)
-    .post(`/${path}/login`, new AuthController().login)
+    .post(`/${path}/signup`, AuthController.signup)
+    .post(`/${path}/login`, AuthController.login)
 
 export default router;
