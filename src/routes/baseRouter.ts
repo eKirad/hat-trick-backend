@@ -1,6 +1,6 @@
 import express from "express";
 
-export const generateCRUDRoutes = (endpoint: string, controller: any) => {
+export const generateBaseRoutes = (endpoint: string, controller: any) => {
     const router = express.Router();
 
     router

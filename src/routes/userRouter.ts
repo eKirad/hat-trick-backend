@@ -1,5 +1,5 @@
 import { UserController } from '../controllers/userController';
-import { generateCRUDRoutes } from './baseRouter';
+import { generateBaseRoutes } from './baseRouter';
 
 const path = `user`
 const router = generateCRUDRoutes(path, new UserController());
