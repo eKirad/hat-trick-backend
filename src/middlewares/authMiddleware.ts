@@ -7,7 +7,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         const header = req.headers.authorization;
         const [ , token ] = header && header.split(` `);
         if (!token) createHttpErrorResponse(res, StatusCodes.UNAUTHORIZED);
-        req.user = verifyAccessToken(token);
+        req.user = verifyAccessToken(token)
         next()
     } catch(error) {
         next(error);
