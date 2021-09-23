@@ -841,20 +841,20 @@
   "resolved" "https://registry.npmjs.org/http-status-codes/-/http-status-codes-2.1.4.tgz"
   "version" "2.1.4"
 
-"i18next-fs-backend@^1.1.1":
+"i18next-fs-backend@1.1.1":
   "integrity" "sha512-RFkfy10hNxJqc7MVAp5iAZq0Tum6msBCNebEe3OelOBvrROvzHUPaR8Qe10RQrOGokTm0W4vJGEJzruFkEt+hQ=="
   "resolved" "https://registry.npmjs.org/i18next-fs-backend/-/i18next-fs-backend-1.1.1.tgz"
   "version" "1.1.1"
 
-"i18next-http-middleware@^3.1.4":
-  "integrity" "sha512-OVjxnw1w9RqhrOBSsXBXbk/7kzpLu+YvaL0LZnLHTCzjs8dMG8/BuoaDxi1l30T1lUfmweb+er/xwRHV3lp0RQ=="
-  "resolved" "https://registry.npmjs.org/i18next-http-middleware/-/i18next-http-middleware-3.1.4.tgz"
-  "version" "3.1.4"
+"i18next-http-middleware@3.1.1":
+  "integrity" "sha512-MKS2+iac5qO/95tvlpOGDtqWOqp4bOEBHLoqZNS6wQBO7fu/rd2G7IO3R+Vq0xahXkH/Jh/UoG+vHSko2VitYw=="
+  "resolved" "https://registry.npmjs.org/i18next-http-middleware/-/i18next-http-middleware-3.1.1.tgz"
+  "version" "3.1.1"
 
-"i18next@^21.0.2":
-  "integrity" "sha512-cSjRitffS1xm90YgPFTaqut89Y4Oc2i4aiCmAuhxHPryYdKzSIGl1YSv8PzlW+UPFOKRIUCOYZ5Rn+aUXKq/qQ=="
-  "resolved" "https://registry.npmjs.org/i18next/-/i18next-21.0.2.tgz"
-  "version" "21.0.2"
+"i18next@20.2.1":
+  "integrity" "sha512-JLruWDEQ3T6tKT6P7u+DsNtToMHUwUcQIYOMRcnNBdUhSfKkoIDUKdVDKgGtmqr//LrirxjADUdr3d5Gwbow6g=="
+  "resolved" "https://registry.npmjs.org/i18next/-/i18next-20.2.1.tgz"
+  "version" "20.2.1"
   dependencies:
     "@babel/runtime" "^7.12.0"
 
