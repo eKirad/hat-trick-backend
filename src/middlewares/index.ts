@@ -1,5 +1,5 @@
 import { commonMiddlewares } from './common'
-import { authMiddleware } from './auth'
+import { authMiddleware } from './authMiddleware'
 
 export {
     commonMiddlewares,
