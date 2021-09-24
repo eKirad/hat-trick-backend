@@ -7,10 +7,15 @@
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
       "sourceMap": true,
+      "resolveJsonModule": true,
       "outDir": "dist",
       "typeRoots": [
         "node_modules/@types",  "./typings"
       ]
     },
+    "include": [
+      "src/**/*", 
+      "src/**/*.json"
+    ],
     "lib": ["es2015"]
   }
