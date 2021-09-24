@@ -1,11 +1,11 @@
 // TODO: Check for a TS way of handling it
 const i18next = require("i18next")
-import * as i18nextBackend from "i18next-fs-backend"
+import Backend from "i18next-fs-backend"
 import * as i18nextMiddleware from "i18next-http-middleware"
 import * as path from "path"
 
 i18next
-    .use(i18nextBackend)
+    .use(Backend)
     .use(i18nextMiddleware.LanguageDetector)
     .init({
         initImmediate: false,
