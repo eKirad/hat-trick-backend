@@ -15,7 +15,7 @@ i18next
         detection: {
             lookupHeader: "accept-language"
         },
-        ns: ["middleware"],
+        ns: ["middleware", "error"],
         fallbackLng: "en",
         preload: ["en"]
     })
