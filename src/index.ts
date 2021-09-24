@@ -1,9 +1,9 @@
 import express from 'express';
 
-import { api } from './src/api/api';
-import { commonMiddlewares } from './src/middlewares';
-import Database from './src/config/database';
-import { Config } from './src/config/config';
+import { api } from './api/api';
+import { commonMiddlewares } from './middlewares';
+import Database from './config/database';
+import { Config } from './config/config';
 
 (async () => {
     // App config
