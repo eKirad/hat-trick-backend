@@ -2,7 +2,6 @@ import express from "express";
 
 export const generateBaseRoutes = (endpoint: string, controller: any) => {
     const router = express.Router();
-
     router
         .get(`/${endpoint}`, controller.getAll)
         .get(`/${endpoint}/:id`, controller.getOne)
