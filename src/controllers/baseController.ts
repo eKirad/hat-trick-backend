@@ -3,6 +3,7 @@ import { BaseService } from '../services/baseService';
 import { HttpResponse } from '../types';
 import { createHttpErrorResponse, createHttpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
+import logger from '../config/logger';
 
 interface IGet<M> {
     getOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
@@ -16,7 +17,7 @@ interface IModify<M> {
 }
 
 export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IModify<M> {
-    constructor(private service: S) { }
+    constructor(private service: S, private model: any) { }
 
     extractRequestBody = (requestBody: any) => requestBody;
 
@@ -26,7 +27,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             return createHttpResponse<M>(response, StatusCodes.OK, models);
         } catch(e) {
             next(e);
-            // TODO: Add logger
+            logger.error(`Error occured at GET /${this.model.collection.name}: ${e}`)
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"));
         }
     }
@@ -38,7 +39,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             return createHttpResponse(response, StatusCodes.OK, model);
         } catch(e) {
             next(e);
-            // TODO: Add logger
+            logger.error(`Error occured at GET /${this.model.collection.name}/${params.id}: ${e}`)
             const errorMessage = e.message || t("error:internal_server_error");
             const errorCode = e.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
             throw createHttpErrorResponse(response, errorCode, errorMessage);
@@ -52,7 +53,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             return createHttpResponse(response, StatusCodes.CREATED, model);
         } catch(e) {
             next(e);
-            // TODO: Add logger
+            logger.error(`Error occured at POST /${this.model.collection.name}: ${e}`)
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
     }
@@ -65,7 +66,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             return createHttpResponse(response, StatusCodes.OK, model);
         } catch(e) {
             next(e);
-            // TODO: Add logger
+            logger.error(`Error occured at PUT /${this.model.collection.name}/${params.id}: ${e}`)
             const errorMessage = e.message || t("error:internal_server_error");
             const errorCode = e.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
             throw createHttpErrorResponse(response, errorCode, errorMessage)
@@ -78,7 +79,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             await this.service.delete(id);
             return createHttpResponse(response, StatusCodes.OK);
         } catch(e) {
-            // TODO: Add logger
+            logger.error(`Error occured at DELETE /${this.model.collection.name}/${params.id}: ${e}`)
             next(e);
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
