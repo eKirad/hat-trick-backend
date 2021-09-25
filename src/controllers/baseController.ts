@@ -10,9 +10,9 @@ interface IGet<M> {
 }
 
 interface IModify<M> {
-    createOne(request: Request, response: Response, next: NextFunction): void
+    createOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     updateOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
-    deleteOne(request: Request, response: Response, next: NextFunction): any
+    deleteOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
 }
 
 export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IModify<M> {
