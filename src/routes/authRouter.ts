@@ -7,7 +7,7 @@ const router = express.Router();
 const path = `auth`
 
 router
-    .post(`/${path}/signup`, AuthController.signup)
+    .post(`/${path}/signup`, authValidationRules(), validateRules, AuthController.signup)
     .post(`/${path}/login`, authValidationRules(), validateRules, AuthController.login)
 
 export default router;
