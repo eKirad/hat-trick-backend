@@ -4,11 +4,13 @@ export const authValidationRules = (): ValidationChain[] => [
     check("email")
         .exists()
         .withMessage((_, { req: { t }}) => t("middleware:required", { field: "Email"}))
+        .bail()
         .isEmail()
         .withMessage((_, { req: { t }}) => t("middleware:email_not_valid")),
     check("password")
         .exists()
-        .withMessage((_, { req: { t }}) => t("middleware:required", { fieled: "Password"}))
+        .withMessage((_, { req: { t }}) => t("middleware:required", { field: "Password"}))
+        .bail()
         .isLength({ min: 6})
-        .withMessage((_, { req: { t }}) => t("password_min_length", { fieled: "Password"}))
+        .withMessage((_, { req: { t }}) => t("password_min_length", { field: "Password"}))
 ];
