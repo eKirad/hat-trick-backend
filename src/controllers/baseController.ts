@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseService } from '../services/baseService';
 import { HttpResponse } from '../types';
-import { createHttpErrorResponse, createHttpResponse, getMongooseCollectionDisplayName } from '../utils';
+import { createHttpErrorResponse, createHttpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 
 interface IGet<M> {
