@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import { Request, Response, NextFunction } from 'express';
-import { createHttpErrorResponse } from "../utils";
+import { createHttpErrorResponse } from "../../utils";
 import { StatusCodes } from "http-status-codes";
 
 export const validateRules = (req: Request, res: Response, next: NextFunction) => {
