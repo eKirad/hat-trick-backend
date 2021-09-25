@@ -2,25 +2,25 @@ import mongoose, { ConnectOptions } from 'mongoose';
 import { Logger } from 'winston';
 
 export default class Database {
-    private _dbURI: string;    
-    private _dbName: string;
-    private _logger: Logger;
+    private dbURI: string;    
+    private dbName: string;
+    private logger: Logger;
 
     private getConnectOptions = (): ConnectOptions => ({ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
     
     constructor(dbUri: string, dbName: string, logger: Logger) {
-        this._dbURI = dbUri;
-        this._dbName = dbName;
-        this._logger = logger;
+        this.dbURI = dbUri;
+        this.dbName = dbName;
+        this.logger = logger;
     }
 
     connect = async () => {
         try {
             const dbOptions = this.getConnectOptions();
-            await mongoose.connect(this._dbURI + this._dbName, dbOptions);
-            this._logger.info(`Database up and running!`);
-        } catch(err) {
-            this._logger.error(err);
+            await mongoose.connect(this.dbURI + this.dbName, dbOptions);
+            this.logger.info(`Database up and running!`);
+        } catch(e) {
+            this.logger.error(`Database connection unsuccessful. Error: ${e}`);
         }
     }
 }

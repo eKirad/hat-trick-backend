@@ -5,7 +5,7 @@ import { UserRegisterDTO, User } from "../types";
 import { BaseController } from "./baseController";
 
 class UserController extends BaseController<User, UserService> {
-    constructor() { super(new UserService()) }
+    constructor() { super(new UserService(), UserModel) }
 
     extractRequestBody = (requestBody: any): UserRegisterDTO => (
         { 
