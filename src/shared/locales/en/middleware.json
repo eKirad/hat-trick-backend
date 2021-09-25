@@ -1,4 +1,5 @@
 {
     "required": "{{field}} is required.",
-    "email_not_valid": "Email is not valid."
+    "email_not_valid": "Email is not valid.",
+    "password_min_length": "The password should contain least 6 characters."
 }
