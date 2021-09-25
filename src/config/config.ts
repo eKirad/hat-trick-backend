@@ -4,22 +4,19 @@ import winston, { format } from 'winston';
 dotenv.config();
 
 export class Config {
-    private _environment: string;
+    private _env: string;
     private _dbURI: string;
     private _dbName: string;
     private _port: string;
     private _authSecret: string;
-    private _logger: winston.Logger;
 
     constructor() {
-        this._environment = process.env.NODE_ENV;
-        this._logger = winston.createLogger();
-        this.setConfigForGivenEnv(this._environment);
-        this.setLoggerForGivenEnv(this._environment);
+        this._env = process.env.NODE_ENV;
+        this.setConfigForGivenEnv(this._env);
     }
 
     get environment(): string {
-        return this._environment;
+        return this._env;
     }
 
     get dbURI(): string {
@@ -36,33 +33,6 @@ export class Config {
 
     get authSecret(): string {
         return this._authSecret;
-    }
-
-    get logger(): winston.Logger {
-        return this._logger;
-    }
-
-    private setLoggerForGivenEnv = (environment: string) => {
-        this._logger.add(
-            new winston.transports.File({
-                level: `info`,
-                filename: `backend.log`,
-                format: format.combine(
-                    format.timestamp({
-                        format: `YYYY-MM-DD HH:mm:ss`
-                    }),
-                    format.json() 
-                )
-            }),
-        );
-
-        if (environment !== `PROD`) {
-            this._logger.add(
-                new winston.transports.Console({
-                    format: format.simple()
-                })
-            );
-        }
     }
 
     private setConfigForGivenEnv = (environment: string) => {
