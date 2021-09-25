@@ -5,7 +5,6 @@ import { createHttpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 
 class AuthController {
-
     private extractLoginData = (requestBody: any): UserLoginDTO => ({ email: requestBody.email, password: requestBody.password });
     private extractRequestBody = (requestBody: any): UserRegisterDTO => (
         { 
