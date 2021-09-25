@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { check, ValidationChain } from "express-validator";
 import { StatusCodes } from "http-status-codes";
+import logger from "../config/logger";
 import { createHttpErrorResponse, verifyAccessToken } from "../utils";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => { 
@@ -10,8 +10,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         if (!token) createHttpErrorResponse(res, StatusCodes.UNAUTHORIZED);
         req.user = verifyAccessToken(token)
         next()
-    } catch(error) {
-        next(error);
-        // TODO: Add logger
+    } catch(e) {
+        next(e);
+        logger.error(`Authentication error occured: ${e}`)
     }
 };
