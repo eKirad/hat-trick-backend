@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import winston, { format } from 'winston';
 
 dotenv.config();
 
