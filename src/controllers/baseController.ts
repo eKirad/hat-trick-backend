@@ -16,29 +16,32 @@ interface IModify<M> {
 }
 
 export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IModify<M> {
-    constructor(private service: S, private model: any) { }
+    constructor(private service: S) { }
 
     extractRequestBody = (requestBody: any) => requestBody;
 
     getAll = async ({ t }: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
-            const models = await this.service.findAll()
-            return createHttpResponse<M>(response, StatusCodes.OK, models)
+            const models = await this.service.findAll();
+            return createHttpResponse<M>(response, StatusCodes.OK, models);
         } catch(e) {
+            next(e);
             // TODO: Add logger
-            throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
+            throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"));
         }
     }
 
     getOne = async ({ params, t }: Request, response: Response, next: NextFunction) => {
         try {
             const id = params.id;
-            const model = await this.service.findOne(id);
-            if (!model) throw createHttpErrorResponse(response, StatusCodes.NOT_FOUND, t("error:not_found", { collection: getMongooseCollectionDisplayName(this.model.collection.name) }))
+            const model = await this.service.findOneById(id, t);
             return createHttpResponse(response, StatusCodes.OK, model);
         } catch(e) {
+            next(e);
             // TODO: Add logger
-            throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
+            const errorMessage = e.message || t("error:internal_server_error");
+            const errorCode = e.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+            throw createHttpErrorResponse(response, errorCode, errorMessage);
         }
     }
 
@@ -48,6 +51,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             const model = await this.service.create(dto);
             return createHttpResponse(response, StatusCodes.CREATED, model);
         } catch(e) {
+            next(e);
             // TODO: Add logger
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
@@ -57,11 +61,14 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
         try {
             const id = params.id;
             const dto = this.extractRequestBody(body);
-            const model = await this.service.update(id, dto); // TODO: Change with .findByIdAndUpdate()
+            const model = await this.service.updateOneById(id, dto, t);
             return createHttpResponse(response, StatusCodes.OK, model);
         } catch(e) {
+            next(e);
             // TODO: Add logger
-            throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
+            const errorMessage = e.message || t("error:internal_server_error");
+            const errorCode = e.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+            throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
 
@@ -72,6 +79,7 @@ export class BaseController <M, S extends BaseService<M>> implements IGet<M>, IM
             return createHttpResponse(response, StatusCodes.OK);
         } catch(e) {
             // TODO: Add logger
+            next(e);
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
     }
