@@ -1,5 +1,6 @@
 import { authMiddleware } from './authMiddleware'
 import { commonMiddlewares } from './commonMiddlewares'
+import { objectIdMiddleware } from './objectIdMiddleware'
 import { authValidationRules } from './validationRules/authValidationRules'
 import { validateRules } from './validationRules/ruleValidator'
 
@@ -8,4 +9,5 @@ export {
     authMiddleware,
     validateRules,
     authValidationRules,
+    objectIdMiddleware
 }
