@@ -10,7 +10,7 @@ class UserController extends BaseController<User, UserService> {
     extractRequestBody = (requestBody: any): UserRegisterDTO => (
         { 
             email: requestBody.email, 
-            password: requestBody.pasword, 
+            password: requestBody.password, 
             firstName: requestBody.firstName, 
             lastName: requestBody.lastName 
         }
