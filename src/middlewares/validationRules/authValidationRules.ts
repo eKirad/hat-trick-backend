@@ -11,6 +11,7 @@ export const authValidationRules = (): ValidationChain[] => [
         .exists()
         .withMessage((_, { req: { t }}) => t("middleware:required", { field: "Password"}))
         .bail()
-        .isLength({ min: 6})
-        .withMessage((_, { req: { t }}) => t("password_min_length", { field: "Password"}))
+        // TODO: Split rules for login & signup
+        // .isLength({ min: 6})
+        // .withMessage((_, { req: { t }}) => t("password_min_length", { field: "Password"}))
 ];
