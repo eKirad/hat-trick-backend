@@ -2,6 +2,7 @@ import { EnforceDocument } from "mongoose";
 import { HttpErrorResponse, HttpResponse } from "../types";
 import { Response as ExpressResponse } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { ValidationError } from "express-validator";
 
 export const createHttpResponse = <T> (
     response: ExpressResponse, 
@@ -12,6 +13,6 @@ export const createHttpResponse = <T> (
 export const createHttpErrorResponse = (
     response: ExpressResponse, 
     statusCode: StatusCodes, 
-    errorMessage?: string
+    errorMessage?: string | ValidationError[]
 ): HttpErrorResponse => response.status(statusCode).send({ statusCode, errorMessage })
 

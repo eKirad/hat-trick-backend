@@ -4,8 +4,7 @@ import { UserRegisterDTO, UserLoginDTO, User, HttpResponse, UserResponse } from 
 import { createHttpResponse } from '../utils';
 import { StatusCodes } from 'http-status-codes';
 
-export default class AuthController {
-
+class AuthController {
     private extractLoginData = (requestBody: any): UserLoginDTO => ({ email: requestBody.email, password: requestBody.password });
     private extractRequestBody = (requestBody: any): UserRegisterDTO => (
         { 
@@ -36,3 +35,5 @@ export default class AuthController {
         }
     }
 }
+
+export default new AuthController()

@@ -1,4 +1,3 @@
-// Enitity imports
 import UserModel from "../models/userModel";
 import * as jwt from 'jsonwebtoken';
 import { Config } from "../config/config";

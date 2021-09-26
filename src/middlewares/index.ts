@@ -1,7 +1,13 @@
-import express from "express";
-import bodyParser from 'body-parser';
+import { authMiddleware } from './authMiddleware'
+import { commonMiddlewares } from './commonMiddlewares'
+import { objectIdMiddleware } from './objectIdMiddleware'
+import { authValidationRules } from './validationRules/authValidationRules'
+import { validateRules } from './validationRules/ruleValidator'
 
-export const middlewares = (app: express.Application) => {
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
+export {
+    commonMiddlewares,
+    authMiddleware,
+    validateRules,
+    authValidationRules,
+    objectIdMiddleware
 }

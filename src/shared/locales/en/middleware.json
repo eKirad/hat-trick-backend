@@ -1,0 +1,7 @@
+{
+    "required": "{{field}} is required.",
+    "email_not_valid": "Email is not valid.",
+    "password_min_length": "The password should contain least 6 characters.",
+    "user_not_authorized": "User not authorized.",
+    "not_valid_object_id": "ID is not a valid object id."
+}

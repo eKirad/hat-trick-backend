@@ -1,8 +1,8 @@
-import { UserController } from '../controllers/userController';
-import { generateCRUDRoutes } from './crudRouter';
+import UserController from '../controllers/userController';
+import { generateBaseRoutes } from './baseRouter';
 
-const path = `user`
-const router = generateCRUDRoutes(path, new UserController());
+const path = `users`
+const router = generateBaseRoutes(path, UserController);
 
 // TODO: Other additional routes
 // router
