@@ -13,7 +13,7 @@ export class Config {
 
     constructor() {
         this._env = process.env.NODE_ENV || `DEV`
-        this.setConfigForGivenEnv(this._env)
+        this.setConfigsForEnv(this._env)
     }
 
     get environment(): string {
@@ -36,7 +36,7 @@ export class Config {
         return this._authSecret
     }
 
-    private setConfigForGivenEnv = (environment: string) => {
+    private setConfigsForEnv = (environment: string) => {
         switch (environment) {
             case `DEV`:
                 this._dbURI = process.env.DB_URI || `mongodb://localhost:27017/`
