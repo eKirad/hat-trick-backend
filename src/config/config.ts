@@ -1,6 +1,5 @@
 import dotenv from "dotenv"
 import { ConnectOptions } from "mongoose"
-import { NodeEnvEnum } from "../types/node/NodeEnvEnum"
 import { devDbConnectionOptions } from "../shared/consts"
 
 dotenv.config()
