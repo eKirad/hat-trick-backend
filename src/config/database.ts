@@ -11,11 +11,12 @@ export default class Database {
 
     connect = async () => {
         try {
+            logger.info(`[DATABASE CONFIG] Connecting to database...`)
             const connectString = this.dbURI + this.dbConnectOptions.dbName
             await mongoose.connect(connectString, this.dbConnectOptions)
-            logger.info(`Database up and running!`)
+            logger.info(`[DATABASE CONFIG] Database up and running!`)
         } catch (e) {
-            logger.error(`Database connection unsuccessful. Error: ${e}`)
+            logger.error(`[DATABASE CONFIG] Database connection unsuccessful. Error: ${e}`)
         }
     }
 }
