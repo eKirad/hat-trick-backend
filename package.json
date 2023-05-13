@@ -34,7 +34,6 @@
     "@types/i18next-fs-backend": "^1.1.2",
     "@types/jsonwebtoken": "8.3.4",
     "@types/winston": "2.4.4",
-    "bcrypt": "3.0.8",
     "bcryptjs": "2.4.3",
     "body-parser": "1.19.0",
     "class-transformer": "0.2.3",
