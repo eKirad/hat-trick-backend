@@ -1,26 +1,21 @@
-import mongoose, { ConnectOptions } from 'mongoose';
-import { Logger } from 'winston';
-
+import mongoose, { ConnectOptions } from "mongoose"
+import logger from "../config/logger"
 export default class Database {
-    private dbURI: string;    
-    private dbName: string;
-    private logger: Logger;
+    private dbURI: string
+    private dbConnectOptions: ConnectOptions
 
-    private getConnectOptions = (): ConnectOptions => ({ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true });
-    
-    constructor(dbUri: string, dbName: string, logger: Logger) {
-        this.dbURI = dbUri;
-        this.dbName = dbName;
-        this.logger = logger;
+    constructor(dbUri: string, dbConnectOptions: ConnectOptions) {
+        this.dbURI = dbUri
+        this.dbConnectOptions = dbConnectOptions
     }
 
     connect = async () => {
         try {
-            const dbOptions = this.getConnectOptions();
-            await mongoose.connect(this.dbURI + this.dbName, dbOptions);
-            this.logger.info(`Database up and running!`);
-        } catch(e) {
-            this.logger.error(`Database connection unsuccessful. Error: ${e}`);
+            const connectString = this.dbURI + this.dbConnectOptions.dbName
+            await mongoose.connect(connectString, this.dbConnectOptions)
+            logger.info(`Database up and running!`)
+        } catch (e) {
+            logger.error(`Database connection unsuccessful. Error: ${e}`)
         }
     }
 }

@@ -9,7 +9,7 @@ import logger from "./config/logger"
     const config = new Config()
 
     try {
-        const database = new Database(config.dbURI, config.dbName, logger)
+        const database = new Database(config.dbURI, config.dbConnectOptions)
         await database.connect()
         const app = express()
         commonMiddlewares(app)
