@@ -15,8 +15,8 @@ export default class Database {
             const connectString = this.dbURI + this.dbConnectOptions.dbName
             await mongoose.connect(connectString, this.dbConnectOptions)
             logger.info(`[DATABASE CONFIG] Database up and running!`)
-        } catch (e) {
-            logger.error(`[DATABASE CONFIG] Database connection unsuccessful. Error: ${e}`)
+        } catch (error) {
+            logger.error(`[DATABASE CONFIG] Database connection unsuccessful. Error: ${error}`)
         }
     }
 }
