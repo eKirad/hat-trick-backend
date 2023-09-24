@@ -41,7 +41,6 @@ export class Config {
             case `DEV`:
                 this._dbURI = process.env.DB_URI || `mongodb://localhost:27047/`
                 this._port = Number(process.env.SERVER_PORT) || 8000
-                console.log(`port: ${this.port}`)
                 this._dbConnectOptions = devDbConnectionOptions
                 this._authSecret = process.env.JWT_SECRET || `very secret secret`
                 break
