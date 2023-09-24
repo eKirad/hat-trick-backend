@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  mongo6:
+    image: mongo:6.0
+    hostname: mongo6
+    restart: always
+    container_name: mongo6
+    ports:
+      - 27047:27017
