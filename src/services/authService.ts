@@ -8,16 +8,18 @@ import * as bcrypt from "bcryptjs"
 import { EnforceDocument } from "mongoose"
 import { omitMongooseObjectProp } from "../utils"
 import { UserResponse } from "../types"
+import { userRepository } from "../models/repositories/user.repository"
+import { defaultRepositoryOptions } from "../models/repositories/base.repository"
 export default class AuthService extends BaseService<any> {
-    private static convertUserDTOToModel = (userDTO: UserLoginDTO) => ({
+    private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
+    private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
+
+    private static convertUserDTOToModel = (userDTO: UserLoginDTO, passwordHash: string) => ({
         ...userDTO,
-        password: this.hashPassword(userDTO.password),
+        password: passwordHash,
         dateCreateAt: new Date(),
         lastUpdatedAt: new Date(),
     })
-
-    private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
-    private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
 
     private static assignJWT = (user: EnforceDocument<User, {}>): string =>
         jwt.sign(
@@ -34,7 +36,8 @@ export default class AuthService extends BaseService<any> {
 
     public static async signup(userDTO: UserRegisterDTO): Promise<EnforceDocument<UserResponse, {}>> {
         try {
-            const createUser = this.convertUserDTOToModel(userDTO)
+            const passwordHash = this.hashPassword(userDTO.password)
+            const createUser = this.convertUserDTOToModel(userDTO, passwordHash)
             const userModel = await UserModel.create(createUser)
             const userResponse = omitMongooseObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`)
 
@@ -46,7 +49,9 @@ export default class AuthService extends BaseService<any> {
 
     public static async login(userDTO: UserLoginDTO): Promise<string> {
         try {
-            const userModel = await UserModel.findOne({ email: userDTO.email }).exec()
+            const userModel = await userRepository.findOne({ email: userDTO.email }, defaultRepositoryOptions)
+
+            // const userModel = await UserModel.findOne({ email: userDTO.email }).exec()
 
             if (!userModel) {
                 // TODO: Throw an error
