@@ -19,8 +19,8 @@ class AuthController {
             const userModel = await AuthService.signup(userDto)
 
             return createHttpResponse(response, StatusCodes.CREATED, userModel)
-        } catch (e) {
-            next(e)
+        } catch (error) {
+            next(error)
         }
     }
 
@@ -30,8 +30,8 @@ class AuthController {
             const accessToken = await AuthService.login(userDto)
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
-        } catch (e) {
-            next(e)
+        } catch (error) {
+            next(error)
         }
     }
 }
