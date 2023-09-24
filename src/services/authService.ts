@@ -4,26 +4,22 @@ import { Config } from "../config/config"
 import { UserRegisterDTO, UserLoginDTO, User } from "../types"
 import { BaseService } from "./baseService"
 import * as bcrypt from "bcryptjs"
+
 import { EnforceDocument } from "mongoose"
 import { omitMongooseObjectProp } from "../utils"
 import { UserResponse } from "../types"
+import { convertUserDTOToModel } from "../utils/user.utils"
 
 export default class AuthService extends BaseService<any> {
-    private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
 
     public static async signup(userDTO: UserRegisterDTO): Promise<EnforceDocument<UserResponse, {}>> {
         try {
-            const createUser = {
-                ...userDTO,
-                password: this.hashPassword(userDTO.password),
-                dateCreateAt: new Date(),
-                lastUpdatedAt: new Date(),
-            }
-
+            const createUser = convertUserDTOToModel(userDTO)
             const userModel = await UserModel.create(createUser)
-            const returnModel = omitMongooseObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`)
-            return returnModel
+            const userResponse = omitMongooseObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`)
+
+            return userResponse
         } catch (e) {
             console.error(e)
         }
