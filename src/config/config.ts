@@ -8,7 +8,7 @@ export class Config {
     private _env: string
     private _dbURI: string
     private _dbConnectOptions: ConnectOptions
-    private _port: string
+    private _port: number
     private _authSecret: string
 
     constructor() {
@@ -28,7 +28,7 @@ export class Config {
         return this._dbConnectOptions
     }
 
-    get port(): string {
+    get port(): number {
         return this._port
     }
 
@@ -39,8 +39,9 @@ export class Config {
     private setConfigsForEnv = (environment: string) => {
         switch (environment) {
             case `DEV`:
-                this._dbURI = process.env.DB_URI || `mongodb://localhost:27017/`
-                this._port = process.env.SERVER_PORT
+                this._dbURI = process.env.DB_URI || `mongodb://localhost:27047/`
+                this._port = Number(process.env.SERVER_PORT) || 8000
+                console.log(`port: ${this.port}`)
                 this._dbConnectOptions = devDbConnectionOptions
                 this._authSecret = process.env.JWT_SECRET || `very secret secret`
                 break
