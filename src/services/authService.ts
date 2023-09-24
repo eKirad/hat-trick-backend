@@ -51,8 +51,6 @@ export default class AuthService extends BaseService<any> {
         try {
             const userModel = await userRepository.findOne({ email: userDTO.email }, defaultRepositoryOptions)
 
-            // const userModel = await UserModel.findOne({ email: userDTO.email }).exec()
-
             if (!userModel) {
                 // TODO: Throw an error
             }
