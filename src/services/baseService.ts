@@ -4,18 +4,18 @@ import { getMongooseCollectionDisplayName } from "../utils"
 import HttpError from "../types/httpTypes/httpError"
 import { StatusCodes } from "http-status-codes"
 
-interface IRead<M> {
+interface Read<M> {
     findAll(): Promise<EnforceDocument<M, {}>[]>
     findOneById(id: string, t: TFunction): Promise<EnforceDocument<M, {}>>
 }
 
-interface IWrite<M> {
+interface Write<M> {
     create(dto: M): Promise<EnforceDocument<M, {}>>
     updateOneById(id: string, dto: M, t: TFunction): Promise<EnforceDocument<M, {}>>
     delete(id: string): void
 }
 
-export class BaseService<M> implements IRead<M>, IWrite<M> {
+export class BaseService<M> implements Read<M>, Write<M> {
     constructor(private Model: MongooseModel<M>) {}
 
     findAll = async (): Promise<any> => await this.Model.find().exec()
@@ -23,6 +23,7 @@ export class BaseService<M> implements IRead<M>, IWrite<M> {
     findOneById = async (id: string, t: TFunction): Promise<EnforceDocument<M, {}>> => {
         const model = await this.Model.findById(id).exec()
         if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: getMongooseCollectionDisplayName(this.Model.collection.name) }))
+
         return model
     }
 
@@ -31,6 +32,7 @@ export class BaseService<M> implements IRead<M>, IWrite<M> {
     updateOneById = async (id: string, dto: M, t: TFunction): Promise<EnforceDocument<M, {}>> => {
         const model = await this.Model.findByIdAndUpdate(id, dto, { new: true }).exec()
         if (!model) throw new Error(t("error:not_found", { collection: getMongooseCollectionDisplayName(this.Model.collection.name) }))
+
         return model
     }
 

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker run -p 27017:27017 -d mongo
+docker run -p 27047:27017 -d mongo
