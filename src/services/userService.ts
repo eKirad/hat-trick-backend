@@ -6,19 +6,13 @@ import { TFunction } from "i18next"
 import HttpError from "../types/httpTypes/httpError"
 import { StatusCodes } from "http-status-codes"
 import { getMongooseCollectionDisplayName, omitMongooseObjectProp } from "../utils"
-import { userRepository } from "../models/repositories/user.repository"
-import { defaultRepositoryOptions } from "../models/repositories/base.repository"
+import UserRepository from "../models/repositories/userRepository"
 
-export default class UserService extends BaseService<User> {
-    public constructor() {
-        super(UserModel)
-    }
-
-    findOneById = async (id: string, t: TFunction): Promise<EnforceDocument<typeof UserModel, {}>> => {
-        const userModel = await userRepository.findById(id, defaultRepositoryOptions)
-        if (!userModel) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: getMongooseCollectionDisplayName(UserModel.collection.name) }))
-        const userResponse = omitMongooseObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`)
-
-        return userResponse
+class UserService extends BaseService<User, UserRepository> {
+    constructor() {
+        super(new UserRepository(UserModel))
+        // Add service-specific constructor logic here
     }
 }
+
+export default new UserService()
