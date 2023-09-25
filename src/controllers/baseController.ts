@@ -83,9 +83,9 @@ export class BaseController<M, S extends BaseService<M>> implements Get<M>, Modi
             await this.service.delete(id)
 
             return createHttpResponse(response, StatusCodes.OK)
-        } catch (e) {
-            logger.error(`Error ocurred at DELETE /${this.model.collection.name}/${params.id}: ${e}`)
-            next(e)
+        } catch (error) {
+            logger.error(`Error ocurred at DELETE /${this.model.collection.name}/${params.id}: ${error}`)
+            next(error)
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
     }
