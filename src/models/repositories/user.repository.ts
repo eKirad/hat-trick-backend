@@ -13,8 +13,18 @@ class UserRepository implements BaseRepository {
 
     private excludedFields = []
 
-    findById<T>(id: string, options: BaseRepositoryOptions): Promise<T> {
-        throw new Error("Method not implemented.")
+    async findById<T>(id: string, options: BaseRepositoryOptions): Promise<T> {
+        let userModel = await UserModel.findById(id).exec()
+
+        if (!userModel) return undefined
+
+        if (options.populate) await UserModel().populate(userModel, this.populateFields)
+
+        if (options.lean) userModel = userModel.toObject()
+
+        if (options.excludeFields) excludeFields(this.excludedFields, userModel)
+
+        return userModel
     }
 
     async findOne(data: any, options: BaseRepositoryOptions): Promise<typeof UserModel> {
