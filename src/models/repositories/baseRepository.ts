@@ -1,8 +1,4 @@
 import { Model as MongooseModel, EnforceDocument } from "mongoose"
-import { TFunction } from "i18next"
-import { StatusCodes } from "http-status-codes"
-import HttpError from "../../types/httpTypes/httpError"
-import { getMongooseCollectionDisplayName } from "../../utils"
 import { PopulatedFields, RepositoryOptions, RepositoryRead, RepositoryWrite } from "../../types/common"
 import { excludeFields } from "../../utils/database.utils"
 import { defaultRepositoryOptions } from "../../shared/consts"
