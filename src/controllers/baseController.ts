@@ -5,18 +5,18 @@ import { createHttpErrorResponse, createHttpResponse } from "../utils"
 import { StatusCodes } from "http-status-codes"
 import logger from "../config/logger"
 
-interface IGet<M> {
+interface Get<M> {
     getOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     getAll(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
 }
 
-interface IModify<M> {
+interface Modify<M> {
     createOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     updateOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     deleteOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
 }
 
-export class BaseController<M, S extends BaseService<M>> implements IGet<M>, IModify<M> {
+export class BaseController<M, S extends BaseService<M>> implements Get<M>, Modify<M> {
     constructor(private service: S, private model: any) {}
 
     extractRequestBody = (requestBody: any) => requestBody
@@ -52,10 +52,11 @@ export class BaseController<M, S extends BaseService<M>> implements IGet<M>, IMo
         try {
             const dto = this.extractRequestBody(body)
             const model = await this.service.create(dto)
+
             return createHttpResponse(response, StatusCodes.CREATED, model)
-        } catch (e) {
-            next(e)
-            logger.error(`Error occured at POST /${this.model.collection.name}: ${e}`)
+        } catch (error) {
+            next(error)
+            logger.error(`Error occured at POST /${this.model.collection.name}: ${error}`)
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
     }
@@ -65,12 +66,13 @@ export class BaseController<M, S extends BaseService<M>> implements IGet<M>, IMo
             const id = params.id
             const dto = this.extractRequestBody(body)
             const model = await this.service.updateOneById(id, dto, t)
+
             return createHttpResponse(response, StatusCodes.OK, model)
-        } catch (e) {
-            next(e)
-            logger.error(`Error occured at PUT /${this.model.collection.name}/${params.id}: ${e}`)
-            const errorMessage = e.message || t("error:internal_server_error")
-            const errorCode = e.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+        } catch (error) {
+            next(error)
+            logger.error(`Error occured at PUT /${this.model.collection.name}/${params.id}: ${error}`)
+            const errorMessage = error.message || t("error:internal_server_error")
+            const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
             throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
