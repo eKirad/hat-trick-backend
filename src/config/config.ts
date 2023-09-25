@@ -1,18 +1,19 @@
 import dotenv from "dotenv"
 import { ConnectOptions } from "mongoose"
 import { devDbConnectionOptions } from "../shared/consts"
+import { EnvironmentEnum } from "../types"
 
 dotenv.config()
 
 export class Config {
-    private _env: string
+    private _env: EnvironmentEnum
     private _dbURI: string
     private _dbConnectOptions: ConnectOptions
     private _port: number
     private _authSecret: string
 
     constructor() {
-        this._env = process.env.NODE_ENV || `DEV`
+        this._env = (process.env.NODE_ENV as EnvironmentEnum) || EnvironmentEnum.DEV
         this.setConfigsForEnv(this._env)
     }
 
@@ -36,15 +37,15 @@ export class Config {
         return this._authSecret
     }
 
-    private setConfigsForEnv = (environment: string) => {
+    private setConfigsForEnv = (environment: EnvironmentEnum) => {
         switch (environment) {
-            case `DEV`:
+            case EnvironmentEnum.DEV:
                 this._dbURI = process.env.DB_URI || `mongodb://localhost:27047/`
                 this._port = Number(process.env.SERVER_PORT) || 8000
                 this._dbConnectOptions = devDbConnectionOptions
                 this._authSecret = process.env.JWT_SECRET || `very secret secret`
                 break
-            case `PROD`:
+            case EnvironmentEnum.PROD:
                 break
             default:
                 break
