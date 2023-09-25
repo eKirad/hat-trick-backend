@@ -28,7 +28,7 @@ export class BaseController<M, S extends BaseService<M>> implements IGet<M>, IMo
             return createHttpResponse<M>(response, StatusCodes.OK, models)
         } catch (error) {
             next(error)
-            logger.error(`Error occured at GET /${this.model.collection.name}: ${error}`)
+            logger.error(`Error ocurred at GET /${this.model.collection.name}: ${error}`)
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
     }
