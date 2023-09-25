@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import AuthService from "../services/authService"
-import { UserRegisterDTO, UserLoginDTO, User, HttpResponse, UserResponse } from "../types"
+import { UserRegisterDTO, UserLoginDTO, HttpResponse, UserResponse } from "../types"
 import { createHttpResponse } from "../utils"
 import { StatusCodes } from "http-status-codes"
 
