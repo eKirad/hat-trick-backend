@@ -6,8 +6,8 @@ import { excludeFields } from "../../utils/database.utils"
 class UserRepository implements BaseRepository {
     private populateFields: PopulatedField[] = [
         {
-            path: "matchedTransactions",
-            select: "_id transactionId transactionData transactionType cardData status",
+            path: "",
+            select: "",
         },
     ]
 
