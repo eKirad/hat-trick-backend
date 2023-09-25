@@ -56,7 +56,7 @@ export class BaseController<M, S extends BaseService<M>> implements Get<M>, Modi
             return createHttpResponse(response, StatusCodes.CREATED, model)
         } catch (error) {
             next(error)
-            logger.error(`Error occured at POST /${this.model.collection.name}: ${error}`)
+            logger.error(`Error ocurred at POST /${this.model.collection.name}: ${error}`)
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
     }
@@ -70,7 +70,7 @@ export class BaseController<M, S extends BaseService<M>> implements Get<M>, Modi
             return createHttpResponse(response, StatusCodes.OK, model)
         } catch (error) {
             next(error)
-            logger.error(`Error occured at PUT /${this.model.collection.name}/${params.id}: ${error}`)
+            logger.error(`Error ocurred at PUT /${this.model.collection.name}/${params.id}: ${error}`)
             const errorMessage = error.message || t("error:internal_server_error")
             const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
             throw createHttpErrorResponse(response, errorCode, errorMessage)
@@ -81,9 +81,10 @@ export class BaseController<M, S extends BaseService<M>> implements Get<M>, Modi
         try {
             const id = params.id
             await this.service.delete(id)
+
             return createHttpResponse(response, StatusCodes.OK)
         } catch (e) {
-            logger.error(`Error occured at DELETE /${this.model.collection.name}/${params.id}: ${e}`)
+            logger.error(`Error ocurred at DELETE /${this.model.collection.name}/${params.id}: ${e}`)
             next(e)
             throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
         }
