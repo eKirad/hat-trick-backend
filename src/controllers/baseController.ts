@@ -13,7 +13,7 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
 
     extractRequestBody = (requestBody: any) => requestBody
 
-    getAll = async ({ t }: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
+    public getAll = async ({ t }: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
             const models = await this.service.findAll()
 
@@ -25,7 +25,7 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    getOne = async ({ params, t }: Request, response: Response, next: NextFunction) => {
+    public getOne = async ({ params, t }: Request, response: Response, next: NextFunction) => {
         try {
             const id = params.id
             const model = await this.service.findOneById(id, t)
@@ -40,7 +40,7 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    createOne = async ({ dto, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
+    public createOne = async ({ dto, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
         try {
             const model = await this.service.createOne(dto)
 
@@ -52,7 +52,7 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    updateOne = async ({ params, dto, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
+    public updateOne = async ({ params, dto, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
         try {
             const id = params.id
             const model = await this.service.updateOneById(id, dto, t)
@@ -67,7 +67,7 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    deleteOne = async ({ params, t }: Request, response: Response, next: NextFunction) => {
+    public deleteOne = async ({ params, t }: Request, response: Response, next: NextFunction) => {
         try {
             const id = params.id
             await this.service.deleteOneById(id)
