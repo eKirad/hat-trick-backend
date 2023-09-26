@@ -8,7 +8,7 @@ export const generateBaseRoutes = (endpoint: string, controller: any, extractBod
     router
         .get(`/${endpoint}`, authMiddleware, requestWrapper(controller.getAll))
         .get(`/${endpoint}/:id`, authMiddleware, objectIdMiddleware, requestWrapper(controller.getOne))
-        .post(`/${endpoint}`, requestWrapper(controller.createOne, extractBody))
+        .post(`/${endpoint}`, authMiddleware, requestWrapper(controller.createOne, extractBody))
         .put(`/${endpoint}/:id`, authMiddleware, objectIdMiddleware, requestWrapper(controller.updateOne, extractBody))
         .delete(`/${endpoint}/:id`, authMiddleware, objectIdMiddleware, requestWrapper(controller.deleteOne))
 
