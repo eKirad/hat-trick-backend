@@ -13,11 +13,11 @@ export class BaseRepository<M> implements RepositoryRead<M>, RepositoryWrite<M> 
 
     private excludedFields = []
 
-    constructor(private Model: MongooseModel<M>) {}
+    public constructor(private Model: MongooseModel<M>) {}
 
-    findAll = async (): Promise<any> => await this.Model.find().exec()
+    public findAll = async (): Promise<any> => await this.Model.find().exec()
 
-    findOneById = async (id: string, options: RepositoryOptions = defaultRepositoryOptions): Promise<EnforceDocument<M, {}> | undefined> => {
+    public findOneById = async (id: string, options: RepositoryOptions = defaultRepositoryOptions): Promise<EnforceDocument<M, {}> | undefined> => {
         let model = await this.Model.findById(id).exec()
 
         if (!model) return undefined
@@ -31,7 +31,7 @@ export class BaseRepository<M> implements RepositoryRead<M>, RepositoryWrite<M> 
         return model
     }
 
-    async findOne(data: any, options: RepositoryOptions = defaultRepositoryOptions): Promise<EnforceDocument<M, {}>> {
+    public findOne = async (data: any, options: RepositoryOptions = defaultRepositoryOptions): Promise<EnforceDocument<M, {}>> => {
         let model = await this.Model.findOne(data).exec()
 
         if (!model) return undefined
@@ -45,9 +45,9 @@ export class BaseRepository<M> implements RepositoryRead<M>, RepositoryWrite<M> 
         return model
     }
 
-    createOne = async (dto: M): Promise<EnforceDocument<M, {}>> => await this.Model.create(dto)
+    public createOne = async (dto: M): Promise<EnforceDocument<M, {}>> => await this.Model.create(dto)
 
-    updateOneById = async (id: string, dto: M): Promise<EnforceDocument<M, {}> | undefined> => {
+    public updateOneById = async (id: string, dto: M): Promise<EnforceDocument<M, {}> | undefined> => {
         const model = await this.Model.findByIdAndUpdate(id, dto, { new: true }).exec()
 
         if (!model) return undefined
@@ -55,5 +55,5 @@ export class BaseRepository<M> implements RepositoryRead<M>, RepositoryWrite<M> 
         return model
     }
 
-    deleteOneById = async (id: string): Promise<void> => await this.Model.findByIdAndDelete(id).exec()
+    public deleteOneById = async (id: string): Promise<void> => await this.Model.findByIdAndDelete(id).exec()
 }
