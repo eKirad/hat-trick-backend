@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express"
-// import { BaseService } from '../services/baseService';
 import { BaseService } from "../services/baseService"
 import { HttpResponse } from "../types"
 import { createHttpErrorResponse, createHttpResponse } from "../utils"
