@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { HttpResponse } from "../httpTypes"
+import { HttpRequest } from "../httpTypes/httpRequestType"
 
 export interface Get<M> {
     getOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
@@ -7,7 +8,7 @@ export interface Get<M> {
 }
 
 export interface Modify<M> {
-    createOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
-    updateOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+    createOne(request: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+    updateOne(request: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>>
     deleteOne(request: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>>
 }
