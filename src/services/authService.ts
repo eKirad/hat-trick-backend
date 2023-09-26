@@ -8,9 +8,10 @@ import * as bcrypt from "bcryptjs"
 import { EnforceDocument } from "mongoose"
 import { omitMongooseObjectProp } from "../utils"
 import { UserResponse } from "../types"
-import { userRepository } from "../models/repositories/user.repository"
-import { defaultRepositoryOptions } from "../models/repositories/base.repository"
-export default class AuthService extends BaseService<any> {
+import userService from "./userService"
+import { TFunction } from "i18next"
+
+export default class AuthService extends BaseService<any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
 
@@ -47,13 +48,9 @@ export default class AuthService extends BaseService<any> {
         }
     }
 
-    public static async login(userDTO: UserLoginDTO): Promise<string> {
+    public static async login(userDTO: UserLoginDTO, t: TFunction): Promise<string> {
         try {
-            const userModel = await userRepository.findOne({ email: userDTO.email }, defaultRepositoryOptions)
-
-            if (!userModel) {
-                // TODO: Throw an error
-            }
+            const userModel = await userService.findOne({ email: userDTO.email }, t)
 
             if (!this.isPasswordValid(userDTO.password, userModel.password)) {
                 // TODO: Throw an error
@@ -62,8 +59,8 @@ export default class AuthService extends BaseService<any> {
             const accessToken = AuthService.assignJWT(userModel)
 
             return accessToken
-        } catch (e) {
-            console.error(e)
+        } catch (error) {
+            console.error(error)
         }
     }
 }

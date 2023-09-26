@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import AuthService from "../services/authService"
-import { UserRegisterDTO, UserLoginDTO, User, HttpResponse, UserResponse } from "../types"
+import { UserRegisterDTO, UserLoginDTO, HttpResponse, UserResponse } from "../types"
 import { createHttpResponse } from "../utils"
 import { StatusCodes } from "http-status-codes"
 
@@ -24,10 +24,10 @@ class AuthController {
         }
     }
 
-    public login = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<string>> => {
+    public login = async ({ body, t }: Request, response: Response, next: NextFunction): Promise<HttpResponse<string>> => {
         try {
-            const userDto = this.extractLoginData(request.body)
-            const accessToken = await AuthService.login(userDto)
+            const userDto = this.extractLoginData(body)
+            const accessToken = await AuthService.login(userDto, t)
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
         } catch (error) {
