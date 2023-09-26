@@ -11,8 +11,6 @@ import { HttpRequest } from "../types/httpTypes/httpRequestType"
 export class BaseController<M, R extends BaseRepository<M>, S extends BaseService<M, R>> implements Get<M>, Modify<M> {
     constructor(private service: S, private model: any) {}
 
-    extractRequestBody = (requestBody: any) => requestBody
-
     public getAll = async ({ t }: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
             const models = await this.service.findAll()
