@@ -9,9 +9,9 @@ import HttpError from "../types/httpTypes/httpError"
 export class BaseService<M, R extends BaseRepository<M>> implements ServiceRead<M>, ServiceWrite<M> {
     constructor(private repository: R) {}
 
-    findAll = async (): Promise<EnforceDocument<M, {}>[]> => await this.repository.findAll()
+    public findAll = async (): Promise<EnforceDocument<M, {}>[]> => await this.repository.findAll()
 
-    findOneById = async (id: string, t: TFunction): Promise<EnforceDocument<M, {}>> => {
+    public findOneById = async (id: string, t: TFunction): Promise<EnforceDocument<M, {}>> => {
         const model = await this.repository.findOneById(id)
         // TODO: Fix collection name
         if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: `TODO` }))
@@ -19,7 +19,7 @@ export class BaseService<M, R extends BaseRepository<M>> implements ServiceRead<
         return model
     }
 
-    findOne = async (data: any, t: TFunction): Promise<EnforceDocument<M, {}>> => {
+    public findOne = async (data: any, t: TFunction): Promise<EnforceDocument<M, {}>> => {
         const model = await this.repository.findOne(data)
 
         // TODO: Fix collection name
@@ -28,9 +28,9 @@ export class BaseService<M, R extends BaseRepository<M>> implements ServiceRead<
         return model
     }
 
-    createOne = async (dto: M): Promise<EnforceDocument<M, {}>> => await this.repository.createOne(dto)
+    public createOne = async (dto: M): Promise<EnforceDocument<M, {}>> => await this.repository.createOne(dto)
 
-    updateOneById = async (id: string, dto: M, t: TFunction): Promise<EnforceDocument<M, {}>> => {
+    public updateOneById = async (id: string, dto: M, t: TFunction): Promise<EnforceDocument<M, {}>> => {
         const updateModel = await this.repository.updateOneById(id, dto)
 
         // TODO: Fix collection name
@@ -39,5 +39,5 @@ export class BaseService<M, R extends BaseRepository<M>> implements ServiceRead<
         return updateModel
     }
 
-    deleteOneById = async (id: string): Promise<void> => this.repository.deleteOneById(id)
+    public deleteOneById = async (id: string): Promise<void> => this.repository.deleteOneById(id)
 }
