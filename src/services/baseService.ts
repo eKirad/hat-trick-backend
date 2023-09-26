@@ -9,8 +9,6 @@ import HttpError from "../types/httpTypes/httpError"
 export class BaseService<M, R extends BaseRepository<M>> implements ServiceRead<M>, ServiceWrite<M> {
     constructor(private repository: R) {}
 
-    extractRequestBody = (requestBody: any) => requestBody
-
     findAll = async (): Promise<EnforceDocument<M, {}>[]> => await this.repository.findAll()
 
     findOneById = async (id: string, t: TFunction): Promise<EnforceDocument<M, {}>> => {
