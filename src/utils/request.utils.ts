@@ -5,15 +5,13 @@ export const parseHttpRequest = <T>(req: Request, extractBodyFunction?: (request
     const { t, path, params, method, headers, body } = req
 
     try {
-        const dto = extractBodyFunction(body)
-
         return {
             t,
             path,
             params,
             method,
             headers,
-            dto,
+            ...(extractBodyFunction && { dto: extractBodyFunction(body) }),
         }
     } catch (error) {
         console.error(error)
