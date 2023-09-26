@@ -11,7 +11,7 @@ import { HttpRequest } from "../types/httpTypes/httpRequestType"
 export class BaseController<M, R extends BaseRepository<M>, S extends BaseService<M, R>> implements Get<M>, Modify<M> {
     constructor(private service: S, private model: any) {}
 
-    public getAll = async ({ t }: Request, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
+    public getAll = async ({ t }: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>> => {
         try {
             const models = await this.service.findAll()
 
@@ -23,7 +23,7 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    public getOne = async ({ params, t }: Request, response: Response, next: NextFunction) => {
+    public getOne = async ({ params, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
         try {
             const id = params.id
             const model = await this.service.findOneById(id, t)
@@ -65,7 +65,7 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    public deleteOne = async ({ params, t }: Request, response: Response, next: NextFunction) => {
+    public deleteOne = async ({ params, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
         try {
             const id = params.id
             await this.service.deleteOneById(id)
