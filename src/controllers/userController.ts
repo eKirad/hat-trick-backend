@@ -9,13 +9,6 @@ class UserController extends BaseController<User, UserRepository, typeof UserSer
     constructor() {
         super(userService, UserModel)
     }
-
-    extractRequestBody = (requestBody: any): UserRegisterDTO => ({
-        email: requestBody.email,
-        password: requestBody.password,
-        firstName: requestBody.firstName,
-        lastName: requestBody.lastName,
-    })
 }
 
 export default new UserController()
