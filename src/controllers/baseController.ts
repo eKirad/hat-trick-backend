@@ -6,6 +6,7 @@ import { StatusCodes } from "http-status-codes"
 import logger from "../config/logger"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { Get, Modify } from "../types/common"
+import { HttpRequest } from "../types/httpTypes/httpRequestType"
 
 export class BaseController<M, R extends BaseRepository<M>, S extends BaseService<M, R>> implements Get<M>, Modify<M> {
     constructor(private service: S, private model: any) {}
@@ -39,9 +40,8 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    createOne = async ({ body, t }: Request, response: Response, next: NextFunction) => {
+    createOne = async ({ dto, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
         try {
-            const dto = this.extractRequestBody(body)
             const model = await this.service.createOne(dto)
 
             return createHttpResponse(response, StatusCodes.CREATED, model)
@@ -52,10 +52,9 @@ export class BaseController<M, R extends BaseRepository<M>, S extends BaseServic
         }
     }
 
-    updateOne = async ({ params, body, t }: Request, response: Response, next: NextFunction) => {
+    updateOne = async ({ params, dto, t }: HttpRequest<M>, response: Response, next: NextFunction) => {
         try {
             const id = params.id
-            const dto = this.extractRequestBody(body)
             const model = await this.service.updateOneById(id, dto, t)
 
             return createHttpResponse(response, StatusCodes.OK, model)
