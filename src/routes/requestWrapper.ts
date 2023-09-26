@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response } from "express"
 import { HttpRequest } from "../types/httpTypes/httpRequestType"
 import { parseHttpRequest } from "../utils/request.utils"
 
