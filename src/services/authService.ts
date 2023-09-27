@@ -1,17 +1,17 @@
-import UserModel from "../models/userModel"
+import UserModel from "../models/user/user.schema"
 import * as jwt from "jsonwebtoken"
 import { Config } from "../config/config"
-import { UserRegisterDTO, UserLoginDTO, User } from "../types"
+import { UserRegisterDTO, UserLoginDTO } from "../types"
 import { BaseService } from "./baseService"
 import * as bcrypt from "bcryptjs"
 
-import { EnforceDocument } from "mongoose"
 import { omitMongooseObjectProp } from "../utils"
 import { UserResponse } from "../types"
 import userService from "./userService"
 import { TFunction } from "i18next"
+import { UserDTOs } from "../types/user/userUtilityTypes"
 
-export default class AuthService extends BaseService<any, any> {
+export default class AuthService extends BaseService<any, any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
 
@@ -22,7 +22,8 @@ export default class AuthService extends BaseService<any, any> {
         lastUpdatedAt: new Date(),
     })
 
-    private static assignJWT = (user: EnforceDocument<User, {}>): string =>
+    // TODO: Fix type
+    private static assignJWT = (user: any): string =>
         jwt.sign(
             {
                 email: user.email,
@@ -35,12 +36,12 @@ export default class AuthService extends BaseService<any, any> {
             }
         )
 
-    public static async signup(userDTO: UserRegisterDTO): Promise<EnforceDocument<UserResponse, {}>> {
+    public static async signup(userDTO: UserRegisterDTO): Promise<UserResponse> {
         try {
             const passwordHash = this.hashPassword(userDTO.password)
             const createUser = this.convertUserDTOToModel(userDTO, passwordHash)
             const userModel = await UserModel.create(createUser)
-            const userResponse = omitMongooseObjectProp<EnforceDocument<UserResponse, {}>>(userModel, `password`)
+            const userResponse = omitMongooseObjectProp<UserResponse>(userModel, `password`)
 
             return userResponse
         } catch (e) {
@@ -50,7 +51,7 @@ export default class AuthService extends BaseService<any, any> {
 
     public static async login(userDTO: UserLoginDTO, t: TFunction): Promise<string> {
         try {
-            const userModel = await userService.findOne({ email: userDTO.email }, t)
+            const userModel = (await userService.findOne({ email: userDTO.email }, t)) as UserLoginDTO
 
             if (!this.isPasswordValid(userDTO.password, userModel.password)) {
                 // TODO: Throw an error
