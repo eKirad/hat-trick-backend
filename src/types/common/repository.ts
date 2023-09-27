@@ -1,16 +1,15 @@
-import { TFunction } from "i18next"
-import { EnforceDocument } from "mongoose"
+import { Document, IfAny, Require_id, Types } from "mongoose"
 
-export interface RepositoryRead<T> {
-    findAll(): Promise<EnforceDocument<T, {}>[]>
-    findOneById(id: string, repositoryOptions: RepositoryOptions): Promise<EnforceDocument<T, {}>>
-    findOne(data: any, repositoryOptions: RepositoryOptions): Promise<EnforceDocument<T, {}>>
+export interface RepositoryRead<D> {
+    findAll(): Promise<Document<any, any, D>[]>
+    findOneById(id: string, repositoryOptions: RepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined>
+    findOne(data: any, repositoryOptions: RepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined>
 }
 
-export interface RepositoryWrite<T> {
-    createOne(dto: T): Promise<EnforceDocument<T, {}>>
-    updateOneById(id: string, dto: T): Promise<EnforceDocument<T, {}>>
-    deleteOneById(id: string): void
+export interface RepositoryWrite<T, D> {
+    createOne(dto: T): Promise<Document<any, any, D>>
+    updateOneById(id: string, dto: T): Promise<Document<any, any, D>>
+    deleteOneById(id: string): Promise<any>
 }
 
 export interface RepositoryOptions {

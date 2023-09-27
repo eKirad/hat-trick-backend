@@ -1,14 +1,14 @@
-import { Request, Response, NextFunction } from "express"
+import { Response, NextFunction } from "express"
 import { HttpResponse } from "../httpTypes"
 import { HttpRequest } from "../httpTypes/httpRequestType"
 
-export interface Get<M> {
-    getOne(request: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>>
-    getAll(request: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+export interface Get<T> {
+    getOne(request: HttpRequest<T>, response: Response, next: NextFunction): Promise<HttpResponse<T>>
+    getAll(request: HttpRequest<T>, response: Response, next: NextFunction): Promise<HttpResponse<T>>
 }
 
-export interface Modify<M> {
-    createOne(request: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>>
-    updateOne(request: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>>
-    deleteOne(request: HttpRequest<M>, response: Response, next: NextFunction): Promise<HttpResponse<M>>
+export interface Modify<T> {
+    createOne(request: HttpRequest<T>, response: Response, next: NextFunction): Promise<HttpResponse<T>>
+    updateOne(request: HttpRequest<T>, response: Response, next: NextFunction): Promise<HttpResponse<T>>
+    deleteOne(request: HttpRequest<T>, response: Response, next: NextFunction): Promise<HttpResponse<T>>
 }
