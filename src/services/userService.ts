@@ -8,13 +8,14 @@ import { Document, Require_id } from "mongoose"
 class UserService extends BaseService<UserDTOs, UserDocument, UserRepository> {
     constructor() {
         super(new UserRepository(UserModel))
-        // Add service-specific constructor logic here
     }
 
-    // modelToDTO = (model: Document<any, any, UserDocument>): UserResponse => {
-    //     delete model.password
+    modelToDTO = (model: UserDocument): UserResponse => {
+        model.password = undefined
+        model.salt = undefined
 
-    // }
+        return model.toObject()
+    }
 }
 
 export default new UserService()
