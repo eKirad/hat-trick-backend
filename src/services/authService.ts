@@ -9,7 +9,6 @@ import { omitMongooseObjectProp } from "../utils"
 import { UserResponse } from "../types"
 import userService from "./userService"
 import { TFunction } from "i18next"
-import { UserDTOs } from "../types/user/userUtilityTypes"
 
 export default class AuthService extends BaseService<any, any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
