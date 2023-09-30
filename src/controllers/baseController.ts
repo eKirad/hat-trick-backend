@@ -7,9 +7,17 @@ import logger from "../config/logger"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { Get, Modify } from "../types/common"
 import { HttpRequest } from "../types/httpTypes/httpRequestType"
+import { TFunction } from "i18next"
 
 export class BaseController<T, D, R extends BaseRepository<T, D>, S extends BaseService<T, D, R>> implements Get<T>, Modify<T> {
     constructor(private service: S, private model: any) {}
+
+    private handleFallbackError = (error: any, t: TFunction) => {
+        const errorMessage = error.message || t("error:internal_server_error")
+        const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+
+        return { errorMessage, errorCode }
+    }
 
     public getAll = async ({ t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
         try {
@@ -55,8 +63,7 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
             return createHttpResponse(response, StatusCodes.OK, model)
         } catch (error) {
             logger.error(`Error ocurred at PUT /${this.model.collection.name}/${params.id}: ${error}`)
-            const errorMessage = error.message || t("error:internal_server_error")
-            const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+            const { errorCode, errorMessage } = this.handleFallbackError(error, t)
             throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
