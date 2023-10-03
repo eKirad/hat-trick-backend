@@ -16,6 +16,13 @@ class UserService extends BaseService<UserDTOs, UserDocument, UserRepository> {
 
         return userDTO
     }
+
+    modelsToDTOs = (models: UserDocument[]): UserResponse[] => {
+        const propsToOmit = [`password`, `salt`]
+        const userDTOs = models.map((model: UserDocument) => omitMultipleMongooseObjectProps<UserDocument, UserResponse>(model, propsToOmit))
+
+        return userDTOs
+    }
 }
 
 export default new UserService()
