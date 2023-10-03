@@ -1,21 +1,13 @@
-import { Password } from "./../types/user/userPassword.type"
-import UserModel from "../models/user/user.schema"
 import * as jwt from "jsonwebtoken"
 import { Config } from "../config/config"
 import { UserRegisterDTO, UserLoginDTO } from "../types"
 import { BaseService } from "./baseService"
-
-import { createHttpErrorResponse, omitMongooseObjectProp } from "../utils"
 import { UserResponse } from "../types"
 import userService from "./userService"
 import { TFunction } from "i18next"
-
-import * as crypto from "crypto"
 import { UserDocument } from "../models/user/user.types"
 import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 import * as bcrypt from "bcryptjs"
-import { StatusCodes } from "http-status-codes"
-
 export default class AuthService extends BaseService<any, any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
