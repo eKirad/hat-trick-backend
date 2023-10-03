@@ -5,8 +5,10 @@ import { BaseRepository } from "../models/repositories/baseRepository"
 import { TFunction } from "i18next"
 import { ServiceRead, ServiceWrite } from "../types/common"
 import HttpError from "../types/httpTypes/httpError"
+import { ServiceQueryOptions } from "../types/common/service"
+import { defaultServiceOptions } from "../shared/consts"
 
-export class BaseService<T, D, R extends BaseRepository<T, D>> implements ServiceRead<T>, ServiceWrite<T> {
+export class BaseService<T, D, R extends BaseRepository<T, D>> implements ServiceRead<T, D>, ServiceWrite<T> {
     constructor(private repository: R) {}
 
     modelToDTO = (model: Document<any, any, D> | Require_id<D>): T => ({} as T)
@@ -30,15 +32,19 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
         return dto
     }
 
-    public findOne = async (data: any, t: TFunction): Promise<T | null> => {
+    public findOne = async (
+        data: any,
+        t: TFunction,
+        serviceQueryOptions: ServiceQueryOptions = defaultServiceOptions
+    ): Promise<T | Document<any, any, D> | Require_id<D> | null> => {
         const model = await this.repository.findOne(data)
 
         // TODO: Fix collection name
         if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: `TODO` }))
 
-        const dto = this.modelToDTO(model)
+        const response = serviceQueryOptions.shouldConvertToDTO ? this.modelToDTO(model) : model
 
-        return dto
+        return response
     }
 
     public createOne = async (dto: T): Promise<any> => {
