@@ -12,12 +12,6 @@ const userSchema = new Schema<UserDocument>({
     lastUpdatedAt: { type: Date },
 })
 
-userSchema.methods.setPassword = function (plainTextPassword: string) {
-    const { hash, salt } = AuthService.hashPassword(plainTextPassword)
-    this.salt = salt
-    this.password = hash
-}
-
 const UserModel = model<UserDocument>("User", userSchema)
 
 export default UserModel
