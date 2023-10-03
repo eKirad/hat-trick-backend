@@ -22,7 +22,7 @@ export default class AuthService extends BaseService<any, any, any> {
 
     private static convertUserDTOToModel = (userDTO: UserLoginDTO, { hash, salt }: Password) => ({
         ...userDTO,
-        hash,
+        password: hash,
         salt,
         dateCreateAt: new Date(),
         lastUpdatedAt: new Date(),
