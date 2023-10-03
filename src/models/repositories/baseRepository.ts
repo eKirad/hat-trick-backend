@@ -45,7 +45,17 @@ export class BaseRepository<T, D> implements RepositoryRead<D>, RepositoryWrite<
         return model
     }
 
-    public createOne = async (dto: T): Promise<Document<any, any, D>> => await this.Model.create(dto)
+    public createOne = async (dto: T, options: RepositoryOptions = defaultRepositoryOptions): Promise<Document<any, any, D>> => {
+        let model = await this.Model.create(dto)
+
+        if (options.populate) await this.Model.populate(model, this.populateFields)
+
+        if (options.lean) model = model.toObject() as any
+
+        if (options.excludeFields) excludeFields(this.excludedFields, model)
+
+        return model
+    }
 
     public updateOneById = async (id: string, dto: T): Promise<Document<any, any, D> | undefined> => {
         const model = await this.Model.findByIdAndUpdate(id, dto, { new: true }).exec()
