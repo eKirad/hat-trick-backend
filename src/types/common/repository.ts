@@ -1,7 +1,7 @@
 import { Document, Require_id } from "mongoose"
 
 export interface RepositoryRead<D> {
-    findAll(): Promise<Document<any, any, D>[]>
+    findAll(repositoryOptions: RepositoryOptions): Promise<Document<any, any, D>[]>
     findOneById(id: string, repositoryOptions: RepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined>
     findOne(data: any, repositoryOptions: RepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined>
 }

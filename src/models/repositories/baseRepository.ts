@@ -15,7 +15,15 @@ export class BaseRepository<T, D> implements RepositoryRead<D>, RepositoryWrite<
 
     public constructor(private Model: MongooseModel<D>) {}
 
-    public findAll = async (): Promise<Document<any, any, D>[]> => await this.Model.find().exec()
+    public findAll = async (options: RepositoryOptions = defaultRepositoryOptions): Promise<Document<any, any, D>[]> => {
+        let models = await this.Model.find().exec()
+
+        if (models.length === 0) return undefined
+
+        if (options.lean) models = models.map((model) => model.toObject()) as any
+
+        return models
+    }
 
     public findOneById = async (id: string, options: RepositoryOptions = defaultRepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined> => {
         let model = await this.Model.findById(id).exec()
