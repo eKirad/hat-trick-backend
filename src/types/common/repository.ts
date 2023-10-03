@@ -1,4 +1,4 @@
-import { Document, IfAny, Require_id, Types } from "mongoose"
+import { Document, Require_id } from "mongoose"
 
 export interface RepositoryRead<D> {
     findAll(): Promise<Document<any, any, D>[]>
@@ -7,7 +7,7 @@ export interface RepositoryRead<D> {
 }
 
 export interface RepositoryWrite<T, D> {
-    createOne(dto: T): Promise<Document<any, any, D>>
+    createOne(dto: T, repositoryOptions: RepositoryOptions): Promise<Document<any, any, D>>
     updateOneById(id: string, dto: T): Promise<Document<any, any, D>>
     deleteOneById(id: string): Promise<any>
 }
