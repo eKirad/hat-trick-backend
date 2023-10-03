@@ -3,6 +3,7 @@ import UserModel from "../models/user/user.schema"
 import { BaseService } from "./baseService"
 import UserRepository from "../models/repositories/userRepository"
 import { UserDTOs, UserResponse } from "../types/user/userUtilityTypes"
+import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 
 class UserService extends BaseService<UserDTOs, UserDocument, UserRepository> {
     constructor() {
@@ -10,10 +11,10 @@ class UserService extends BaseService<UserDTOs, UserDocument, UserRepository> {
     }
 
     modelToDTO = (model: UserDocument): UserResponse => {
-        model.password = undefined
-        model.salt = undefined
+        const propsToOmit = [`password`, `salt`]
+        const userDTO = omitMultipleMongooseObjectProps<UserDocument, UserResponse>(model, propsToOmit)
 
-        return model.toObject()
+        return userDTO
     }
 }
 
