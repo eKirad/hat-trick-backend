@@ -7,7 +7,6 @@ import logger from "../config/logger"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { Get, Modify } from "../types/common"
 import { HttpRequest } from "../types/httpTypes/httpRequestType"
-import { TFunction } from "i18next"
 import { handleFallbackError } from "../utils/errorHandling.utils"
 
 export class BaseController<T, D, R extends BaseRepository<T, D>, S extends BaseService<T, D, R>> implements Get<T>, Modify<T> {
