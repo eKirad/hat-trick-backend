@@ -1,6 +1,7 @@
 import { ConnectOptions } from "mongoose"
 import dotenv from "dotenv"
 import { RepositoryOptions } from "../types/common"
+import { ServiceQueryOptions } from "../types/common/service"
 
 dotenv.config()
 
@@ -13,4 +14,8 @@ export const defaultRepositoryOptions: RepositoryOptions = {
     populate: false,
     lean: true,
     excludeFields: true,
+}
+
+export const defaultServiceOptions: ServiceQueryOptions = {
+    shouldConvertToDTO: true,
 }
