@@ -8,7 +8,8 @@ import { requestWrapper } from "./requestWrapper"
 const router = express.Router()
 const path = AUTH_PATH
 
-const extractUserRequestBody = (requestBody: any): any => ({
+const extractLoginRequestBody = (requestBody: any): any => ({ email: requestBody.email, password: requestBody.password })
+const extractSignupRequestBody = (requestBody: any): any => ({
     email: requestBody.email,
     password: requestBody.password,
     firstName: requestBody.firstName,
@@ -16,7 +17,7 @@ const extractUserRequestBody = (requestBody: any): any => ({
 })
 
 router
-    .post(`/${path}/signup`, authValidationRules(), validateRules, requestWrapper(AuthController.signup, extractUserRequestBody))
-    .post(`/${path}/login`, authValidationRules(), validateRules, requestWrapper(AuthController.login, extractUserRequestBody))
+    .post(`/${path}/signup`, authValidationRules(), validateRules, requestWrapper(AuthController.signup, extractLoginRequestBody))
+    .post(`/${path}/login`, authValidationRules(), validateRules, requestWrapper(AuthController.login, extractSignupRequestBody))
 
 export default router

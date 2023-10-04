@@ -10,14 +10,6 @@ import logger from "../config/logger"
 import { createHttpError } from "../utils/httpHandlers"
 
 class AuthController {
-    private extractLoginData = (requestBody: any): UserLoginDTO => ({ email: requestBody.email, password: requestBody.password })
-    private extractSignupData = (requestBody: any): UserRegisterDTO => ({
-        email: requestBody.email,
-        password: requestBody.password,
-        firstName: requestBody.firstName,
-        lastName: requestBody.lastName,
-    })
-
     private extractError = (error: HttpError, t: TFunction) => {
         const errorMessage = error.message || t("error:internal_server_error")
         const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
@@ -28,8 +20,7 @@ class AuthController {
 
     public signup = async ({ dto, t }: HttpRequest<any>, response: Response): Promise<HttpResponse<UserResponse>> => {
         try {
-            const userDto = this.extractSignupData(dto)
-            const userModel = await AuthService.signup(userDto, t)
+            const userModel = await AuthService.signup(dto, t)
 
             return createHttpResponse(response, StatusCodes.CREATED, userModel)
         } catch (error) {
@@ -40,8 +31,7 @@ class AuthController {
 
     public login = async ({ dto, t }: HttpRequest<any>, response: Response): Promise<HttpResponse<string>> => {
         try {
-            const userDto = this.extractLoginData(dto)
-            const accessToken = await AuthService.login(userDto, t)
+            const accessToken = await AuthService.login(dto, t)
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
         } catch (error) {
