@@ -14,6 +14,11 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     modelToDTO = (model: Document<any, any, D> | Require_id<D>): T => ({} as T)
     modelsToDTOs = (model: Document<any, any, D>[]): T[] => ({} as T[])
 
+    private throwError = (statusCode: StatusCodes, t: TFunction) => {
+        const collection = getMongooseCollectionDisplayName(this.model.collection.name)
+        throw new HttpError(statusCode, t("error:not_found", { collection }), this.model.collection.name)
+    }
+
     public findAll = async (): Promise<T[]> => {
         const models = await this.repository.findAll()
 
@@ -25,10 +30,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     public findOneById = async (id: string, t: TFunction): Promise<T | null> => {
         const model = await this.repository.findOneById(id)
 
-        if (!model) {
-            const collection = getMongooseCollectionDisplayName(this.model.collection.name)
-            throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection }), this.model.collection.name)
-        }
+        if (!model) this.throwError(StatusCodes.NOT_FOUND, t)
 
         const dto = this.modelToDTO(model)
 
@@ -42,7 +44,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     ): Promise<T | Document<any, any, D> | Require_id<D> | null> => {
         const model = await this.repository.findOne(data)
 
-        if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: this.model.collection.name }), this.model.collection.name)
+        if (!model) this.throwError(StatusCodes.NOT_FOUND, t)
 
         const response = serviceQueryOptions.shouldConvertToDTO ? this.modelToDTO(model) : model
 
@@ -60,7 +62,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     public updateOneById = async (id: string, dto: T, t: TFunction): Promise<T> => {
         const updateModel = await this.repository.updateOneById(id, dto)
 
-        if (!updateModel) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: this.model.collection.name }), this.model.collection.name)
+        if (!updateModel) this.throwError(StatusCodes.NOT_FOUND, t)
 
         const updatedDTO = this.modelToDTO(updateModel)
 
