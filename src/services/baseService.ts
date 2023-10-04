@@ -57,8 +57,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     public updateOneById = async (id: string, dto: T, t: TFunction): Promise<T> => {
         const updateModel = await this.repository.updateOneById(id, dto)
 
-        // TODO: Fix collection name
-        if (!updateModel) throw new Error(t("error:not_found", { collection: getMongooseCollectionDisplayName(`TODO`) }))
+        if (!updateModel) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: this.model.collection.name }), this.model.collection.name)
 
         const updatedDTO = this.modelToDTO(updateModel)
 
