@@ -16,7 +16,8 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
     private extractError = (error: HttpError, t: TFunction, pathParams?: any) => {
         const errorMessage = error.message || t("error:internal_server_error")
         const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
-        logger.error(`Error ocurred at GET /${error?.collectionName}/${pathParams.id} with status ${errorCode}`)
+        // TODO: Fix method name
+        logger.error(`Error ocurred at GET: ${error?.collectionName}/${pathParams.id} with status ${errorCode}`)
 
         return { errorMessage, errorCode }
     }
