@@ -8,6 +8,9 @@ import { TFunction } from "i18next"
 import { UserDocument } from "../models/user/user.types"
 import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 import * as bcrypt from "bcryptjs"
+import { StatusCodes } from "http-status-codes"
+import { createHttpErrorResponse } from "../utils"
+import HttpError from "../types/httpTypes/httpError"
 export default class AuthService extends BaseService<any, any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
     private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
@@ -40,7 +43,7 @@ export default class AuthService extends BaseService<any, any, any> {
             }
         )
 
-    public static async signup(userDTO: UserRegisterDTO): Promise<UserResponse> {
+    public static async signup(userDTO: UserRegisterDTO, t: TFunction): Promise<UserResponse> {
         try {
             const password = this.hashPassword(userDTO.password)
             const createUser = this.convertUserDTOToModel(userDTO, password)
@@ -49,7 +52,8 @@ export default class AuthService extends BaseService<any, any, any> {
 
             return userResponse
         } catch (error) {
-            console.error(error)
+            const errorCode = error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+            throw new HttpError(errorCode, t("error:internal_server_error"))
         }
     }
 
