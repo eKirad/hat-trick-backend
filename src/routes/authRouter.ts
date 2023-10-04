@@ -17,7 +17,7 @@ const extractSignupRequestBody = (requestBody: any): any => ({
 })
 
 router
-    .post(`/${path}/signup`, authValidationRules(), validateRules, requestWrapper(AuthController.signup, extractLoginRequestBody))
-    .post(`/${path}/login`, authValidationRules(), validateRules, requestWrapper(AuthController.login, extractSignupRequestBody))
+    .post(`/${path}/signup`, authValidationRules(), validateRules, requestWrapper(AuthController.signup, extractSignupRequestBody))
+    .post(`/${path}/login`, authValidationRules(), validateRules, requestWrapper(AuthController.login, extractLoginRequestBody))
 
 export default router
