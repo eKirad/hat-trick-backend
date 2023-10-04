@@ -39,8 +39,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     ): Promise<T | Document<any, any, D> | Require_id<D> | null> => {
         const model = await this.repository.findOne(data)
 
-        // TODO: Fix collection name
-        if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: `TODO` }))
+        if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: this.model.collection.name }), this.model.collection.name)
 
         const response = serviceQueryOptions.shouldConvertToDTO ? this.modelToDTO(model) : model
 
