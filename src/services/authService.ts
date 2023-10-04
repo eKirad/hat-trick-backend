@@ -42,7 +42,6 @@ export default class AuthService extends BaseService<any, any, any> {
 
     public static async signup(userDTO: UserRegisterDTO): Promise<UserResponse> {
         try {
-            // const password = this.hashPassword(userDTO.password)
             const password = this.hashPassword(userDTO.password)
             const createUser = this.convertUserDTOToModel(userDTO, password)
             const userModel = await userService.createOne(createUser)
