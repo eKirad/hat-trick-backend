@@ -9,7 +9,7 @@ import { ServiceQueryOptions } from "../types/common/service"
 import { defaultServiceOptions } from "../shared/consts"
 
 export class BaseService<T, D, R extends BaseRepository<T, D>> implements ServiceRead<T, D>, ServiceWrite<T> {
-    constructor(private repository: R) {}
+    constructor(private repository: R, private model: any) {}
 
     modelToDTO = (model: Document<any, any, D> | Require_id<D>): T => ({} as T)
     modelsToDTOs = (model: Document<any, any, D>[]): T[] => ({} as T[])
@@ -25,7 +25,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     public findOneById = async (id: string, t: TFunction): Promise<T | null> => {
         const model = await this.repository.findOneById(id)
         // TODO: Fix collection name
-        if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: `TODO` }))
+        if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: this.model.collection.name }), this.model.collection.name)
 
         const dto = this.modelToDTO(model)
 

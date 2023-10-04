@@ -7,10 +7,19 @@ import logger from "../config/logger"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { Get, Modify } from "../types/common"
 import { HttpRequest } from "../types/httpTypes/httpRequestType"
-import { handleFallbackError } from "../utils/errorHandling.utils"
+import HttpError from "../types/httpTypes/httpError"
+import { TFunction } from "i18next"
 
 export class BaseController<T, D, R extends BaseRepository<T, D>, S extends BaseService<T, D, R>> implements Get<T>, Modify<T> {
-    constructor(private service: S, private model: any) {}
+    constructor(private service: S) {}
+
+    private extractError = (error: HttpError, t: TFunction, pathParams?: any) => {
+        const errorMessage = error.message || t("error:internal_server_error")
+        const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+        logger.error(`Error ocurred at GET /${error?.collectionName}/${pathParams.id} with status ${errorCode}`)
+
+        return { errorMessage, errorCode }
+    }
 
     public getAll = async ({ t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
         try {
@@ -18,8 +27,8 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
 
             return createHttpResponse<T>(response, StatusCodes.OK, models)
         } catch (error) {
-            logger.error(`Error ocurred at GET /${this.model.collection.name}: ${error}`)
-            throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
+            const { errorMessage, errorCode } = this.extractError(error, t)
+            throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
 
@@ -30,9 +39,7 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
 
             return createHttpResponse(response, StatusCodes.OK, model)
         } catch (error) {
-            logger.error(`Error ocurred at GET /${this.model.collection.name}/${params.id}: ${error}`)
-            const errorMessage = error.message || t("error:internal_server_error")
-            const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+            const { errorMessage, errorCode } = this.extractError(error, t, params)
             throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
@@ -43,8 +50,8 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
 
             return createHttpResponse(response, StatusCodes.CREATED, model)
         } catch (error) {
-            logger.error(`Error ocurred at POST /${this.model.collection.name}: ${error}`)
-            throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
+            const { errorMessage, errorCode } = this.extractError(error, t)
+            throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
 
@@ -55,8 +62,7 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
 
             return createHttpResponse(response, StatusCodes.OK, model)
         } catch (error) {
-            logger.error(`Error ocurred at PUT /${this.model.collection.name}/${params.id}: ${error}`)
-            const { errorCode, errorMessage } = handleFallbackError(error, t)
+            const { errorMessage, errorCode } = this.extractError(error, t)
             throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
@@ -68,8 +74,8 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
 
             return createHttpResponse(response, StatusCodes.OK)
         } catch (error) {
-            logger.error(`Error ocurred at DELETE /${this.model.collection.name}/${params.id}: ${error}`)
-            throw createHttpErrorResponse(response, StatusCodes.INTERNAL_SERVER_ERROR, t("error:internal_server_error"))
+            const { errorMessage, errorCode } = this.extractError(error, t)
+            throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
 }
