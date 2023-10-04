@@ -42,6 +42,12 @@ export default class AuthService extends BaseService<any, any, any> {
             }
         )
 
+    private static throwError = (error: any, t: TFunction) => {
+        const errorCode = error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+        const errorMessage = error?.message || t("error:internal_server_error")
+        throw new HttpError(errorCode, errorMessage)
+    }
+
     public static async signup(userDTO: UserRegisterDTO, t: TFunction): Promise<UserResponse> {
         try {
             const password = this.hashPassword(userDTO.password)
@@ -68,8 +74,7 @@ export default class AuthService extends BaseService<any, any, any> {
 
             return accessToken
         } catch (error) {
-            const errorCode = error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
-            throw new HttpError(errorCode, t("error:internal_server_error"))
+            AuthService.throwError(error, t)
         }
     }
 }
