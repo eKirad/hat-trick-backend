@@ -12,7 +12,7 @@ import { StatusCodes } from "http-status-codes"
 import HttpError from "../types/httpTypes/httpError"
 export default class AuthService extends BaseService<any, any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
-    private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
+    private static isInvalidPassword = (plainPassword: string, passwordHash: string): boolean => !bcrypt.compareSync(plainPassword, passwordHash)
 
     private static convertUserDTOToModel = (userDTO: UserLoginDTO, password: string) => ({
         ...userDTO,
@@ -62,7 +62,7 @@ export default class AuthService extends BaseService<any, any, any> {
             const serviceQueryOptions = { shouldConvertToDTO: false }
             const userModel = (await userService.findOne(emailQuery, t, serviceQueryOptions)) as any
 
-            if (!this.isPasswordValid(userDTO.password, userModel.password)) throw new HttpError(StatusCodes.UNAUTHORIZED, t("error:unauthorized"))
+            if (this.isInvalidPassword(userDTO.password, userModel.password)) throw new HttpError(StatusCodes.UNAUTHORIZED, t("error:unauthorized"))
 
             const accessToken = AuthService.assignJWT(userModel)
 
