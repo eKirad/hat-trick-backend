@@ -7,6 +7,7 @@ import { HttpRequest } from "../types/httpTypes/httpRequestType"
 import HttpError from "../types/httpTypes/httpError"
 import { TFunction } from "i18next"
 import logger from "../config/logger"
+import { createHttpError } from "../utils/httpHandlers"
 
 class AuthController {
     private extractLoginData = (requestBody: any): UserLoginDTO => ({ email: requestBody.email, password: requestBody.password })
@@ -33,19 +34,19 @@ class AuthController {
             return createHttpResponse(response, StatusCodes.CREATED, userModel)
         } catch (error) {
             const { errorMessage, errorCode } = this.extractError(error, t)
-            throw createHttpErrorResponse(response, errorCode, errorMessage)
+            throw createHttpError(errorCode, errorMessage)
         }
     }
 
-    public login = async ({ body, t }: Request, response: Response): Promise<HttpResponse<string>> => {
+    public login = async ({ dto, t }: HttpRequest<any>, response: Response): Promise<HttpResponse<string>> => {
         try {
-            const userDto = this.extractLoginData(body)
+            const userDto = this.extractLoginData(dto)
             const accessToken = await AuthService.login(userDto, t)
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
         } catch (error) {
             const { errorMessage, errorCode } = this.extractError(error, t)
-            throw createHttpErrorResponse(response, errorCode, errorMessage)
+            throw createHttpError(errorCode, errorMessage)
         }
     }
 }
