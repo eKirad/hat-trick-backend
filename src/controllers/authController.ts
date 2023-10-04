@@ -13,25 +13,25 @@ class AuthController {
         lastName: requestBody.lastName,
     })
 
-    public signup = async (request: Request, response: Response, next: NextFunction): Promise<HttpResponse<UserResponse>> => {
+    public signup = async (request: Request, response: Response): Promise<HttpResponse<UserResponse>> => {
         try {
             const userDto = this.extractSignupData(request.body)
             const userModel = await AuthService.signup(userDto)
 
             return createHttpResponse(response, StatusCodes.CREATED, userModel)
         } catch (error) {
-            next(error)
+            console.error(error)
         }
     }
 
-    public login = async ({ body, t }: Request, response: Response, next: NextFunction): Promise<HttpResponse<string>> => {
+    public login = async ({ body, t }: Request, response: Response): Promise<HttpResponse<string>> => {
         try {
             const userDto = this.extractLoginData(body)
             const accessToken = await AuthService.login(userDto, t)
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
         } catch (error) {
-            next(error)
+            console.error(error)
         }
     }
 }
