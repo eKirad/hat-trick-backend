@@ -1,6 +1,6 @@
 import { Response } from "express"
 import AuthService from "../services/authService"
-import { UserRegisterDTO, UserLoginDTO, HttpResponse, UserResponse } from "../types"
+import { HttpResponse, UserResponse } from "../types"
 import { createHttpResponse } from "../utils"
 import { StatusCodes } from "http-status-codes"
 import { HttpRequest } from "../types/httpTypes/httpRequestType"
