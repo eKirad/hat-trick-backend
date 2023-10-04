@@ -62,13 +62,14 @@ export default class AuthService extends BaseService<any, any, any> {
             const serviceQueryOptions = { shouldConvertToDTO: false }
             const userModel = (await userService.findOne(emailQuery, t, serviceQueryOptions)) as any
 
-            if (!this.isPasswordValid(userDTO.password, userModel.password)) throw Error("Password is not valid")
+            if (!this.isPasswordValid(userDTO.password, userModel.password)) throw new HttpError(StatusCodes.UNAUTHORIZED, t("error:unauthorized"))
 
             const accessToken = AuthService.assignJWT(userModel)
 
             return accessToken
         } catch (error) {
-            console.error(error)
+            const errorCode = error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+            throw new HttpError(errorCode, t("error:internal_server_error"))
         }
     }
 }

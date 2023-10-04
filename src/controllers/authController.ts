@@ -44,7 +44,8 @@ class AuthController {
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
         } catch (error) {
-            console.error(error)
+            const { errorMessage, errorCode } = this.extractError(error, t)
+            throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
 }
