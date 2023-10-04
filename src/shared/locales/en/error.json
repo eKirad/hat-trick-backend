@@ -1,5 +1,5 @@
 {
     "internal_server_error": "Internal server error.",
-    "not_found": "{{collection}} not found."
-
+    "not_found": "{{collection}} not found.",
+    "unauthorized": "Not authorized."
 }
