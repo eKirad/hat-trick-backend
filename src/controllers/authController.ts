@@ -1,8 +1,12 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response } from "express"
 import AuthService from "../services/authService"
 import { UserRegisterDTO, UserLoginDTO, HttpResponse, UserResponse } from "../types"
-import { createHttpResponse } from "../utils"
+import { createHttpErrorResponse, createHttpResponse } from "../utils"
 import { StatusCodes } from "http-status-codes"
+import { HttpRequest } from "../types/httpTypes/httpRequestType"
+import HttpError from "../types/httpTypes/httpError"
+import { TFunction } from "i18next"
+import logger from "../config/logger"
 
 class AuthController {
     private extractLoginData = (requestBody: any): UserLoginDTO => ({ email: requestBody.email, password: requestBody.password })
@@ -13,14 +17,23 @@ class AuthController {
         lastName: requestBody.lastName,
     })
 
-    public signup = async (request: Request, response: Response): Promise<HttpResponse<UserResponse>> => {
+    private extractError = (error: HttpError, t: TFunction) => {
+        const errorMessage = error.message || t("error:internal_server_error")
+        const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+        logger.error(`Error ocurred at POST: auth/ with status ${errorCode}`)
+
+        return { errorMessage, errorCode }
+    }
+
+    public signup = async ({ dto, t }: HttpRequest<any>, response: Response): Promise<HttpResponse<UserResponse>> => {
         try {
-            const userDto = this.extractSignupData(request.body)
-            const userModel = await AuthService.signup(userDto)
+            const userDto = this.extractSignupData(dto)
+            const userModel = await AuthService.signup(userDto, t)
 
             return createHttpResponse(response, StatusCodes.CREATED, userModel)
         } catch (error) {
-            console.error(error)
+            const { errorMessage, errorCode } = this.extractError(error, t)
+            throw createHttpErrorResponse(response, errorCode, errorMessage)
         }
     }
 
