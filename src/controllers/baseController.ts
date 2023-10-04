@@ -1,14 +1,13 @@
 import { Response } from "express"
 import { BaseService } from "../services/baseService"
 import { HttpResponse } from "../types"
-import { createHttpErrorResponse, createHttpResponse } from "../utils"
+import { createHttpResponse } from "../utils"
 import { StatusCodes } from "http-status-codes"
 import logger from "../config/logger"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { Get, Modify } from "../types/common"
 import { HttpRequest } from "../types/httpTypes/httpRequestType"
 import HttpError from "../types/httpTypes/httpError"
-import { TFunction } from "i18next"
 import { createHttpError } from "../utils/httpHandlers"
 
 export class BaseController<T, D, R extends BaseRepository<T, D>, S extends BaseService<T, D, R>> implements Get<T>, Modify<T> {
