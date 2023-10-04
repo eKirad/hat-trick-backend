@@ -25,7 +25,10 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     public findOneById = async (id: string, t: TFunction): Promise<T | null> => {
         const model = await this.repository.findOneById(id)
 
-        if (!model) throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection: this.model.collection.name }), this.model.collection.name)
+        if (!model) {
+            const collection = getMongooseCollectionDisplayName(this.model.collection.name)
+            throw new HttpError(StatusCodes.NOT_FOUND, t("error:not_found", { collection }), this.model.collection.name)
+        }
 
         const dto = this.modelToDTO(model)
 
