@@ -7,7 +7,7 @@ import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 
 class UserService extends BaseService<UserDTOs, UserDocument, UserRepository> {
     constructor() {
-        super(new UserRepository(UserModel))
+        super(new UserRepository(UserModel), UserModel)
     }
 
     modelToDTO = (model: UserDocument): UserResponse => {
