@@ -10,7 +10,7 @@ import logger from "../config/logger"
 import { createHttpError } from "../utils/httpHandlers"
 
 class AuthController {
-    private extractError = (error: HttpError, t: TFunction) => {
+    private extractError = (error: HttpError, { t }: Pick<HttpRequest<any>, "t">) => {
         const errorMessage = error.message || t("error:internal_server_error")
         const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
         logger.error(`Error ocurred at POST: auth/ with status ${errorCode}`)
@@ -24,7 +24,7 @@ class AuthController {
 
             return createHttpResponse(response, StatusCodes.CREATED, userModel)
         } catch (error) {
-            const { errorMessage, errorCode } = this.extractError(error, t)
+            const { errorMessage, errorCode } = this.extractError(error, { t })
             throw createHttpError(errorCode, errorMessage)
         }
     }
@@ -35,7 +35,7 @@ class AuthController {
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
         } catch (error) {
-            const { errorMessage, errorCode } = this.extractError(error, t)
+            const { errorMessage, errorCode } = this.extractError(error, { t })
             throw createHttpError(errorCode, errorMessage)
         }
     }
