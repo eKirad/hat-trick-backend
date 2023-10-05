@@ -8,9 +8,11 @@ import { TFunction } from "i18next"
 import { UserDocument } from "../models/user/user.types"
 import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 import * as bcrypt from "bcryptjs"
+import { StatusCodes } from "http-status-codes"
+import HttpError from "../types/httpTypes/httpError"
 export default class AuthService extends BaseService<any, any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
-    private static isPasswordValid = (plainPassword: string, passwordHash: string): boolean => bcrypt.compareSync(plainPassword, passwordHash)
+    private static isInvalidPassword = (plainPassword: string, passwordHash: string): boolean => !bcrypt.compareSync(plainPassword, passwordHash)
 
     private static convertUserDTOToModel = (userDTO: UserLoginDTO, password: string) => ({
         ...userDTO,
@@ -40,9 +42,14 @@ export default class AuthService extends BaseService<any, any, any> {
             }
         )
 
-    public static async signup(userDTO: UserRegisterDTO): Promise<UserResponse> {
+    private static throwError = (error: any, t: TFunction) => {
+        const errorCode = error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+        const errorMessage = error?.message || t("error:internal_server_error")
+        throw new HttpError(errorCode, errorMessage)
+    }
+
+    public static async signup(userDTO: UserRegisterDTO, t: TFunction): Promise<UserResponse> {
         try {
-            // const password = this.hashPassword(userDTO.password)
             const password = this.hashPassword(userDTO.password)
             const createUser = this.convertUserDTOToModel(userDTO, password)
             const userModel = await userService.createOne(createUser)
@@ -50,7 +57,8 @@ export default class AuthService extends BaseService<any, any, any> {
 
             return userResponse
         } catch (error) {
-            console.error(error)
+            const errorCode = error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
+            throw new HttpError(errorCode, t("error:internal_server_error"))
         }
     }
 
@@ -60,13 +68,13 @@ export default class AuthService extends BaseService<any, any, any> {
             const serviceQueryOptions = { shouldConvertToDTO: false }
             const userModel = (await userService.findOne(emailQuery, t, serviceQueryOptions)) as any
 
-            if (!this.isPasswordValid(userDTO.password, userModel.password)) throw Error("Password is not valid")
+            if (this.isInvalidPassword(userDTO.password, userModel.password)) throw new HttpError(StatusCodes.UNAUTHORIZED, t("error:unauthorized"))
 
             const accessToken = AuthService.assignJWT(userModel)
 
             return accessToken
         } catch (error) {
-            console.error(error)
+            AuthService.throwError(error, t)
         }
     }
 }

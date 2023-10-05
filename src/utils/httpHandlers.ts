@@ -7,3 +7,5 @@ export const createHttpResponse = <T>(response: ExpressResponse, statusCode: Sta
 
 export const createHttpErrorResponse = (response: ExpressResponse, statusCode: StatusCodes, errorMessage?: string | ValidationError[]): HttpErrorResponse =>
     response.status(statusCode).send({ statusCode, errorMessage })
+
+export const createHttpError = (statusCode: StatusCodes, errorMessage?: string): HttpErrorResponse => ({ statusCode, errorMessage })

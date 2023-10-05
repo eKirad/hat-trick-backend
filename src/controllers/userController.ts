@@ -8,7 +8,7 @@ import { BaseController } from "./baseController"
 
 class UserController extends BaseController<UserDTOs, UserDocument, UserRepository, typeof UserService> {
     constructor() {
-        super(userService, UserModel)
+        super(userService)
     }
 }
 
