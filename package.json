@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc && node dist/index.js",
     "generate-api": "openapi-generator generate -i docs/openapi.yaml -g typescript-angular -o generated-sources/openapi --additional-properties=\"ngVersion=6.1.7\"",
-    "start:dev": "tsc && node -r dotenv/dist/src/config dist/index.js",
+    "start:dev": "npm run watch-ts",
+    "watch-ts": "tsc-watch --onSuccess \"nodemon dist/index.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -54,6 +55,7 @@
     "morgan-json": "^1.1.0",
     "nodemon": "^3.0.1",
     "ts-node": "10.2.1",
+    "tsc-watch": "6.0.4",
     "uuid": "7.0.2",
     "winston": "3.2.1"
   }
