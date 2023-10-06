@@ -29,7 +29,7 @@ export class Config {
         this.setConfigs()
     }
 
-    get environment(): string {
+    get environment(): EnvironmentEnum {
         return this._env
     }
 
