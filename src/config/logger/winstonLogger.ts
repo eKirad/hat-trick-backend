@@ -1,7 +1,5 @@
 import winston, { format } from "winston"
-import dotenv from "dotenv"
-
-dotenv.config()
+import { isNotProd } from "../../shared/consts"
 
 const logger = winston.createLogger()
 
@@ -18,7 +16,7 @@ logger.add(
     })
 )
 
-if (process.env.NODE_ENV !== `PROD`) {
+if (isNotProd) {
     logger.add(
         new winston.transports.Console({
             format: format.simple(),
