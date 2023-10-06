@@ -1,5 +1,5 @@
 import mongoose, { ConnectOptions } from "mongoose"
-import logger from "../config/logger"
+import logger from "./logger/winstonLogger"
 export default class Database {
     private dbURI: string
     private dbConnectOptions: ConnectOptions

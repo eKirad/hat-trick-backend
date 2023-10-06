@@ -6,7 +6,7 @@ import { StatusCodes } from "http-status-codes"
 import { HttpRequest } from "../types/httpTypes/httpRequestType"
 import HttpError from "../types/httpTypes/httpError"
 import { TFunction } from "i18next"
-import logger from "../config/logger"
+import logger from "../config/logger/winstonLogger"
 import { createHttpError } from "../utils/httpHandlers"
 
 class AuthController {
