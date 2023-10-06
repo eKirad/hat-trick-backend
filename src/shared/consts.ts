@@ -5,8 +5,8 @@ import { ServiceQueryOptions } from "../types/common/service"
 
 dotenv.config()
 
-export const contextPath = process.env.CONTEXT_PATH || `api`
-export const apiVersion = process.env.API_VERSION || `v1`
+export const contextPath = process.env.CONTEXT_PATH
+export const apiVersion = process.env.API_VERSION
 export const isDev = process.env.NODE_ENV === EnvironmentEnum.DEV
 export const isProd = process.env.NODE_ENV === EnvironmentEnum.PROD
 
