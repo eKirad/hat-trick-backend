@@ -13,7 +13,7 @@ export class Config {
     private _authSecret: string
 
     constructor() {
-        this._env = (process.env.NODE_ENV as EnvironmentEnum) || EnvironmentEnum.DEV
+        this._env = process.env.NODE_ENV as EnvironmentEnum
         this.setConfigsForEnv(this._env)
     }
 
@@ -40,10 +40,10 @@ export class Config {
     private setConfigsForEnv = (environment: EnvironmentEnum) => {
         switch (environment) {
             case EnvironmentEnum.DEV:
-                this._dbURI = process.env.DB_URI || `mongodb://localhost:27047/`
-                this._port = Number(process.env.SERVER_PORT) || 8000
+                this._dbURI = process.env.DB_URI
+                this._port = Number(process.env.SERVER_PORT)
                 this._dbConnectOptions = devDbConnectionOptions
-                this._authSecret = process.env.JWT_SECRET || `very secret secret`
+                this._authSecret = process.env.JWT_SECRET
                 break
             case EnvironmentEnum.PROD:
                 break
