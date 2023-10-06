@@ -6,15 +6,15 @@ import Database from "./config/database"
 import { Config } from "./config/config"
 import logger from "./config/logger/winstonLogger"
 ;(async () => {
-    const config = new Config()
+    const { dbConfigs, apiConfigs, port } = new Config()
 
     try {
-        const database = new Database(config.dbURI, config.dbConnectOptions)
+        const database = new Database(dbConfigs)
         await database.connect()
         const app = express()
         commonMiddlewares(app)
-        api(app)
-        app.listen(config.port, () => logger.info(`Listening on port ${config.port}...`))
+        api(app, apiConfigs)
+        app.listen(port, () => logger.info(`Listening on port ${port}...`))
     } catch (e) {
         logger.error(e)
     }
