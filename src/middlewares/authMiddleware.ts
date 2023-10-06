@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { StatusCodes } from "http-status-codes"
-import logger from "../config/logger"
+import logger from "../config/logger/winstonLogger"
 import { createHttpErrorResponse, verifyAccessToken } from "../utils"
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {

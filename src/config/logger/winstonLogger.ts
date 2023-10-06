@@ -1,9 +1,9 @@
-import winston, { format } from 'winston';
-import dotenv from 'dotenv';
+import winston, { format } from "winston"
+import dotenv from "dotenv"
 
-dotenv.config();
+dotenv.config()
 
-const logger = winston.createLogger();
+const logger = winston.createLogger()
 
 logger.add(
     new winston.transports.File({
@@ -11,19 +11,19 @@ logger.add(
         filename: `backend.log`,
         format: format.combine(
             format.timestamp({
-                format: `YYYY-MM-DD HH:mm:ss`
+                format: `YYYY-MM-DD HH:mm:ss`,
             }),
-            format.json() 
-        )
-    }),
-);
+            format.json()
+        ),
+    })
+)
 
 if (process.env.NODE_ENV !== `PROD`) {
     logger.add(
         new winston.transports.Console({
-            format: format.simple()
+            format: format.simple(),
         })
-    );
+    )
 }
 
 export default logger

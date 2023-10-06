@@ -4,7 +4,7 @@ import { api } from "./api/api"
 import { commonMiddlewares } from "./middlewares"
 import Database from "./config/database"
 import { Config } from "./config/config"
-import logger from "./config/logger"
+import logger from "./config/logger/winstonLogger"
 ;(async () => {
     const config = new Config()
 
