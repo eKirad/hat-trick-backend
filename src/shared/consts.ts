@@ -1,12 +1,6 @@
 import { ConnectOptions } from "mongoose"
-import dotenv from "dotenv"
 import { RepositoryOptions } from "../types/common"
 import { ServiceQueryOptions } from "../types/common/service"
-
-dotenv.config()
-
-// export const contextPath = process.env.CONTEXT_PATH
-// export const apiVersion = process.env.API_VERSION
 
 export const devDbConnectionOptions: ConnectOptions = { dbName: "test" }
 
