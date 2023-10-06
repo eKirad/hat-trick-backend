@@ -1,10 +1,11 @@
 import mongoose, { ConnectOptions } from "mongoose"
 import logger from "./logger/winstonLogger"
+import { DbConfigs } from "./config"
 export default class Database {
     private dbURI: string
     private dbConnectOptions: ConnectOptions
 
-    constructor(dbUri: string, dbConnectOptions: ConnectOptions) {
+    constructor({ dbUri, dbConnectOptions }: DbConfigs) {
         this.dbURI = dbUri
         this.dbConnectOptions = dbConnectOptions
     }
