@@ -15,7 +15,8 @@ import logger from "./config/logger/winstonLogger"
         commonMiddlewares(app, environment)
         api(app, apiConfigs)
         app.listen(port, () => logger.info(`Listening on port ${port}...`))
-    } catch (e) {
-        logger.error(e)
+    } catch (error) {
+        logger.error(`Server start failed with ${error}`)
+        process.exit(1)
     }
 })()
