@@ -1,6 +1,6 @@
 import { ConnectOptions } from "mongoose"
 import { RepositoryOptions } from "../types/common"
-import { ServiceQueryOptions } from "../types/common/service"
+import { ServiceQueryOptions } from "../types/common/mvc.types"
 import dotenv from "dotenv"
 
 dotenv.config()
