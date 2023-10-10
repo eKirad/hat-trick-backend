@@ -1,7 +1,7 @@
 import { UserDocument } from "./../models/user/user.types"
 import UserModel from "../models/user/user.schema"
 import { BaseService } from "./baseService"
-import UserRepository from "../models/repositories/user.repository"
+import UserRepository from "../models/repositories/userRepository"
 import { UserDTOs, UserResponse } from "../types/user/userUtility.types"
 import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 

@@ -1,7 +1,7 @@
 import { Document, Require_id } from "mongoose"
 import { getMongooseCollectionDisplayName } from "../utils"
 import { StatusCodes } from "http-status-codes"
-import { BaseRepository } from "../models/repositories/base.repository"
+import { BaseRepository } from "../models/repositories/baseRepository"
 import { TFunction } from "i18next"
 import { ServiceRead, ServiceWrite } from "../types/common"
 import HttpError from "../types/httpTypes/httpError.type"

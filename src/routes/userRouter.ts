@@ -1,4 +1,4 @@
-import UserController from "../controllers/user.controller"
+import UserController from "../controllers/userController"
 import { UserRegisterDTO } from "../types"
 import { generateBaseRoutes } from "./baseRouter"
 import { USER_PATH } from "./consts"

@@ -1,6 +1,6 @@
 import { UserDTOs } from "../../types/user/userUtility.types"
 import { UserDocument } from "../user/user.types"
-import { BaseRepository } from "./base.repository"
+import { BaseRepository } from "./baseRepository"
 import { Model as MongooseModel } from "mongoose"
 
 export default class UserRepository extends BaseRepository<UserDTOs, UserDocument> {
