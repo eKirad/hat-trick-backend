@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
-interface ExpressRequestWithAuthSecret extends Request {
+export interface ExpressRequestWithAuthSecret extends Request {
     authSecret: string
 }
 

@@ -6,5 +6,6 @@ export interface HttpRequest<T> {
     params: any
     method: any
     headers: any
+    authSecret: string
     dto?: T
 }

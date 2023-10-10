@@ -1,8 +1,8 @@
-import { Request } from "express"
 import { HttpRequest } from "../types/httpTypes/httpRequest.type"
+import { ExpressRequestWithAuthSecret } from "../middlewares/authSecretMiddleware"
 
-export const parseHttpRequest = <T>(req: Request, extractBodyFunction?: (requestBody: any) => T): HttpRequest<T> => {
-    const { t, path, params, method, headers, body } = req
+export const parseHttpRequest = <T>(req: ExpressRequestWithAuthSecret, extractBodyFunction?: (requestBody: any) => T): HttpRequest<T> => {
+    const { t, path, params, method, headers, body, authSecret } = req
 
     try {
         return {
@@ -11,6 +11,7 @@ export const parseHttpRequest = <T>(req: Request, extractBodyFunction?: (request
             params,
             method,
             headers,
+            authSecret,
             ...(extractBodyFunction && { dto: extractBodyFunction(body) }),
         }
     } catch (error) {
