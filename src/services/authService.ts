@@ -1,5 +1,4 @@
 import * as jwt from "jsonwebtoken"
-import { Config } from "../config/config"
 import { UserRegisterDTO, UserLoginDTO } from "../types"
 import { BaseService } from "./baseService"
 import { UserResponse } from "../types"
