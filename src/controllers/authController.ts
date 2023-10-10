@@ -29,9 +29,9 @@ class AuthController {
         }
     }
 
-    public login = async ({ dto, t }: HttpRequest<any>, response: Response): Promise<HttpResponse<string>> => {
+    public login = async ({ dto, authSecret, t }: HttpRequest<any>, response: Response): Promise<HttpResponse<string>> => {
         try {
-            const accessToken = await AuthService.login(dto, t)
+            const accessToken = await AuthService.login(dto, authSecret, t)
 
             return createHttpResponse(response, StatusCodes.OK, accessToken)
         } catch (error) {

@@ -29,14 +29,14 @@ export default class AuthService extends BaseService<any, any, any> {
     }
 
     // TODO: Fix type
-    private static assignJWT = (user: any): string =>
+    private static assignJWT = (user: any, authSecret: string): string =>
         jwt.sign(
             {
                 email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName,
             },
-            new Config().authSecret,
+            authSecret,
             {
                 expiresIn: process.env.TOKEN_VALIDITY || 60000 * 15,
             }
@@ -62,7 +62,7 @@ export default class AuthService extends BaseService<any, any, any> {
         }
     }
 
-    public static async login(userDTO: UserLoginDTO, t: TFunction): Promise<string> {
+    public static async login(userDTO: UserLoginDTO, authSecret: string, t: TFunction): Promise<string> {
         try {
             const emailQuery = { email: userDTO.email }
             const serviceQueryOptions = { shouldConvertToDTO: false }
@@ -70,7 +70,7 @@ export default class AuthService extends BaseService<any, any, any> {
 
             if (this.isInvalidPassword(userDTO.password, userModel.password)) throw new HttpError(StatusCodes.UNAUTHORIZED, t("error:unauthorized"))
 
-            const accessToken = AuthService.assignJWT(userModel)
+            const accessToken = AuthService.assignJWT(userModel, authSecret)
 
             return accessToken
         } catch (error) {
