@@ -1,4 +1,4 @@
-import { UserDTOs } from "./../../types/user/userUtilityTypes"
+import { UserDTOs } from "../../types/user/userUtility.types"
 import { UserDocument } from "../user/user.types"
 import { BaseRepository } from "./baseRepository"
 import { Model as MongooseModel } from "mongoose"

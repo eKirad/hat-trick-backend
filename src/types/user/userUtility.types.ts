@@ -5,3 +5,8 @@ export type UserLoginDTO = Pick<UserDocument, "email" | "password">
 export type UserResponse = Omit<UserDocument, "password" | "salt">
 
 export type UserDTOs = UserRegisterDTO | UserLoginDTO | UserResponse
+
+export type Password = {
+    hash: string
+    salt: Buffer
+}
