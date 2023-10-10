@@ -1,5 +1,5 @@
 import * as express from "express"
-import AuthController from "../controllers/authController"
+import AuthController from "../controllers/auth.controller"
 import { authValidationRules } from "../middlewares"
 import { validateRules } from "../middlewares"
 import { AUTH_PATH } from "./consts"
