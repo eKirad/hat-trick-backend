@@ -4,17 +4,14 @@ import { devDbConnectionOptions } from "../shared/consts"
 import { EnvironmentEnum } from "../types"
 
 dotenv.config()
-
 export interface DbConfigs {
     dbUri: string
     dbConnectOptions: ConnectOptions
 }
-
 export interface ApiConfigs {
     contextPath: string
     apiVersion: string
 }
-
 export class Config {
     private _env: EnvironmentEnum
     private _dbURI: string
