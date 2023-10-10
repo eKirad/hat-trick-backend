@@ -9,7 +9,7 @@ export const isNotProd = process.env.NODE_ENV !== `PROD`
 
 export const devDbConnectionOptions: ConnectOptions = { dbName: "test" }
 
-export const shouldRunDBMigration = process.env.RUN_DB_MIGRATIONS
+export const shouldRunDBSeed = process.env.RUN_DB_MIGRATIONS
 
 export const defaultRepositoryOptions: RepositoryOptions = {
     populate: false,
