@@ -3,9 +3,10 @@ import { StatusCodes } from "http-status-codes"
 import logger from "../config/logger/winstonLogger"
 import { createHttpErrorResponse, verifyAccessToken } from "../utils"
 import { HEADER_SPLIT_DELIMITER } from "../shared/consts"
-import { ExpressRequestWithAuthSecret } from "./authSecretMiddleware"
 
-export const authMiddleware = async (req: ExpressRequestWithAuthSecret, res: Response, next: NextFunction) => {
+import { CustomExpressRequest } from "../types/httpTypes/httpRequest.type"
+
+export const authMiddleware = async (req: CustomExpressRequest, res: Response, next: NextFunction) => {
     try {
         const header = req.headers.authorization
         const [, token] = header && header.split(HEADER_SPLIT_DELIMITER)

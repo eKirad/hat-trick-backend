@@ -1,10 +1,7 @@
-import { Request, Response, NextFunction } from "express"
+import { Response, NextFunction } from "express"
+import { CustomExpressRequest } from "../types/httpTypes/httpRequest.type"
 
-export interface ExpressRequestWithAuthSecret extends Request {
-    authSecret: string
-}
-
-export const attachConfigToRequest = (authSecret: string) => (req: ExpressRequestWithAuthSecret, _res: Response, next: NextFunction) => {
+export const attachConfigToRequest = (authSecret: string) => (req: CustomExpressRequest, _res: Response, next: NextFunction) => {
     req.authSecret = authSecret
     next()
 }
