@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express"
 import { HttpResponse } from "../httpTypes"
-import { HttpRequest } from "../httpTypes/httpRequestType"
+import { HttpRequest } from "../httpTypes/httpRequest.type"
 
 export interface Get<T> {
     getOne(request: HttpRequest<T>, response: Response, next: NextFunction): Promise<HttpResponse<T>>

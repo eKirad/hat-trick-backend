@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from "./httpErrorResponseType"
-import { HttpResponse } from "./httpResponseType"
+import { HttpErrorResponse, HttpResponse } from "./httpResponse.types"
 
 export { HttpResponse, HttpErrorResponse }

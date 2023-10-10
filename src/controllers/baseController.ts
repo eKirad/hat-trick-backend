@@ -6,7 +6,7 @@ import { StatusCodes } from "http-status-codes"
 import logger from "../config/logger/winstonLogger"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { Get, Modify } from "../types/common"
-import { HttpRequest } from "../types/httpTypes/httpRequestType"
+import { HttpRequest } from "../types/httpTypes/httpRequest.type"
 import HttpError from "../types/httpTypes/httpError.type"
 import { createHttpError } from "../utils/httpHandlers"
 
