@@ -20,3 +20,5 @@ export const defaultRepositoryOptions: RepositoryOptions = {
 export const defaultServiceOptions: ServiceQueryOptions = {
     shouldConvertToDTO: true,
 }
+
+export const HEADER_SPLIT_DELIMITER = ` `
