@@ -74,4 +74,10 @@ export class BaseRepository<T, D> implements RepositoryRead<D>, RepositoryWrite<
     }
 
     public deleteOneById = async (id: string): Promise<any> => await this.Model.findByIdAndDelete(id).exec()
+
+    public createMany = async (dtos: T[], _options: RepositoryOptions = defaultRepositoryOptions): Promise<any> => {
+        const models = await this.Model.insertMany(dtos)
+
+        return models
+    }
 }

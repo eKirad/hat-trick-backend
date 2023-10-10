@@ -70,4 +70,12 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     }
 
     public deleteOneById = async (id: string): Promise<any> => this.repository.deleteOneById(id)
+
+    public createMany = async (dtos: T[]): Promise<any> => {
+        const models = await this.repository.createMany(dtos)
+
+        const createdDTOs = this.modelsToDTOs(models)
+
+        return createdDTOs
+    }
 }
