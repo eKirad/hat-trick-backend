@@ -5,7 +5,6 @@ import { createHttpResponse } from "../utils"
 import { StatusCodes } from "http-status-codes"
 import { HttpRequest } from "../types/httpTypes/httpRequest.type"
 import HttpError from "../types/httpTypes/httpError.type"
-import { TFunction } from "i18next"
 import logger from "../config/logger/winstonLogger"
 import { createHttpError } from "../utils/httpHandlers"
 
