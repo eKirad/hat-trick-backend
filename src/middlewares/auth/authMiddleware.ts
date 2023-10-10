@@ -1,10 +1,10 @@
 import { Response, NextFunction } from "express"
 import { StatusCodes } from "http-status-codes"
-import logger from "../config/logger/winstonLogger"
-import { createHttpErrorResponse, verifyAccessToken } from "../utils"
-import { HEADER_SPLIT_DELIMITER } from "../shared/consts"
+import logger from "../../config/logger/winstonLogger"
+import { createHttpErrorResponse, verifyAccessToken } from "../../utils"
+import { HEADER_SPLIT_DELIMITER } from "../../shared/consts"
 
-import { CustomExpressRequest } from "../types/httpTypes/httpRequest.type"
+import { CustomExpressRequest } from "../../types/httpTypes/httpRequest.type"
 
 export const authMiddleware = async (req: CustomExpressRequest, res: Response, next: NextFunction) => {
     try {

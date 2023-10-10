@@ -5,7 +5,7 @@ import i18next from "../shared/locales/i18next"
 import morgan from "morgan"
 import { getMorganLoggerArgumentsForEnv } from "../config/logger/morganLogger"
 import { EnvironmentEnum } from "../types"
-import { attachAuthSecretToRequest } from "./authSecretMiddleware"
+import { attachAuthSecretToRequest } from "./auth/authSecretMiddleware"
 
 export const commonMiddlewares = (app: Application, env: EnvironmentEnum, authSecret: string) => {
     app.use(bodyParser.json())
