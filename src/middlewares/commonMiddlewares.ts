@@ -6,13 +6,13 @@ import i18next from "../shared/locales/i18next"
 import morgan from "morgan"
 import { getMorganLoggerArgumentsForEnv } from "../config/logger/morganLogger"
 import { EnvironmentEnum } from "../types"
-import { attachConfigToRequest } from "./authSecretMiddleware"
+import { attachAuthSecretToRequest } from "./authSecretMiddleware"
 
 export const commonMiddlewares = (app: Application, env: EnvironmentEnum, authSecret: string) => {
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(i18nextMiddleware.handle(i18next))
-    app.use(attachConfigToRequest(authSecret))
+    app.use(attachAuthSecretToRequest(authSecret))
     const { format, options } = getMorganLoggerArgumentsForEnv(env)
     app.use(morgan(format, options))
 }
