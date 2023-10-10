@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { TFunction } from "i18next"
 import { ServiceRead, ServiceWrite } from "../types/common"
-import HttpError from "../types/httpTypes/httpError"
+import HttpError from "../types/httpTypes/httpError.type"
 import { ServiceQueryOptions } from "../types/common/service"
 import { defaultServiceOptions } from "../shared/consts"
 
