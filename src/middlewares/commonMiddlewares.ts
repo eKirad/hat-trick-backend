@@ -1,4 +1,3 @@
-import dotenv from "dotenv"
 import { Application } from "express"
 import * as bodyParser from "body-parser"
 import * as i18nextMiddleware from "i18next-http-middleware"
