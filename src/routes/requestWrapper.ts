@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { HttpRequest } from "../types/httpTypes/httpRequestType"
+import { HttpRequest } from "../types/httpTypes/httpRequest.type"
 import { parseHttpRequest } from "../utils/request.utils"
 import { createHttpErrorResponse } from "../utils"
 

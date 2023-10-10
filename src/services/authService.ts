@@ -9,7 +9,7 @@ import { UserDocument } from "../models/user/user.types"
 import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 import * as bcrypt from "bcryptjs"
 import { StatusCodes } from "http-status-codes"
-import HttpError from "../types/httpTypes/httpError"
+import HttpError from "../types/httpTypes/httpError.type"
 export default class AuthService extends BaseService<any, any, any> {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
     private static isInvalidPassword = (plainPassword: string, passwordHash: string): boolean => !bcrypt.compareSync(plainPassword, passwordHash)

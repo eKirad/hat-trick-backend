@@ -1,5 +1,5 @@
 import { Request } from "express"
-import { HttpRequest } from "../types/httpTypes/httpRequestType"
+import { HttpRequest } from "../types/httpTypes/httpRequest.type"
 
 export const parseHttpRequest = <T>(req: Request, extractBodyFunction?: (requestBody: any) => T): HttpRequest<T> => {
     const { t, path, params, method, headers, body } = req

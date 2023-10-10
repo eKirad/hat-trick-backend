@@ -4,9 +4,9 @@ import { StatusCodes } from "http-status-codes"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { TFunction } from "i18next"
 import { ServiceRead, ServiceWrite } from "../types/common"
-import HttpError from "../types/httpTypes/httpError"
-import { ServiceQueryOptions } from "../types/common/service"
+import HttpError from "../types/httpTypes/httpError.type"
 import { defaultServiceOptions } from "../shared/consts"
+import { ServiceQueryOptions } from "../types/common/mvc.types"
 
 export class BaseService<T, D, R extends BaseRepository<T, D>> implements ServiceRead<T, D>, ServiceWrite<T> {
     constructor(private repository: R, private model: any) {}

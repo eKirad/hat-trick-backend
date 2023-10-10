@@ -6,8 +6,8 @@ import { StatusCodes } from "http-status-codes"
 import logger from "../config/logger/winstonLogger"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { Get, Modify } from "../types/common"
-import { HttpRequest } from "../types/httpTypes/httpRequestType"
-import HttpError from "../types/httpTypes/httpError"
+import { HttpRequest } from "../types/httpTypes/httpRequest.type"
+import HttpError from "../types/httpTypes/httpError.type"
 import { createHttpError } from "../utils/httpHandlers"
 
 export class BaseController<T, D, R extends BaseRepository<T, D>, S extends BaseService<T, D, R>> implements Get<T>, Modify<T> {
