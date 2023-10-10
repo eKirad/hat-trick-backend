@@ -16,7 +16,7 @@ import dbSeedService from "./services/dbSeedService"
         commonMiddlewares(app, envConfigs.env)
         api(app, apiConfigs)
         app.listen(port, () => logger.info(`Listening on port ${port}...`))
-        if (envConfigs.shouldRunDBSeed) dbSeedService.runDBSeed()
+        if (envConfigs.shouldRunDBSeed) await dbSeedService.runDBSeed()
     } catch (error) {
         logger.error(`Server start failed with ${error}`)
         process.exit(1)
