@@ -12,6 +12,11 @@ export interface ApiConfigs {
     contextPath: string
     apiVersion: string
 }
+
+export interface EnvConfigs {
+    env: EnvironmentEnum
+    shouldRunDBSeed: boolean
+}
 export class Config {
     private _env: EnvironmentEnum
     private _dbURI: string
@@ -20,14 +25,18 @@ export class Config {
     private _authSecret: string
     private _contextPath: string
     private _apiVersion: string
+    private _shouldRunDBSeed: boolean
 
     constructor() {
         this._env = process.env.NODE_ENV as EnvironmentEnum
         this.setConfigs()
     }
 
-    get environment(): EnvironmentEnum {
-        return this._env
+    get envConfigs(): EnvConfigs {
+        return {
+            env: this._env,
+            shouldRunDBSeed: this._shouldRunDBSeed,
+        }
     }
 
     get port(): number {
@@ -59,5 +68,6 @@ export class Config {
         this._authSecret = process.env.JWT_SECRET
         this._contextPath = process.env.CONTEXT_PATH
         this._apiVersion = process.env.API_VERSION
+        this._shouldRunDBSeed = !!process.env.RUN_DB_SEED
     }
 }
