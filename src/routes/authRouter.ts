@@ -1,6 +1,6 @@
 import * as express from "express"
 import AuthController from "../controllers/authController"
-import { authValidationRules } from "../middlewares"
+import { loginValidationRules, signupValidationRules } from "../middlewares"
 import { validateRules } from "../middlewares"
 import { AUTH_PATH } from "./consts"
 import { requestWrapper } from "./requestWrapper"
@@ -17,7 +17,7 @@ const extractSignupRequestBody = (requestBody: any): any => ({
 })
 
 router
-    .post(`/${path}/signup`, authValidationRules(), validateRules, requestWrapper(AuthController.signup, extractSignupRequestBody))
-    .post(`/${path}/login`, authValidationRules(), validateRules, requestWrapper(AuthController.login, extractLoginRequestBody))
+    .post(`/${path}/signup`, signupValidationRules(), validateRules, requestWrapper(AuthController.signup, extractSignupRequestBody))
+    .post(`/${path}/login`, loginValidationRules(), validateRules, requestWrapper(AuthController.login, extractLoginRequestBody))
 
 export default router

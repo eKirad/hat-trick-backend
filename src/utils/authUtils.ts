@@ -1,5 +1,3 @@
 import * as jwt from "jsonwebtoken"
-import { Config } from "../config/config"
 
-// TODO: Check new Config()
-export const verifyAccessToken = async (token: string) => jwt.verify(token, new Config().authSecret)
+export const verifyAccessToken = async (token: string, authSecret: string) => jwt.verify(token, authSecret)
