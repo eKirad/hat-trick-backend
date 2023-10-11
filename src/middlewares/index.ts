@@ -3,6 +3,6 @@ import { authMiddleware } from "./auth/authMiddleware"
 import { commonMiddlewares } from "./commonMiddlewares"
 import { objectIdMiddleware } from "./objectIdMiddleware"
 
-import { validateRules } from "./validationRules/ruleValidator"
+import { validateRules } from "./shared/rules"
 
 export { commonMiddlewares, authMiddleware, validateRules, loginValidationRules, signupValidationRules, objectIdMiddleware }

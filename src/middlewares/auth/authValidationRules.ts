@@ -1,6 +1,6 @@
 import { check, ValidationChain } from "express-validator"
 import { FORBIDDEN_EMAILS_LIST } from "../../shared/consts"
-import { existsAndNotEmptyValidationChain, minLengthValidationChain } from "../validationRules/ruleValidator"
+import { existsAndNotEmptyValidationChain, minLengthValidationChain } from "../shared/rules"
 
 export const loginValidationRules = (): ValidationChain[] => [emailCheck(), loginPasswordCheck()]
 export const signupValidationRules = (): ValidationChain[] => [emailCheck(), signupPasswordCheck()]
