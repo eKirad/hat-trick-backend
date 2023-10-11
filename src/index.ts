@@ -7,7 +7,7 @@ import { Config } from "./config/config"
 import logger from "./config/logger/winstonLogger"
 import dbSeedService from "./services/dbSeedService"
 ;(async () => {
-    const { dbConfigs, apiConfigs, port, envConfigs, authSecret } = new Config()
+    const { dbConfigs, apiConfigs, port, envConfigs, authSecret } = Config.getInstance()
 
     try {
         const database = new Database(dbConfigs)
