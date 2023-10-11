@@ -22,3 +22,4 @@ export const defaultServiceOptions: ServiceQueryOptions = {
 }
 
 export const HEADER_SPLIT_DELIMITER = ` `
+export const FORBIDDEN_EMAILS_LIST = []
