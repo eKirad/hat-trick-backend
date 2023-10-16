@@ -1,5 +1,5 @@
 import { UserDocument } from "./../models/user/user.types"
-import UserModel from "../models/user/user.schema"
+import UserModel from "../models/user/userSchema"
 import { BaseService } from "./baseService"
 import UserRepository from "../models/repositories/userRepository"
 import { UserDTOs, UserResponse } from "../types/user/userUtility.types"
