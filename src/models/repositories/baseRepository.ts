@@ -1,5 +1,5 @@
 import { Model as MongooseModel, Document, Require_id } from "mongoose"
-import { PopulatedFields, RepositoryOptions, RepositoryRead, RepositoryWrite } from "../../types/common"
+import { PopulatedFields, RepositoryOptions, RepositoryRead, RepositoryWrite } from "../../types"
 import { excludeFields } from "../../utils/database.utils"
 import { defaultRepositoryOptions } from "../../shared/consts"
 

@@ -3,10 +3,10 @@ import { getMongooseCollectionDisplayName } from "../utils"
 import { StatusCodes } from "http-status-codes"
 import { BaseRepository } from "../models/repositories/baseRepository"
 import { TFunction } from "i18next"
-import { ServiceRead, ServiceWrite } from "../types/common"
+import { ServiceRead, ServiceWrite } from "../types"
 import HttpError from "../types/httpTypes/httpError.type"
 import { defaultServiceOptions } from "../shared/consts"
-import { ServiceQueryOptions } from "../types/common/mvc.types"
+import { ServiceQueryOptions } from "../types"
 
 export class BaseService<T, D, R extends BaseRepository<T, D>> implements ServiceRead<T, D>, ServiceWrite<T> {
     constructor(private repository: R, private model: any) {}
