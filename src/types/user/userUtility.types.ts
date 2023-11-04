@@ -1,4 +1,4 @@
-import { UserDocument } from "../../models/user/user.types"
+import { UserDocument } from "../../models/user/userTypes"
 
 export type UserRegisterDTO = Pick<UserDocument, "email" | "password" | "firstName" | "lastName">
 export type UserLoginDTO = Pick<UserDocument, "email" | "password">

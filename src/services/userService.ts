@@ -1,4 +1,4 @@
-import { UserDocument } from "./../models/user/user.types"
+import { UserDocument } from "../models/user/userTypes"
 import UserModel from "../models/user/userSchema"
 import { BaseService } from "./baseService"
 import UserRepository from "../models/repositories/userRepository"
