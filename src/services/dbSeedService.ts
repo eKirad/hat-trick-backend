@@ -1,4 +1,5 @@
 import logger from "../config/logger/winstonLogger"
+import { generateLeagues } from "../models/seed/leagues"
 import { generateUsers } from "../models/seed/users"
 
 class DbSeedService {
@@ -7,6 +8,7 @@ class DbSeedService {
             logger.info(`Running DB seed...`)
 
             await generateUsers()
+            await generateLeagues()
 
             logger.info(`Successfully ran DB seed.`)
         } catch (error) {
