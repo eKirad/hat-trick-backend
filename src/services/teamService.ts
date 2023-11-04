@@ -10,17 +10,13 @@ class TeamService extends BaseService<Team, TeamDocument, TeamRepository> {
     }
 
     modelToDTO = (model: TeamDocument): Team => {
-        // TODO: Fix
-        const propsToOmit = [`password`, `salt`]
-        const userDTO = omitMultipleMongooseObjectProps<TeamDocument, Team>(model, propsToOmit)
+        const userDTO = omitMultipleMongooseObjectProps<TeamDocument, Team>(model)
 
         return userDTO
     }
 
     modelsToDTOs = (models: Array<TeamDocument>): Array<Team> => {
-        // TODO: Fix
-        const propsToOmit = [`password`, `salt`]
-        const userDTOs = models.map((model: TeamDocument) => omitMultipleMongooseObjectProps<TeamDocument, Team>(model, propsToOmit))
+        const userDTOs = models.map((model: TeamDocument) => omitMultipleMongooseObjectProps<TeamDocument, Team>(model))
 
         return userDTOs
     }
