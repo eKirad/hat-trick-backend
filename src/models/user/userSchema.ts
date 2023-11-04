@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose"
 import { UserDocument } from "./user.types"
-import AuthService from "../../services/authService"
 
 const userSchema = new Schema<UserDocument>({
     email: { type: String, required: true, unique: true },
