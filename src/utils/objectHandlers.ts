@@ -4,7 +4,7 @@ export const omitMongooseObjectProp = <T>(obj: any, prop: string): T => {
     return res
 }
 
-export const omitMultipleMongooseObjectProps = <T, U>(mongooseModel: T, props: string[]): U =>
+export const omitMultipleMongooseObjectProps = <T, U>(mongooseModel: T, props: string[] = []): U =>
     Object.keys(mongooseModel)
         .filter((key) => !props.includes(key))
         .reduce((result, key) => {
