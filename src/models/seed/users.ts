@@ -16,7 +16,7 @@ const generateUserData = ({ firstName, lastName, email, password }: UserRegister
 })
 
 export const generateUsers = async () => {
-    logger.info(`Creating demo data ....`)
+    logger.info(`Creating demo users ....`)
     try {
         const user1 = generateUserData({ email: "john@doe.com", firstName: "John", lastName: "Doe", password: process.env.DEFAULT_PASSWORD })
         const user2 = generateUserData({ email: "max@muster.com", firstName: "Max", lastName: "Musterman", password: process.env.DEFAULT_PASSWORD })
