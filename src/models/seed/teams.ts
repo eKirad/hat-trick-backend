@@ -17,6 +17,7 @@ const generateTeamData = ({ name, shortName, ground, league, nicknames }: Team) 
 export const generateTeams = async () => {
     logger.info(`Creating demo teams ....`)
     try {
+        // TODO: Fetch the league first
         const team1 = generateTeamData({
             name: "FC Copenhagen",
             shortName: "FCK",
