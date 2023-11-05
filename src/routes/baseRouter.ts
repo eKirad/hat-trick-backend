@@ -14,3 +14,10 @@ export const generateBaseRoutes = (endpoint: string, controller: any, extractBod
 
     return router
 }
+
+export const generateBaseGETRoutesOnly = (endpoint: string, controller: any) => {
+    const router = express.Router()
+    router.get(`/${endpoint}`, authMiddleware, requestWrapper(controller.getAll)).get(`/${endpoint}/:id`, authMiddleware, objectIdMiddleware, requestWrapper(controller.getOne))
+
+    return router
+}
