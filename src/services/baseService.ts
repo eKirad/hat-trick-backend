@@ -65,7 +65,7 @@ export class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, D
         return model
     }
 
-    public createOne = async (dto: T): Promise<any> => {
+    public createOne = async (dto: DTO): Promise<any> => {
         const model = (await this.repository.createOne(dto)) as any
 
         const createdDTO = this.modelToDTO(model)
