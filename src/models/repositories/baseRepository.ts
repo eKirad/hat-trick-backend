@@ -25,7 +25,7 @@ export class BaseRepository<T, D> implements RepositoryRead<D>, RepositoryWrite<
         return models
     }
 
-    public findOneById = async (id: string, options: RepositoryOptions = defaultRepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined> => {
+    public findOneById = async (id: string, options: RepositoryOptions = defaultRepositoryOptions): Promise<D | undefined> => {
         let model = await this.Model.findById(id).exec()
 
         if (!model) return undefined
@@ -39,7 +39,7 @@ export class BaseRepository<T, D> implements RepositoryRead<D>, RepositoryWrite<
         return model
     }
 
-    public findOne = async (data: any, options: RepositoryOptions = defaultRepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined> => {
+    public findOne = async (data: any, options: RepositoryOptions = defaultRepositoryOptions): Promise<D | undefined> => {
         let model = await this.Model.findOne(data).exec()
 
         if (!model) return undefined
