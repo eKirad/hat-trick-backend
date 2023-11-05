@@ -18,7 +18,9 @@ export interface Modify<T> {
 export interface ServiceRead<T, D> {
     findAll(): Promise<T[]>
     findOneById(id: string, t: TFunction): Promise<T | null>
-    findOne(data: any, t: TFunction, serviceQueryOptions: ServiceQueryOptions): Promise<T | Document<any, any, D> | Require_id<D> | null>
+    findOne(data: any, t: TFunction): Promise<T | null>
+    findOneDocument(data: any): Promise<D | null>
+    findOneDocumentById(id: string): Promise<D | null>
 }
 
 export interface ServiceWrite<T> {
@@ -33,8 +35,8 @@ export interface ServiceQueryOptions {
 
 export interface RepositoryRead<D> {
     findAll(repositoryOptions: RepositoryOptions): Promise<Document<any, any, D>[]>
-    findOneById(id: string, repositoryOptions: RepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined>
-    findOne(data: any, repositoryOptions: RepositoryOptions): Promise<Document<any, any, D> | Require_id<D> | undefined>
+    findOneById(id: string, repositoryOptions: RepositoryOptions): Promise<D | undefined>
+    findOne(data: any, repositoryOptions: RepositoryOptions): Promise<D | undefined>
 }
 
 export interface RepositoryWrite<T, D> {
