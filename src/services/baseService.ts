@@ -20,6 +20,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
     }
 
     public findAll = async (): Promise<T[]> => {
+        // TODO: Add error handling in case mdoels is `undefined`
         const models = await this.repository.findAll()
 
         const dtos = this.modelsToDTOs(models)
@@ -39,7 +40,7 @@ export class BaseService<T, D, R extends BaseRepository<T, D>> implements Servic
 
     public findOne = async (
         data: any,
-        t: TFunction,
+        t?: TFunction,
         serviceQueryOptions: ServiceQueryOptions = defaultServiceOptions
     ): Promise<T | Document<any, any, D> | Require_id<D> | null> => {
         const model = await this.repository.findOne(data)
