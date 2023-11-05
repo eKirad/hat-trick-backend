@@ -10,10 +10,12 @@ import { HttpRequest } from "../types/httpTypes/httpRequest.type"
 import HttpError from "../types/httpTypes/httpError.type"
 import { createHttpError } from "../utils/httpHandlers"
 
-export class BaseController<T, D, R extends BaseRepository<T, D>, S extends BaseService<T, D, R>> implements Get<T>, Modify<T> {
-    constructor(private service: S) {}
+export class BaseController<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, DOCUMENT>, SERVICE extends BaseService<DTO, DOCUMENT, REPOSITORY>>
+    implements Get<DTO>, Modify<DTO>
+{
+    constructor(private service: SERVICE) {}
 
-    private extractError = (error: HttpError, { params, method, t }: Pick<HttpRequest<T>, "method" | "params" | "t">) => {
+    private extractError = (error: HttpError, { params, method, t }: Pick<HttpRequest<DTO>, "method" | "params" | "t">) => {
         const errorMessage = error.message || t("error:internal_server_error")
         const errorCode = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR
         logger.error(`Error ocurred at ${method}: ${error?.collectionName}/${params?.id} with status ${errorCode}`)
@@ -21,18 +23,18 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
         return { errorMessage, errorCode }
     }
 
-    public getAll = async ({ params, method, t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
+    public getAll = async ({ params, method, t }: HttpRequest<DTO>, response: Response): Promise<HttpResponse<DTO>> => {
         try {
             const models = await this.service.findAll()
 
-            return createHttpResponse<T>(response, StatusCodes.OK, models)
+            return createHttpResponse<DTO>(response, StatusCodes.OK, models)
         } catch (error) {
             const { errorMessage, errorCode } = this.extractError(error, { params, method, t })
             throw createHttpError(errorCode, errorMessage)
         }
     }
 
-    public getOne = async ({ params, method, t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
+    public getOne = async ({ params, method, t }: HttpRequest<DTO>, response: Response): Promise<HttpResponse<DTO>> => {
         try {
             const id = params.id
             const model = await this.service.findOneById(id, t)
@@ -44,7 +46,7 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
         }
     }
 
-    public createOne = async ({ dto, params, method, t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
+    public createOne = async ({ dto, params, method, t }: HttpRequest<DTO>, response: Response): Promise<HttpResponse<DTO>> => {
         try {
             const createdModelDto = await this.service.createOneAndReturn(dto)
 
@@ -55,7 +57,7 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
         }
     }
 
-    public updateOne = async ({ dto, params, method, t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
+    public updateOne = async ({ dto, params, method, t }: HttpRequest<DTO>, response: Response): Promise<HttpResponse<DTO>> => {
         try {
             const id = params.id
             const model = await this.service.updateOneByIdAndReturn(id, dto, t)
@@ -67,7 +69,7 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
         }
     }
 
-    public deleteOne = async ({ params, method, t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
+    public deleteOne = async ({ params, method, t }: HttpRequest<DTO>, response: Response): Promise<HttpResponse<DTO>> => {
         try {
             const id = params.id
             await this.service.deleteOneById(id)
