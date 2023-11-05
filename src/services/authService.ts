@@ -64,8 +64,7 @@ export default class AuthService extends BaseService<any, any, any> {
     public static async login(userDTO: UserLoginDTO, authSecret: string, t: TFunction): Promise<string> {
         try {
             const emailQuery = { email: userDTO.email }
-            const serviceQueryOptions = { shouldConvertToDTO: false }
-            const userModel = (await userService.findOne(emailQuery, t, serviceQueryOptions)) as any
+            const userModel = await userService.findOneDocument(emailQuery)
 
             if (this.isInvalidPassword(userDTO.password, userModel.password)) throw new HttpError(StatusCodes.UNAUTHORIZED, t("error:unauthorized"))
 
