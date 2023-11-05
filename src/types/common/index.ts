@@ -1,4 +1,6 @@
+import { Get, Modify } from "./controllerTypes"
 import { EnvironmentEnum } from "./env.enum"
-import { Get, Modify, PopulatedFields, RepositoryOptions, RepositoryRead, RepositoryWrite, ServiceRead, ServiceWrite, ServiceQueryOptions } from "./mvc.types"
+import { PopulatedFields, RepositoryOptions, RepositoryRead, RepositoryWrite, ServiceQueryOptions } from "./repositoryTypes"
+import { ServiceRead, ServiceWrite } from "./serviceTypes"
 
 export { EnvironmentEnum, ServiceRead, ServiceWrite, Get, Modify, RepositoryOptions, RepositoryRead, RepositoryWrite, PopulatedFields, ServiceQueryOptions }

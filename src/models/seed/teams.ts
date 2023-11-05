@@ -3,6 +3,8 @@ import logger from "../../config/logger/winstonLogger"
 import { Team } from "../teams/teamTypes"
 import { Types } from "mongoose"
 import teamService from "../../services/teamService"
+import leagueService from "../../services/leagueService"
+import LeagueModel from "../leagues/leagueSchema"
 
 dotenv.config()
 
@@ -16,6 +18,9 @@ const generateTeamData = ({ name, shortName, ground, league, nicknames }: Team) 
 
 export const generateTeams = async () => {
     logger.info(`Creating demo teams ....`)
+
+    const league1 = await leagueService.findOneDocument({ name: "test" })
+
     try {
         // TODO: Fetch the league first
         const team1 = generateTeamData({

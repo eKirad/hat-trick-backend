@@ -9,7 +9,7 @@ import { omitMultipleMongooseObjectProps } from "../utils/objectHandlers"
 import * as bcrypt from "bcryptjs"
 import { StatusCodes } from "http-status-codes"
 import HttpError from "../types/httpTypes/httpError.type"
-export default class AuthService extends BaseService<any, any, any> {
+export default class AuthService {
     private static hashPassword = (plainPassword: string): string => bcrypt.hashSync(plainPassword)
     private static isInvalidPassword = (plainPassword: string, passwordHash: string): boolean => !bcrypt.compareSync(plainPassword, passwordHash)
 
@@ -51,7 +51,7 @@ export default class AuthService extends BaseService<any, any, any> {
         try {
             const password = this.hashPassword(userDTO.password)
             const createUser = this.convertUserDTOToModel(userDTO, password)
-            const userModel = await userService.createOne(createUser)
+            const userModel = await userService.createOneAndReturnDocument(createUser)
             const userResponse = this.convertUserModelToDTO(userModel)
 
             return userResponse
@@ -64,8 +64,7 @@ export default class AuthService extends BaseService<any, any, any> {
     public static async login(userDTO: UserLoginDTO, authSecret: string, t: TFunction): Promise<string> {
         try {
             const emailQuery = { email: userDTO.email }
-            const serviceQueryOptions = { shouldConvertToDTO: false }
-            const userModel = (await userService.findOne(emailQuery, t, serviceQueryOptions)) as any
+            const userModel = await userService.findOneDocument(emailQuery)
 
             if (this.isInvalidPassword(userDTO.password, userModel.password)) throw new HttpError(StatusCodes.UNAUTHORIZED, t("error:unauthorized"))
 

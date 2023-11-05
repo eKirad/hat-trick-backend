@@ -17,7 +17,7 @@ export const generateLeagues = async () => {
     try {
         const league1 = generateLeagueData({ name: "Danish Superliga", shortCode: "DN", createdAt: new Date(), lastUpdatedAt: new Date() })
 
-        await leagueService.createOne(league1)
+        await leagueService.createOneAndReturnDocument(league1)
         logger.info(`Successfully created demo leagues.`)
     } catch (error) {
         logger.error(`Error creating demo data: ${error}`)
