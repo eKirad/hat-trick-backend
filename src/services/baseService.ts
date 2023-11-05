@@ -6,7 +6,7 @@ import { TFunction } from "i18next"
 import { ServiceRead, ServiceWrite } from "../types"
 import HttpError from "../types/httpTypes/httpError.type"
 
-export class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, DOCUMENT>> implements ServiceRead<DTO, DOCUMENT>, ServiceWrite<DTO> {
+export class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, DOCUMENT>> implements ServiceRead<DTO, DOCUMENT>, ServiceWrite<DTO, DOCUMENT> {
     constructor(private repository: REPOSITORY, private model: any) {}
 
     modelToDTO = (model: DOCUMENT): DTO => ({} as DTO)
@@ -65,12 +65,18 @@ export class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, D
         return model
     }
 
-    public createOne = async (dto: DTO): Promise<any> => {
-        const model = (await this.repository.createOne(dto)) as any
+    public createOneAndReturn = async (dto: DTO): Promise<DTO> => {
+        const model = await this.createOneAndReturnDocument(dto)
 
         const createdDTO = this.modelToDTO(model)
 
         return createdDTO
+    }
+
+    public createOneAndReturnDocument = async (dto: DTO): Promise<DOCUMENT> => {
+        const model = await this.repository.createOne(dto)
+
+        return model
     }
 
     public updateOneById = async (id: string, dto: DTO, t: TFunction): Promise<DTO> => {
