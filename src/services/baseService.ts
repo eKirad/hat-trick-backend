@@ -1,4 +1,3 @@
-import { Document } from "mongoose"
 import { getMongooseCollectionDisplayName } from "../utils"
 import { StatusCodes } from "http-status-codes"
 import { BaseRepository } from "../models/repositories/baseRepository"
