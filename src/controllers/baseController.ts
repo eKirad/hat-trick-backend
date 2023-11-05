@@ -46,9 +46,9 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
 
     public createOne = async ({ dto, params, method, t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
         try {
-            const model = await this.service.createOne(dto)
+            const createdModelDto = await this.service.createOneAndReturn(dto)
 
-            return createHttpResponse(response, StatusCodes.CREATED, model)
+            return createHttpResponse(response, StatusCodes.CREATED, createdModelDto)
         } catch (error) {
             const { errorMessage, errorCode } = this.extractError(error, { params, method, t })
             throw createHttpError(errorCode, errorMessage)
