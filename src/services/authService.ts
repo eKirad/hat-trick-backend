@@ -51,7 +51,7 @@ export default class AuthService extends BaseService<any, any, any> {
         try {
             const password = this.hashPassword(userDTO.password)
             const createUser = this.convertUserDTOToModel(userDTO, password)
-            const userModel = await userService.createOne(createUser)
+            const userModel = await userService.createOneAndReturnDocument(createUser)
             const userResponse = this.convertUserModelToDTO(userModel)
 
             return userResponse
