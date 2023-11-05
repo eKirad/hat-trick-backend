@@ -6,11 +6,11 @@ import { TFunction } from "i18next"
 import { ServiceRead, ServiceWrite } from "../types"
 import HttpError from "../types/httpTypes/httpError.type"
 
-export class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, DOCUMENT>> implements ServiceRead<DTO, DOCUMENT>, ServiceWrite<DTO, DOCUMENT> {
+export abstract class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, DOCUMENT>> implements ServiceRead<DTO, DOCUMENT>, ServiceWrite<DTO, DOCUMENT> {
     constructor(private repository: REPOSITORY, private model: any) {}
 
-    modelToDTO = (model: DOCUMENT): DTO => ({} as DTO)
-    modelsToDTOs = (model: Array<DOCUMENT>): Array<DTO> => ({} as Array<DTO>)
+    abstract modelToDTO(model: DOCUMENT): DTO
+    abstract modelsToDTOs(model: Array<DOCUMENT>): Array<DTO>
 
     private throwError = (statusCode: StatusCodes, t: TFunction) => {
         const collection = getMongooseCollectionDisplayName(this.model.collection.name)
