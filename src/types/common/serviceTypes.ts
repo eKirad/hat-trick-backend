@@ -12,6 +12,7 @@ export interface ServiceRead<DTO, DOCUMENT> {
 export interface ServiceWrite<DTO, DOCUMENT> {
     createOneAndReturn(dto: DTO): Promise<DTO>
     createOneAndReturnDocument(dto: DTO): Promise<DOCUMENT>
-    updateOneById(id: string, dto: DTO, t: TFunction): Promise<DTO>
+    updateOneByIdAndReturn(id: string, dto: DTO, t: TFunction): Promise<DTO>
+    updateOneByIdAndReturnDocument(id: string, dto: DTO): Promise<DOCUMENT>
     deleteOneById(id: string): any
 }

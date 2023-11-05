@@ -79,14 +79,20 @@ export class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, D
         return model
     }
 
-    public updateOneById = async (id: string, dto: DTO, t: TFunction): Promise<DTO> => {
-        const updateModel = (await this.repository.updateOneById(id, dto)) as any
+    public updateOneByIdAndReturn = async (id: string, dto: DTO, t: TFunction): Promise<DTO> => {
+        const updateModel = await this.updateOneByIdAndReturnDocument(id, dto)
 
         if (!updateModel) this.throwError(StatusCodes.NOT_FOUND, t)
 
         const updatedDTO = this.modelToDTO(updateModel)
 
         return updatedDTO
+    }
+
+    public updateOneByIdAndReturnDocument = async (id: string, dto: DTO): Promise<DOCUMENT> => {
+        const updateModel = await this.repository.updateOneById(id, dto)
+
+        return updateModel
     }
 
     public deleteOneById = async (id: string): Promise<any> => this.repository.deleteOneById(id)

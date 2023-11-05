@@ -58,7 +58,7 @@ export class BaseController<T, D, R extends BaseRepository<T, D>, S extends Base
     public updateOne = async ({ dto, params, method, t }: HttpRequest<T>, response: Response): Promise<HttpResponse<T>> => {
         try {
             const id = params.id
-            const model = await this.service.updateOneById(id, dto, t)
+            const model = await this.service.updateOneByIdAndReturn(id, dto, t)
 
             return createHttpResponse(response, StatusCodes.OK, model)
         } catch (error) {
