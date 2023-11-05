@@ -19,11 +19,18 @@ export class BaseService<DTO, DOCUMENT, REPOSITORY extends BaseRepository<DTO, D
 
     public findAll = async (): Promise<Array<DTO>> => {
         // TODO: Add error handling in case models is `undefined`
-        const models = await this.repository.findAll()
+        const models = await this.findAllDocuments()
 
         const dtos = this.modelsToDTOs(models)
 
         return dtos
+    }
+
+    public findAllDocuments = async (): Promise<Array<DOCUMENT>> => {
+        // TODO: Add error handling in case models is `undefined`
+        const models = await this.repository.findAll()
+
+        return models
     }
 
     public findOneById = async (id: string, t: TFunction): Promise<DTO | null> => {

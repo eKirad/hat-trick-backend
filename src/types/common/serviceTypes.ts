@@ -2,6 +2,7 @@ import { TFunction } from "i18next"
 
 export interface ServiceRead<DTO, DOCUMENT> {
     findAll(): Promise<Array<DTO>>
+    findAllDocuments(data: any): Promise<Array<DOCUMENT>>
     findOneById(id: string, t: TFunction): Promise<DTO | null>
     findOneDocumentById(id: string): Promise<DOCUMENT | null>
     findOne(data: any, t: TFunction): Promise<DTO | null>
