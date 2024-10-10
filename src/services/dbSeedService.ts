@@ -1,6 +1,6 @@
 import logger from "../config/logger/winstonLogger"
-import { generateLeagues } from "../models/seed/leagues"
-import { generateTeams } from "../models/seed/teams"
+import { generateEuro2024League, generateLeagues } from "../models/seed/leagues"
+import { generateEuro2024Teams, generateTeams } from "../models/seed/teams"
 import { generateUsers } from "../models/seed/users"
 
 class DbSeedService {
@@ -8,9 +8,10 @@ class DbSeedService {
         try {
             logger.info(`Running DB seed...`)
 
-            await generateUsers()
-            await generateLeagues()
-            await generateTeams()
+            // await generateUsers()
+            // await generateEuro2024League()
+            await generateEuro2024Teams()
+            // await generateTeams()
 
             logger.info(`Successfully ran DB seed.`)
         } catch (error) {
