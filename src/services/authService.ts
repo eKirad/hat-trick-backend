@@ -27,7 +27,6 @@ export default class AuthService {
         return userDTO
     }
 
-    // TODO: Fix type
     private static assignJWT = (user: any, authSecret: string): string =>
         jwt.sign(
             {
