@@ -14,8 +14,4 @@ const extractRequestBody = (requestBody: any): UserRegisterDTO => ({
 
 const router = generateBaseRoutes(path, UserController, extractRequestBody)
 
-// TODO: Other additional routes
-// router
-//     .get(`/${path}`, new UserController().getAll)
-
 export default router
