@@ -22,7 +22,6 @@ export const generateTeams = async () => {
     const league1 = await leagueService.findOneDocument({ name: "test" })
 
     try {
-        // TODO: Fetch the league first
         const team1 = generateTeamData({
             name: "FC Copenhagen",
             shortName: "FCK",
